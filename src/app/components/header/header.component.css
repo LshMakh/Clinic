@@ -1,0 +1,133 @@
+header {
+  padding: 20px 120px;
+  max-width: 1920px;
+  max-height: 1080px;
+  align-items: center;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  color: #ff2c52;
+  cursor: pointer;
+}
+.logo h2{
+  margin-left: -25px;
+}
+.logo img {
+  width: 90px;
+  height: 66px;
+  object-fit: cover;
+}
+.navigations {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+nav {
+  margin-left: 70px;
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid #ecf2f8;
+  margin-right: 70px;
+}
+nav a {
+  text-decoration: none;
+  color: #053354;
+  padding: 20px 5px;
+  font-size: 18px;
+}
+.active {
+  border-bottom: 1px solid black;
+}
+.auth,
+.language {
+  width: max-content;
+  padding: 10px 15px;
+  border-radius: 25px;
+  background-color: #f0faff;
+}
+.auth a {
+  text-decoration: none;
+  font-size: 18px;
+}
+.login {
+  color: #18a4e1;
+}
+.register {
+  color: #053354;
+}
+.contact {
+  padding: 40px 120px;
+  background-color: #ecf2f8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.info {
+  display: flex;
+  gap: 35px;
+}
+.phone,
+.location {
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.number,
+.location_info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.number p,
+.location_info p {
+  font-size: 18px;
+  color: #053354;
+}
+.inputs {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.search {
+  border-radius: 50%;
+  background-color: #053354;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+input {
+  width: 480px;
+  border-radius: 50px;
+  border: 1px solid #18a4e180;
+  padding: 15px 25px;
+}
+label {
+  margin-left: 20px;
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.user {
+  display: flex;
+  padding: 5px 10px;
+  background-color: #f0faff;
+  border-radius: 25px;
+  align-items: center;
+  gap: 20px;
+  min-width: 210px;
+  cursor: pointer;
+}
+.user img {
+  width: 40px;
+}

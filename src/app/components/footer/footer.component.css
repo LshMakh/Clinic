@@ -1,0 +1,59 @@
+.info {
+    height: 300px;
+    padding: 30px 120px;
+    background-color: #053354;
+    display: flex;
+    gap: 180px;
+  }
+  .copyright {
+    padding: 15px 120px;
+    color: #053354;
+    background-color: #ECF2F8;
+  }
+  .hospital {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    align-self: self-start;
+  }
+  .hospital img {
+    object-fit: cover;
+    width: 90px;
+    height: 66px;
+  }
+  .hospital h2 {
+    margin-left: -25px;
+    font-size: 22px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .headers {
+    display: flex;
+    border-bottom: 1px solid #ecf2f84d;
+    padding-bottom: 20px;
+    justify-content: space-between;
+  }
+  .headers h2 {
+    width: 160px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+  }
+  .informations {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+  }
+  .informations div h3 {
+    width: 160px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    padding: 5px 0;
+    cursor: pointer;
+  }
