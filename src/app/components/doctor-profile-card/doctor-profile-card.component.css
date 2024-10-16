@@ -1,0 +1,107 @@
+.card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    width: 1208px;
+  }
+  
+  .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 24px;
+    gap: 40px;
+  }
+  
+  .profile-info-column {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex: 1;
+  }
+  
+  .doctor-photo {
+    width: 157px;
+    height: 157px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  
+  .info-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .vertical-divider {
+    width: 1px;
+    background-color: #e0e0e0;
+    align-self: stretch;
+  }
+  
+  .history-column {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    max-width: 50%;
+  }
+  
+  .doctor-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 4px 0;
+  }
+  
+  .doctor-specialization {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 8px 0;
+  }
+  
+  .doctor-rating {
+    color: #ffd700;
+    font-size: 18px;
+  }
+  
+  .experience-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  
+  .experience-year {
+    color: #2196f3;
+    font-weight: bold;
+  }
+  
+  .experience-description {
+    color: #333;
+  }
+  
+  @media (max-width: 768px) {
+    .card-content {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .profile-info-column {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .vertical-divider {
+      width: 80%;
+      height: 1px;
+      margin: 16px 0;
+    }
+  
+    .history-column {
+      max-width: 100%;
+    }
+  
+    .history-content {
+      text-align: center;
+    }
+  }

@@ -1,7 +1,6 @@
 header {
   padding: 20px 120px;
-  max-width: 1920px;
-  max-height: 1080px;
+
   align-items: center;
 }
 .logo {
@@ -12,6 +11,10 @@ header {
 }
 .logo h2{
   margin-left: -25px;
+  font-family: 'FiraGO', sans-serif;
+
+  font-size: 22px;
+  font-weight: 500;
 }
 .logo img {
   width: 90px;
@@ -39,8 +42,7 @@ nav a {
 .active {
   border-bottom: 1px solid black;
 }
-.auth,
-.language {
+.auth,.language {
   width: max-content;
   padding: 10px 15px;
   border-radius: 25px;
@@ -48,13 +50,15 @@ nav a {
 }
 .auth a {
   text-decoration: none;
-  font-size: 18px;
+  font-size: 16px;
 }
 .login {
   color: #18a4e1;
+  cursor: pointer;
 }
 .register {
   color: #053354;
+  cursor: pointer;
 }
 .contact {
   padding: 40px 120px;
@@ -117,17 +121,4 @@ label {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-.user {
-  display: flex;
-  padding: 5px 10px;
-  background-color: #f0faff;
-  border-radius: 25px;
-  align-items: center;
-  gap: 20px;
-  min-width: 210px;
-  cursor: pointer;
-}
-.user img {
-  width: 40px;
 }

@@ -1,0 +1,31 @@
+<div class="categories">
+    <div class="categories-header">
+        <h3>კატეგორიები</h3>
+        <svg width="250" height="2" viewBox="0 0 250 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 1H250" stroke="#ECF2F8"/>
+        </svg>
+    </div>
+    <div class="categories-content">
+        <div class="category" *ngFor="let category of visibleCategories">
+            <span>({{ category.count }})</span>
+            <h4>{{ category.name }}</h4>
+        </div>
+        <div class="hidden-categories" [class.expanded]="isExpanded">
+            <div class="category" *ngFor="let category of hiddenCategories">
+                <span>({{ category.count }})</span>
+                <h4>{{ category.name }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="categories-footer">
+        <svg class="line" width="250" height="2" viewBox="0 0 250 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 1H250" stroke="#ECF2F8"/>
+        </svg>
+        <p class="view-full" (click)="toggleView()">
+            {{ isExpanded ? 'დახურვა' : 'ყველას ნახვა' }}
+            <svg [class.rotated]="isExpanded" width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13.0667 1.91667L7.46667 7.53334C7.4 7.60001 7.32778 7.64712 7.25 7.67467C7.17222 7.70267 7.08889 7.71667 7 7.71667C6.91111 7.71667 6.82778 7.70267 6.75 7.67467C6.67222 7.64712 6.6 7.60001 6.53333 7.53334L0.916668 1.91667C0.761112 1.76112 0.683334 1.56667 0.683334 1.33334C0.683334 1.10001 0.766668 0.900008 0.933334 0.733342C1.1 0.566675 1.29445 0.483342 1.51667 0.483342C1.73889 0.483342 1.93333 0.566675 2.1 0.733342L7 5.63334L11.9 0.733342C12.0556 0.577786 12.2471 0.500008 12.4747 0.500008C12.7027 0.500008 12.9 0.583342 13.0667 0.750008C13.2333 0.916675 13.3167 1.11112 13.3167 1.33334C13.3167 1.55556 13.2333 1.75001 13.0667 1.91667Z" fill="#18A4E1"/>
+            </svg>
+        </p>
+    </div>
+</div>

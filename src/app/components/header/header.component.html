@@ -4,6 +4,7 @@
           <img src="assets\logo 1.png" alt="">
           <h2>კლინიკა</h2>
       </div>
+          
       <nav>
           <a routerLink="" class="active">ექიმები</a>
           <a routerLink="#">კლინიკები</a>
@@ -14,7 +15,9 @@
           <a routerLink="#">კონტაქტი</a>
       </nav>
    
-      
+      <div class="auth">
+        <p><span class="login" (click)="openLoginModal()">ავტორიზაცია</span> / <a class="register">რეგისტრაცია</a></p>
+    </div>
       <select name="" id="" class="language">
           <option value="ge">GEO</option>
           <option value="en">ENG</option>
@@ -48,3 +51,4 @@
           </div>
       </div>
   </div>
+  <app-login-pop-up *ngIf="showLoginModal" (close)="closeLoginModal()"></app-login-pop-up>

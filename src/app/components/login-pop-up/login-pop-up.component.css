@@ -1,0 +1,65 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1001;
+  width: 400px;
+  box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+}
+h2 {
+  margin: 0 0 20px;
+  color: #18a4e1;
+  font-size: 26px;
+  font-weight: 500;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+button {
+  align-self: flex-start;
+  border: none;
+  background-color: #053354;
+  border-radius: 50px;
+  padding: 15px 35px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background-color: #18a4e1;
+}
+.forgot-password, .resend-code {
+  align-self: flex-end;
+  color: #053354;
+  font-size: 14px;
+  cursor: pointer;
+}
+.confirmation {
+  color: #18a4e1;
+  font-size: 14px;
+}
+.close-button {
+  margin-top: 20px;
+}

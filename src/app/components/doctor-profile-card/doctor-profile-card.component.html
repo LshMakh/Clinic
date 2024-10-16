@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-content">
+      <div class="profile-info-column">
+        <img [src]="photoUrl" [alt]="name" class="doctor-photo">
+        <div class="info-content">
+          <h2 class="doctor-name">{{ name }}</h2>
+          <p class="doctor-specialization">{{ specialization }}</p>
+          <div class="doctor-rating">{{ getRatingStars() }}</div>
+        </div>
+      </div>
+      <div class="vertical-divider"></div>
+      <div class="history-column">
+        <div class="history-content">
+          <div *ngFor="let exp of experiences" class="experience-item">
+            <span class="experience-year">{{ exp.year }} - </span>
+            <span class="experience-description">{{ exp.description }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

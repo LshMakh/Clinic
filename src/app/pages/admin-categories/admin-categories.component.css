@@ -1,0 +1,103 @@
+.outer-container {
+    width: 100%;
+    max-width: 1460px;
+    margin: 0 auto 50px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  h1 {
+    color: #18A4E1;
+    margin: 0 0 45px 0;
+    padding: 0;
+    align-self: flex-start;
+  }
+  
+  .table-container {
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  
+  .table-wrapper {
+    height: 480px; /* Adjust this value to match your design */
+    overflow-y: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    height: 68px;
+  }
+  
+  th {
+    position: sticky;
+    top: 0;
+    background-color: #F0FAFF;
+    font-weight: bold;
+    z-index: 1;
+  }
+  
+  .user-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .rating {
+    color: #ffc107;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-btn, .delete-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    padding: 0;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .edit-btn {
+    background-color: #DAFAEE;
+  }
+  
+  .delete-btn {
+    background-color: #FF93A6;
+  }
+  
+  /* Scrollbar styles */
+  .table-wrapper::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
