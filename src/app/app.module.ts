@@ -17,6 +17,7 @@ import { Calendar, CalendarModule } from 'primeng/calendar';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
  
 
@@ -35,6 +36,7 @@ import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.co
     CategoriesComponent,
     UserProfileComponent,
     DoctorProfileComponent,
+    CalendarComponent,
     
     
   ],

@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './doctor-profile.component.html',
   styleUrl: './doctor-profile.component.css'
 })
-export class DoctorProfileComponent implements OnInit {
+export class DoctorProfileComponent{
   doctor = {
     name: 'გიორგი ხიზაძე',
     specialty: 'კარდიოლოგი / არითმოლოგი',
@@ -15,17 +15,7 @@ export class DoctorProfileComponent implements OnInit {
     rating: 5
   };
 
-  constructor() { }
+  
 
-  ngOnInit(): void {
-  }
-
-  // Add any methods you need for interactivity
-  editCalendar() {
-    // Implement edit functionality
-  }
-
-  bookAppointment() {
-    // Implement booking functionality
-  }
+ 
 }

@@ -1,1 +1,19 @@
-<p>user-profile works!</p>
+<div class="user-prof">
+    <app-categories></app-categories>
+    <div class="user-profile">
+        <img src="assets/Ellipse 5.png" alt="გიორგი ხიზაძე" class="doctor-image">
+        <p class="user-specialty">მომხმარებელი</p>
+        <div class="contact-info">
+          <p class="phone">პირადი ნომერი : </p>
+          <h5>01010101010</h5>
+          <p class="email">Email : </p>
+          <h5>clinicgmail.com</h5>
+        </div>
+        <p class="experience">პაროლის შეცვლა</p>
+        <p class="appointments">ჯავშანი: : <span>(20)</span></p>
+      </div>
+    
+      
+      <div class="calendar-section">
+        <app-calendar [isDoctorView]="false" [userId]="2" [doctorId]="1"></app-calendar>      </div>
+</div>

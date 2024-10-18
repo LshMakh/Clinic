@@ -122,3 +122,90 @@ label {
   flex-direction: column;
   gap: 10px;
 }
+/* Existing styles remain unchanged */
+
+@media (max-width: 1200px) {
+  header, .contact {
+    padding: 20px 60px;
+  }
+
+  nav {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+
+  .inputs {
+    flex-wrap: wrap;
+  }
+
+  input {
+    width: calc(50% - 15px);
+  }
+}
+
+@media (max-width: 768px) {
+  header, .contact {
+    padding: 15px 20px;
+  }
+
+  .navigations {
+    flex-wrap: wrap;
+  }
+
+  nav {
+    order: 3;
+    width: 100%;
+    margin: 15px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  nav a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .auth, .language {
+    margin-top: 10px;
+  }
+
+  .contact {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .info, .inputs {
+    width: 100%;
+  }
+
+  .inputs {
+    margin-top: 20px;
+  }
+
+  input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .search {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo h2 {
+    font-size: 18px;
+  }
+
+  .logo img {
+    width: 70px;
+    height: 52px;
+  }
+
+  .auth, .language {
+    width: 100%;
+    text-align: center;
+  }
+}

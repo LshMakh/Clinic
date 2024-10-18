@@ -62,4 +62,108 @@ input {
     
   }
 
- 
+ /* Add these responsive styles at the end of your existing CSS */
+
+/* Add these responsive styles at the end of your existing CSS */
+
+@media (max-width: 1200px) {
+  .registration {
+    padding: 20px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  form {
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  .row1,
+  .row2 {
+    gap: 30px;
+    justify-content: center;
+  }
+
+  .input-container {
+    width: calc(33.333% - 20px);
+    max-width: 480px;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  .registration {
+    padding: 20px 40px;
+  }
+
+  form {
+    max-width: 600px;
+  }
+
+  .row1,
+  .row2 {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .input-container {
+    width: 100%;
+  }
+
+  .btn {
+    align-self: center;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .registration {
+    padding: 20px 20px;
+  }
+
+  .header {
+    font-size: 24px;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  form {
+    max-width: 480px;
+  }
+
+  input {
+    padding: 12px 20px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .registration {
+    padding: 15px 15px;
+  }
+
+  .header {
+    font-size: 20px;
+  }
+
+  label {
+    margin-left: 15px;
+  }
+
+  input {
+    padding: 10px 15px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 12px 25px;
+  }
+}

@@ -1,0 +1,73 @@
+.user-prof{
+    padding: 40px 5%; /* Use percentage instead of fixed pixels */
+    display: flex;
+    gap: 5%; /* Use percentage instead of fixed pixels */
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .user-profile {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 366px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .user-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  .user-name {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  
+  .user-specialty {
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .rating {
+    color: #FFD700;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .contact-info {
+    margin-bottom: 15px;
+  }
+  
+  .phone, .email {
+    margin: 5px 0;
+    color: #333;
+  }
+  
+  .experience, .appointments {
+    margin: 10px 0;
+    color: #666;
+  }
+  
+  .appointments span {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .calendar-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 830px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  

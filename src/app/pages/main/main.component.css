@@ -114,4 +114,54 @@
   .pinned {
     stroke: #18a4e1;
   }
-
+  @media (max-width: 1200px) {
+    .main-section {
+      padding: 50px 60px;
+      flex-direction: column;
+    }
+  
+    .doctors {
+      justify-content: center;
+    }
+  
+    .see-all {
+      margin-left: 0;
+      align-items: center;
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .main-image {
+      height: 300px;
+    }
+  
+    .main-section {
+      padding: 30px 20px;
+    }
+  
+    .card {
+      width: 100%;
+      max-width: 390px;
+    }
+  
+    .doctors {
+      gap: 20px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .main-image {
+      height: 200px;
+    }
+  
+    .card {
+      height: auto;
+      padding: 10px;
+    }
+  
+    .book {
+      width: 100%;
+      justify-content: center;
+    }
+  }

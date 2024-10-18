@@ -4,8 +4,13 @@
           <img src="assets\logo 1.png" alt="">
           <h2>კლინიკა</h2>
       </div>
+      <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
           
-      <nav>
+      <nav [class.mobile-menu-open]="isMobileMenuOpen">
           <a routerLink="" class="active">ექიმები</a>
           <a routerLink="#">კლინიკები</a>
           <a routerLink="#">ანოტაციები</a>

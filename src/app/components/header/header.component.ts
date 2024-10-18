@@ -8,6 +8,11 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  isMobileMenuOpen = false;
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
 
 
   showLoginModal = false;
