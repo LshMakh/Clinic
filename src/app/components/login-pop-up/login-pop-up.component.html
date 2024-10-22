@@ -2,13 +2,13 @@
     <div class="modal-container">
       <h2>ავტორიზაცია</h2>
       <div class="modal-content">
-        <form (ngSubmit)="onSubmit()">
-          <input placeholder='email/phone' type="text" required>
-          <input placeholder='password' type="password" required>
-          <input *ngIf="showActivationCode" placeholder='activation code' type="text">
-          <p class="forgot-password" (click)="toggleActivationCode()">პაროლის აღდგენა</p>
-          <p *ngIf="showActivationCode && !showResendCode" class="resend-code" (click)="resendCode()">თავიდან გაგზავნა</p>
-          <p *ngIf="showResendCode" class="confirmation">კოდი გაგზავნილია</p>
+        <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+          <input formControlName="email" placeholder='email/phone' type="text" required>
+          <input formControlName="password" placeholder='password' type="password" required>
+          <!-- <input *ngIf="showActivationCode" placeholder='activation code' type="text"> -->
+          <p class="forgot-password" >პაროლის აღდგენა</p>
+          <!-- <p *ngIf="showActivationCode && !showResendCode" class="resend-code" (click)="resendCode()">თავიდან გაგზავნა</p>
+          <p *ngIf="showResendCode" class="confirmation">კოდი გაგზავნილია</p> -->
           <button type="submit">ავტორიზაცია</button>
         </form>
       </div>

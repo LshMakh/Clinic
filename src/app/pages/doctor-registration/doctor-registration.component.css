@@ -44,7 +44,8 @@ input {
     margin-bottom: 100px;
   }
   .row1,
-  .row2 {
+  .row2,
+  .row3 {
     display: flex;
     flex-wrap: wrap;
     gap: 50px;
@@ -59,17 +60,12 @@ input {
   .btn {
     align-self: flex-end;
     font-size: 16px;
-    cursor: pointer;
+    
   }
-  .error-message {
-    color: #ff0000;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-  
 
- 
+ /* Add these responsive styles at the end of your existing CSS */
 
+/* Add these responsive styles at the end of your existing CSS */
 
 @media (max-width: 1800px) {
   .registration {
@@ -85,7 +81,8 @@ input {
   }
 
   .row1,
-  .row2 {
+  .row2,
+  .row3 {
     gap: 30px;
     justify-content: center;
   }
@@ -110,7 +107,8 @@ input {
   }
 
   .row1,
-  .row2 {
+  .row2,
+  .row3 {
     flex-direction: column;
     gap: 20px;
   }

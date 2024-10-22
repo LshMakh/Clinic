@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Appointment,AppointmentService } from '../../services/appointment-service';
-
+import { Appointment,AppointmentService } from '../../services/appointment.service';
 interface TimeSlot {
   time: string;
   isSelected: boolean;

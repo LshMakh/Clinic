@@ -7,10 +7,19 @@ import { BookAppointmentComponent } from './pages/book-appointment/book-appointm
 import { DoctorProfileCardComponent } from './components/doctor-profile-card/doctor-profile-card.component';
 import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { DoctorRegistrationComponent } from './pages/doctor-registration/doctor-registration.component';
+import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
 
 const routes: Routes = [{
   path:'',
   component:DoctorProfileComponent,
+},{
+  path:'doc-reg',
+  component:DoctorRegistrationComponent
+},
+{
+  path:'admin-prof',
+  component:AdminProfileComponent
 },
 {
   path:'register',
