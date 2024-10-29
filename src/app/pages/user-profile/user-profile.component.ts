@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 export class UserProfileComponent implements OnInit {
 
   isAuthenticated$! : Observable<boolean>;
+  userId :number|null = null;
   currentUser$! : Observable<any>;
 
   constructor(private authService: AuthService) {}
@@ -17,6 +18,7 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
     this.isAuthenticated$ = this.authService.isAuthenticated();
     this.currentUser$ = this.authService.getCurrentUser();
+    this.userId = Number(this.authService.getUserId());
     
   }
 

@@ -1,9 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Login } from '../Models/Login.model';
+import { UserLoginDto } from '../Models/Login.model';
 import { User } from '../Models/Patient.model';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
-import { BehaviorSubject, catchError, Observable, ObservableNotification, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, ObservableNotification, of, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 
@@ -26,7 +26,7 @@ export class AuthService {
   private baseUrl = 'https://localhost:7226/api/Patient';
 
 
-  authenticate(login: Login): Observable<any> {
+  authenticate(login: UserLoginDto): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ export class AuthService {
     // Log the request payload
     console.log('Sending authentication request:', login);
 
-    return this.http.post<any>(`${this.baseUrl}/Authenticate`, login, httpOptions)
+    return this.http.post<any>(`https://localhost:7226/api/User/Authenticate`, login, httpOptions)
       .pipe(
         tap(response => {
           console.log('Auth response:', response);
@@ -50,6 +50,21 @@ export class AuthService {
         catchError(this.handleError)
       );
   }
+
+    getUserById(userId:string):Observable<User>{
+      return this.http.get<User>(`https://localhost:7226/api/User/GetUserInfo/${userId}`);
+    }
+
+    checkEmailExists(email: string): Observable<boolean> {
+      return this.http.get<any>(`https://localhost:7226/api/User/CheckEmailExists/check-email/${email}`).pipe(
+        map(response => response.exists),
+        catchError(error => {
+          console.error('Error checking email:', error);
+          return throwError(() => new Error('Error checking email availability'));
+        })
+      );
+    }
+
   
   logout():void{
     localStorage.removeItem('Token');
@@ -65,16 +80,28 @@ export class AuthService {
     return this.currentUserSubject.asObservable();
   }
 
-  private  setCurrentUserFromToken(){
+  private setCurrentUserFromToken() {
     const token = localStorage.getItem('Token');
-    if(token){
+    if (token) {
+     
+  
+      // First set minimal user info from token
       this.currentUserSubject.next({
-        firstName:this.getUserFirstName(),
-        lastName:this.getUserLastName(),
-        personalNumber:this.getPersonalNumber(),
-        email:this.getUserEmail(),
-        role:this.getRole()
+        userId: this.getUserId(),
+        role: this.getRole()
       });
+  
+      // Then fetch complete user information
+      this.getUserById(this.getUserId()).pipe(
+        tap(user => {
+          this.currentUserSubject.next(user);
+        }),
+        catchError(error => {
+          console.error('Error fetching user details:', error);
+          // Keep the minimal user info on error
+          return throwError(() => error);
+        })
+      ).subscribe();
     }
   }
 
@@ -105,7 +132,14 @@ export class AuthService {
     let httpOptions = {
       headers: new HttpHeaders({'Content-Type':'application/json'})
     }
-    return this.http.post<any>("https://localhost:7226/api/Patient/RegisterUser",user,httpOptions);
+    return this.http.post<any>("https://localhost:7226/api/Patient/RegisterPatient",user,httpOptions);
+  }
+
+  addDoctor(user:User):Observable<any>{
+    let httpOptions = {
+      headers: new HttpHeaders({'Content-Type':'application/json'})
+    }
+    return this.http.post<any>("https://localhost:7226/api/Doctor/RegisterDoctor",user,httpOptions);
   }
 
   getDecodedToken(): any {
@@ -116,30 +150,30 @@ export class AuthService {
     return null;
   }
 
-  getUserId(): string | null {
+  getUserId(): string {
     const decodedToken = this.getDecodedToken();
-    return decodedToken.Id;
+    return decodedToken.nameid;
   }
 
-  getUserEmail():string|null{
-    const decodedToken = this.getDecodedToken();
-    return decodedToken.Email;
-  }
+  // getUserEmail():string|null{
+  //   const decodedToken = this.getDecodedToken();
+  //   return decodedToken.Email;
+  // }
 
-  getUserFirstName(): string | null {
-    const decodedToken = this.getDecodedToken();
-    return decodedToken.FirstName;
-  }
+  // getUserFirstName(): string | null {
+  //   const decodedToken = this.getDecodedToken();
+  //   return decodedToken.FirstName;
+  // }
 
-  getUserLastName():string|null{
-    const decodedToken = this.getDecodedToken();
-    return decodedToken.LastName;
-  }
+  // getUserLastName():string|null{
+  //   const decodedToken = this.getDecodedToken();
+  //   return decodedToken.LastName;
+  // }
 
-  getPersonalNumber():string|null{
-    const decodedToken = this.getDecodedToken();
-    return decodedToken.PersonalNumber;
-  }
+  // getPersonalNumber():string|null{
+  //   const decodedToken = this.getDecodedToken();
+  //   return decodedToken.PersonalNumber;
+  // }
 
   getRole():string|null{
     const decodedToken = this.getDecodedToken();

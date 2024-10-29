@@ -7,5 +7,10 @@ export interface User {
     email: string;
     personalNumber: string;
     role: string;
-    password: string;
+    password?: string;
+    // Additional fields for doctors
+    specialization?: string;
+    rating?: number;
+    photoUrl?: string;
+    cvUrl?:string;
 }

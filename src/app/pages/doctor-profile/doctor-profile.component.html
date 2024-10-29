@@ -1,18 +1,21 @@
 <div class="doc-prof">
     <app-categories></app-categories>
-    <div class="doctor-profile">
-        <img src="assets/Ellipse 5.png" alt="გიორგი ხიზაძე" class="doctor-image">
-        <h2 class="doctor-name">გიორგი ხორავა</h2>
+    <div class="doctor-profile"> 
+      <div *ngIf="currentUser$|async as user">
+        <img [src]="user.photourl" alt="გიორგი ხიზაძე" class="doctor-image">
+        <h2 class="doctor-name">{{user.firstName}} {{user.lastName}}</h2>
         <p class="doctor-specialty">ექიმი</p>
-        <p class="doctor-specialty">კარდიოლოგი / არითმოლოგი</p>
+       
+        <p class="doctor-specialty">{{user.specialty}}</p>
         <div class="rating">
           <span class="star" *ngFor="let star of [1,2,3,4,5]">&#9733;</span>
         </div>
         <div class="contact-info">
           <p class="phone">პირადი ნომერი : </p>
-          <h5>01010101010</h5>
+          <h5>{{user.personalNumber}}</h5>
           <p class="email">Email :</p>
-          <h5> clinicgmail.com</h5>
+          <h5>{{user.email}}</h5>
+        </div>
         </div>
         <p class="password-change">პაროლის შეცვლა</p>
         <p class="appointments">დაჯავშნილია : <span>(20)</span></p>

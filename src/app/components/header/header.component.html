@@ -35,9 +35,9 @@
               <div class="avatar-circle" [routerLink]="getProfileRoute(user.role)"></div>
             </div>
             <div class="user-info">
-              <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+              <span class="user-name">{{user.firstName}} {{user.lastName}}</span>
               <ng-container [ngSwitch]="user.role">
-                <span class="user-role" *ngSwitchCase="'Admin'">ადმინისტრატორი</span>
+                <span class="user-role" *ngSwitchCase="'ADMIN'">ადმინისტრატორი</span>
               </ng-container>
               <button class="logout-btn" (click)="logout()">გასვლა</button>
             </div>

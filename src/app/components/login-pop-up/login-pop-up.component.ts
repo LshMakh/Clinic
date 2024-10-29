@@ -1,20 +1,22 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
 import { supportsPassiveEventListeners } from '@angular/cdk/platform';
-import { Login } from '../../Models/Login.model';
+import { UserLoginDto } from '../../Models/Login.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login-pop-up',
   templateUrl: './login-pop-up.component.html',
   styleUrl: './login-pop-up.component.css'
 })
-export class LoginPopUpComponent {
+export class LoginPopUpComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   loginForm: FormGroup;
   errorMessage: string = '';
   isLoading: boolean = false;
+  currentUser$! : Observable<any>;
 
   constructor(
     private authService: AuthService,
@@ -26,12 +28,17 @@ export class LoginPopUpComponent {
     });
   }
 
+  ngOnInit() {
+    this.currentUser$ = this.authService.getCurrentUser();
+    
+  }
+
   onLogin(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
 
-      const loginData: Login = {
+      const loginData: UserLoginDto = {
         email: this.loginForm.get('email')?.value,
         password: this.loginForm.get('password')?.value
       };
@@ -40,6 +47,7 @@ export class LoginPopUpComponent {
         next: (response) => {
           console.log('Login successful', response);
           this.close.emit();
+          console.log(this.currentUser$);
         },
         error: (error) => {
           console.error('Login error:', error);

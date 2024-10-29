@@ -77,15 +77,15 @@ nav a {
 }
 
 /* Role-specific styling */
-.user-profile-container[data-role="Admin"] .avatar-circle {
+.user-profile-container[data-role="ADMIN"] .avatar-circle {
   border: 2px solid #ff4081; 
 }
 
-.user-profile-container[data-role="Doctor"] .avatar-circle {
+.user-profile-container[data-role="DOCTOR"] .avatar-circle {
   border: 2px solid #2196f3; 
 }
 
-.user-profile-container[data-role="Patient"] .avatar-circle {
+.user-profile-container[data-role="PATIENT"] .avatar-circle {
   border: 2px solid #4caf50; 
 }
 

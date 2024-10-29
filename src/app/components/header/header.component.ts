@@ -25,11 +25,11 @@ export class HeaderComponent implements OnInit {
 
   getProfileRoute(role:string):string{
     switch(role){
-      case 'Admin':
+      case 'ADMIN':
         return '/admin-prof';
-      case 'Patient':
+      case 'PATIENT':
         return  '/user-prof';
-      case 'Doctor':
+      case 'DOCTOR':
         return '/doc-prof';
         default:
           return '/user-prof';
