@@ -1,3 +1,3 @@
 export class DoctorCard{
-    constructor(public firstName:string = '',public lastName:string = '', public specialty:string = '', public photoUrl:string = '', public rating:number){}
+    constructor(public doctorId:number = 0,public firstName:string = '',public lastName:string = '', public specialty:string = '', public photoUrl:string = '', public rating:number){}
 }

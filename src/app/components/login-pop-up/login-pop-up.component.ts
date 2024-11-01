@@ -1,22 +1,21 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+// login-pop-up.component.ts
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
-import { supportsPassiveEventListeners } from '@angular/cdk/platform';
-import { UserLoginDto } from '../../Models/Login.model';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login-pop-up',
   templateUrl: './login-pop-up.component.html',
-  styleUrl: './login-pop-up.component.css'
+  styleUrls: ['./login-pop-up.component.css']
 })
 export class LoginPopUpComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   loginForm: FormGroup;
-  errorMessage: string = '';
   isLoading: boolean = false;
-  currentUser$! : Observable<any>;
+  alertMessage: string = '';
+  alertType: 'success' | 'error' = 'error';
+  showAlert: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -28,53 +27,53 @@ export class LoginPopUpComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.currentUser$ = this.authService.getCurrentUser();
-    
-  }
+  ngOnInit() {}
 
   onLogin(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
-      this.errorMessage = '';
+      this.hideAlert();
 
-      const loginData: UserLoginDto = {
+      const loginData = {
         email: this.loginForm.get('email')?.value,
         password: this.loginForm.get('password')?.value
       };
 
       this.authService.authenticate(loginData).subscribe({
         next: (response) => {
-          console.log('Login successful', response);
-          this.close.emit();
-          console.log(this.currentUser$);
+          this.showSuccessAlert('Login successful!');
+          
+            this.close.emit();
+           // Close after 1.5 seconds on success
         },
         error: (error) => {
-          console.error('Login error:', error);
-          this.errorMessage = error.message || 'Authentication failed';
-          this.isLoading = false;
-        },
-        complete: () => {
+          this.showErrorAlert(error.message || 'Invalid email or password');
           this.isLoading = false;
         }
       });
     } else {
-      this.errorMessage = 'Please fill in all required fields';
+      this.showErrorAlert('Please fill in all required fields correctly');
     }
   }
 
-  onClose(){
-    this.close.emit();
+  showSuccessAlert(message: string): void {
+    this.alertMessage = message;
+    this.alertType = 'success';
+    this.showAlert = true;
   }
 
-  // toggleActivationCode(): void {
-  //   this.showActivationCode = !this.showActivationCode;
-  // }
+  showErrorAlert(message: string): void {
+    this.alertMessage = message;
+    this.alertType = 'error';
+    this.showAlert = true;
+  }
 
-  // resendCode(): void {
-  
-  //   console.log('Code resent');
-  //   this.showResendCode = true;
-  // }
+  hideAlert(): void {
+    this.showAlert = false;
+    this.alertMessage = '';
+  }
 
+  onClose(): void {
+    this.close.emit();
+  }
 }

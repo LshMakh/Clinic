@@ -32,14 +32,10 @@ export class AuthService {
         'Content-Type': 'application/json'
       }),
     };
-
-    // Log the request payload
-    console.log('Sending authentication request:', login);
-
+  
     return this.http.post<any>(`https://localhost:7226/api/User/Authenticate`, login, httpOptions)
       .pipe(
         tap(response => {
-          console.log('Auth response:', response);
           if (response && response.accessToken) {
             localStorage.setItem('Token', response.accessToken);
             this.isAuthenticatedSubject.next(true);
@@ -47,7 +43,21 @@ export class AuthService {
             this.router.navigate(['/main']);
           }
         }),
-        catchError(this.handleError)
+        catchError(error => {
+          let errorMessage: string;
+          
+          if (error.status === 401) {
+            errorMessage = 'Invalid email or password';
+          } else if (error.status === 400) {
+            errorMessage = 'Invalid input data';
+          } else if (error.status === 404) {
+            errorMessage = 'User not found';
+          } else {
+            errorMessage = 'An error occurred during login. Please try again later.';
+          }
+          
+          return throwError(() => new Error(errorMessage));
+        })
       );
   }
 
@@ -135,11 +145,24 @@ export class AuthService {
     return this.http.post<any>("https://localhost:7226/api/Patient/RegisterPatient",user,httpOptions);
   }
 
-  addDoctor(user:User):Observable<any>{
-    let httpOptions = {
-      headers: new HttpHeaders({'Content-Type':'application/json'})
-    }
-    return this.http.post<any>("https://localhost:7226/api/Doctor/RegisterDoctor",user,httpOptions);
+  addDoctor(doctor: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    
+    // Log the request payload for debugging
+    console.log('Sending doctor registration request:', doctor);
+  
+    return this.http.post<any>('https://localhost:7226/api/Doctor/RegisterDoctor', doctor, httpOptions)
+      .pipe(
+        tap(response => console.log('Registration response:', response)),
+        catchError(error => {
+          console.error('Registration error:', error);
+          return throwError(() => new Error(error.error?.message || 'Registration failed'));
+        })
+      );
   }
 
   getDecodedToken(): any {

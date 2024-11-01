@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-categories',
@@ -6,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
+  @Output() categorySelected = new EventEmitter<string|null>();
   isExpanded = false;
+  selectedCategory:string|null=null;
   categories = [
-    { count: 23424, name: 'კარდიოლოგი' },
+    { count: 23424, name: 'Dermatologist' },
     { count: 15678, name: 'პედიატრი' },
     { count: 19876, name: 'ნევროლოგი' },
     { count: 12345, name: 'ოფთალმოლოგი' },
@@ -33,6 +36,11 @@ export class CategoriesComponent implements OnInit {
   visibleCategories: any[] | undefined;
   hiddenCategories: any[] | undefined;
 
+  selectCategory(category: string) {
+    this.selectedCategory = this.selectedCategory === category ? null : category;
+    this.categorySelected.emit(this.selectedCategory);
+  }
+
   ngOnInit() {
     this.splitCategories();
   }
@@ -40,6 +48,12 @@ export class CategoriesComponent implements OnInit {
   splitCategories() {
     this.visibleCategories = this.categories.slice(0, 14);
     this.hiddenCategories = this.categories.slice(14);
+  }
+
+  onCategoryClick(categoryName:string){
+    console.log('Category clicked:', categoryName);
+    this.selectedCategory = this.selectedCategory === categoryName ? null : categoryName;
+    this.categorySelected.emit(categoryName);
   }
 
   toggleView() {

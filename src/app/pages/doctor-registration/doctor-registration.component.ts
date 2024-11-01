@@ -16,24 +16,25 @@ export class DoctorRegistrationComponent {
   errorMessage:string = '';
   isSubmitting:boolean=false;
 
-  constructor(   private fb:FormBuilder,
-    private authService:AuthService,
-    private router:Router
-  ){
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email],[this.emailExistsValidator()]],
+      email: ['', [Validators.required, Validators.email], [this.emailExistsValidator()]],
       personalNumber: ['', [
-        Validators.required, 
-        Validators.minLength(11), 
+        Validators.required,
+        Validators.minLength(11),
         Validators.maxLength(11),
         Validators.pattern('^[0-9]*$')
       ]],
-      password: ['', [
-        Validators.required, 
-        Validators.minLength(8)
-      ]]
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      specialty: ['', Validators.required],
+      photoUrl: [''],
+      cvUrl: ['']
     });
   }
 
@@ -62,39 +63,27 @@ export class DoctorRegistrationComponent {
         this.isSubmitting = true;
         this.errorMessage = '';
   
-        const userData: User = {
-          userId: 0,
-          firstName: this.registerForm.value.firstName,
-          lastName: this.registerForm.value.lastName,
-          email: this.registerForm.value.email,
-          personalNumber: this.registerForm.value.personalNumber,
-          password: this.registerForm.value.password,
-          photoUrl:this.registerForm.value.photoUrl,
-          cvUrl:this.registerForm.value.cvUrl,
-          role: 'Patient'
+        const doctorData = {
+          ...this.registerForm.value,
+          role: 'DOCTOR',
+          userId: 0 // This will be assigned by the backend
         };
   
-        console.log('Submitting user data:', userData);
-  
-        this.authService.addDoctor(userData).subscribe({
+        this.authService.addDoctor(doctorData).subscribe({
           next: (response) => {
-            console.log('Registration successful:', response);
-            alert('Registration successful!');
-           
+            console.log('Doctor registration successful:', response);
+            this.router.navigate(['/main']);
           },
           error: (error) => {
             console.error('Registration error:', error);
-            this.errorMessage = error.message;
+            this.errorMessage = error.message || 'Registration failed';
             this.isSubmitting = false;
           },
           complete: () => {
             this.isSubmitting = false;
           }
         });
-      } else {
-        this.errorMessage = 'Please fill in all required fields correctly.';
       }
     }
-  
 
 }

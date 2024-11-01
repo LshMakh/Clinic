@@ -68,9 +68,14 @@
             </div>
             <div class="input-container">
                 <div class="input">
-                <label for="activation-code">კატეგორია</label>
-                <input type="text" id="category" placeholder="">
-            </div>
+                    <label for="specialty">სპეციალობა</label>
+                    <input type="text" id="specialty" formControlName="specialty" 
+                           placeholder="შეიყვანეთ სპეციალობა">
+                    <div *ngIf="registerForm.get('specialty')?.invalid && registerForm.get('specialty')?.touched" 
+                         class="error-message">
+                        სპეციალობის ველის შევსება აუცილებელია
+                    </div>
+                </div>
             </div>
             <div class="input-container">
                 <div class="input">
@@ -86,15 +91,16 @@
         <div class="row3">
             <div class="input-container">
                 <div class="input">
-                <label for="photo">ფოტოსურათი</label>
-                <input type="text" id="photo" placeholder="">
-                </div>  
+                    <label for="photoUrl">ფოტოს URL</label>
+                    <input type="text" id="photoUrl" formControlName="photoUrl">
+                </div>
             </div>
+        
             <div class="input-container">
                 <div class="input">
-                <label for="cv">CV</label>
-                <input type="text" id="cv" placeholder="">
-                </div>  
+                    <label for="cvUrl">CV URL</label>
+                    <input type="text" id="cvUrl" formControlName="cvUrl">
+                </div>
             </div>
         </div>
         <button type="submit" class="btn" [disabled]="!registerForm.valid || isSubmitting">
