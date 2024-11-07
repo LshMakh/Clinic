@@ -1,0 +1,49 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <div class="month-navigation">
+      <button (click)="changeMonth('prev')">&lt;</button>
+      <span>{{ currentMonth }} {{ currentYear }}</span>
+      <button (click)="changeMonth('next')">&gt;</button>
+    </div>
+    <div class="week-navigation">
+      <button (click)="changeWeek('prev')">&lt;</button>
+      <span>კვირა</span>
+      <button (click)="changeWeek('next')">&gt;</button>
+    </div>
+  </div>
+  <div class="calendar-body">
+    <div class="week-days">
+      <div class="time-column"></div>
+      <div *ngFor="let day of weekDays" class="day-column">
+        <div class="day-name">{{ day.name }}</div>
+        <div class="day-date">{{ day.date }}</div>
+      </div>
+    </div>
+    <div class="time-slots">
+      <div class="time-column">
+        <div *ngFor="let slot of timeSlots" class="time-slot">{{ slot }}</div>
+      </div>
+      <div *ngFor="let day of weekDays" class="day-column">
+        <div *ngFor="let slot of day.timeSlots" 
+             class="appointment-slot" 
+             [class.selected]="slot.isSelected"
+             [class.available]="slot.isAvailable"
+             [class.unavailable]="!slot.isAvailable"
+             (click)="toggleTimeSlot(day, slot)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="appointment-popup" *ngIf="showPopup">
+  <div class="popup-content">
+    <h3>Book Appointment</h3>
+    <p>Date: {{ selectedDay?.fullDate | date:'mediumDate' }}</p>
+    <p>Time: {{ selectedSlot?.time }}</p>
+    <textarea [(ngModel)]="appointmentDescription" placeholder="Enter appointment description"></textarea>
+    <div class="popup-buttons">
+      <button (click)="bookAppointment()">Submit</button>
+      <button (click)="closePopup()">Cancel</button>
+    </div>
+  </div>

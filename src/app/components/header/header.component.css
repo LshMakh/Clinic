@@ -1,78 +1,118 @@
+/* Header Styling */
 header {
   padding: 20px 120px;
-
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
+
+/* Navigation */
+.navigations {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
 .logo {
   display: flex;
   align-items: center;
   color: #ff2c52;
   cursor: pointer;
 }
-.logo h2{
+
+.logo h2 {
   margin-left: -25px;
   font-family: 'FiraGO', sans-serif;
-
   font-size: 22px;
   font-weight: 500;
 }
+
 .logo img {
   width: 90px;
   height: 66px;
   object-fit: cover;
 }
-.navigations {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+
+/* Navigation Links */
 nav {
-  margin-left: 70px;
   display: flex;
   gap: 10px;
   border-bottom: 1px solid #ecf2f8;
-  margin-right: 70px;
+  margin: 0 70px;
 }
+
 nav a {
   text-decoration: none;
   color: #053354;
   padding: 20px 5px;
   font-size: 18px;
+  white-space: nowrap;
 }
+
 .active {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #18A4E1;
 }
-.auth,.language {
-  width: max-content;
+
+/* Authentication and Language Buttons */
+.auth, .language {
   padding: 10px 15px;
   border-radius: 25px;
   background-color: #f0faff;
 }
-.auth a {
-  text-decoration: none;
-  font-size: 16px;
-}
+
 .login {
   color: #18a4e1;
   cursor: pointer;
 }
+
 .register {
   color: #053354;
+  text-decoration: none;
   cursor: pointer;
 }
+
+/* User Role Styling */
+.user-role {
+  font-size: 12px;
+  color: #666;
+  display: block;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+/* Role-Specific Styling */
+.user-profile-container[data-role="ADMIN"] .avatar-circle {
+  border: 2px solid #ff4081; 
+}
+
+.user-profile-container[data-role="DOCTOR"] .avatar-circle {
+  border: 2px solid #2196f3; 
+}
+
+.user-profile-container[data-role="PATIENT"] .avatar-circle {
+  border: 2px solid #4caf50; 
+}
+
+/* Contact Section */
 .contact {
   padding: 40px 120px;
   background-color: #ecf2f8;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
+
 .info {
   display: flex;
   gap: 35px;
+  flex-wrap: wrap;
 }
-.phone,
-.location {
+
+.phone, .location {
   width: 40px;
   height: 40px;
   padding: 5px;
@@ -82,23 +122,30 @@ nav a {
   align-items: center;
   justify-content: center;
 }
-.number,
-.location_info {
+
+.number, .location_info {
   display: flex;
   gap: 20px;
   align-items: center;
 }
-.number p,
-.location_info p {
-  font-size: 18px;
-  color: #053354;
-}
+
+/* Inputs */
 .inputs {
   display: flex;
   align-items: center;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
+input {
+  width: 480px;
+  border-radius: 50px;
+  border: 1px solid #18a4e180;
+  padding: 15px 25px;
+  max-width: 100%;
+}
+
+/* Search Icon */
 .search {
   border-radius: 50%;
   background-color: #053354;
@@ -107,18 +154,193 @@ nav a {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
-input {
-  width: 480px;
-  border-radius: 50px;
-  border: 1px solid #18a4e180;
-  padding: 15px 25px;
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
-label {
-  margin-left: 20px;
+
+.mobile-menu-toggle span {
+  width: 100%;
+  height: 3px;
+  background-color: #053354;
+  transition: all 0.3s ease;
 }
-.input {
+
+/* User Profile Container */
+.user-profile-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background-color: #f0faff;
+  border-radius: 25px;
+}
+
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.user-info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
+}
+
+.user-name {
+  color: #053354;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #18a4e1;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+}
+
+.logout-btn:hover {
+  text-decoration: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 1600px) {
+  header, .contact {
+    padding: 20px 60px;
+  }
+  nav {
+    margin: 0 30px;
+  }
+  input {
+    width: 380px;
+  }
+}
+
+@media (max-width: 1200px) {
+  input {
+    width: 300px;
+  }
+}
+
+@media (max-width: 1500px) {
+  .mobile-menu-toggle {
+    display: flex;
+    order: 1;
+  }
+  .mobile-menu-toggle.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .mobile-menu-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+  .logo {
+    order: 0;
+  }
+  nav {
+    display: none;
+    width: 100%;
+    order: 3;
+    margin: 20px 0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  nav.mobile-menu-open {
+    display: flex;
+  }
+  .auth {
+    order: 1;
+  }
+  .language {
+    order: 2;
+  }
+  .inputs {
+    flex-direction: column;
+    width: 100%;
+  }
+  input {
+    width: 100%;
+  }
+  .search {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 968px) {
+  header, .contact {
+    padding: 15px 20px;
+  }
+  .info {
+    gap: 20px;
+  }
+  .logo h2 {
+    font-size: 18px;
+  }
+  .logo img {
+    width: 70px;
+    height: 52px;
+  }
+  .mobile-menu-toggle.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .mobile-menu-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .auth, .language {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .user-info {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .user-name {
+    color: #053354;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-profile-container {
+    padding: 6px 12px;
+  }
+  .language {
+    display: none;
+  }
+  .avatar-circle {
+    width: 28px;
+    height: 28px;
+  }
+  .user-name {
+    font-size: 12px;
+  }
 }

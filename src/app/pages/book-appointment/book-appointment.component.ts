@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-book-appointment',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './book-appointment.component.css'
 })
 export class BookAppointmentComponent implements OnInit {
-
+  doctorId :number=0;
   isExpanded = false;
 categories = [
   { count: 23424, name: 'კარდიოლოგი' },
@@ -34,7 +35,7 @@ selectedDate: Date | undefined;
 minDate: Date;
 maxDate: Date;
 
-constructor() {
+constructor(private route:ActivatedRoute) {
   this.minDate = new Date(); // Set minimum date to today
   this.maxDate = new Date();
   this.maxDate.setMonth(this.maxDate.getMonth() + 3); // Set maximum date to 3 months from now
@@ -44,6 +45,9 @@ visibleCategories: any[] | undefined;
 hiddenCategories: any[] | undefined;
 
 ngOnInit() {
+  this.route.params.subscribe(params => {
+    this.doctorId = +params['id']; // Convert string to number using '+'
+  });
   this.splitCategories();
 }
 

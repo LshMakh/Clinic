@@ -17,6 +17,10 @@ import { Calendar, CalendarModule } from 'primeng/calendar';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import { DoctorRegistrationComponent } from './pages/doctor-registration/doctor-registration.component';
 
  
 
@@ -35,6 +39,9 @@ import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.co
     CategoriesComponent,
     UserProfileComponent,
     DoctorProfileComponent,
+    CalendarComponent,
+    AdminProfileComponent,
+    DoctorRegistrationComponent,
     
     
   ],
@@ -42,12 +49,13 @@ import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.co
     BrowserModule,
     FormsModule,
     MatDialogModule,
+    HttpClientModule,
     CalendarModule,
     ReactiveFormsModule,
     AppRoutingModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideHttpClient(withFetch(), withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]
 })

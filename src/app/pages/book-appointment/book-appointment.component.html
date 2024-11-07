@@ -4,18 +4,9 @@
     </div>
     <div class="right-column">
         <div class="doctor-card">
-            <app-doctor-profile-card></app-doctor-profile-card>
+            <app-doctor-profile-card [doctorId]="doctorId"></app-doctor-profile-card>
         </div>
-        <div class="calendar-container">
-            <h3>Select Appointment Date</h3>
-            <p-calendar [(ngModel)]="selectedDate" 
-                        [inline]="true" 
-                        [showWeek]="true"
-                        [minDate]="minDate"
-                        [maxDate]="maxDate"
-                        [showOtherMonths]="false"
-                        [firstDayOfWeek]="1"
-                        styleClass="custom-calendar">
-            </p-calendar>
+        <div class="calendar-section">
+       <app-calendar></app-calendar></div>
         </div>
 </div>
