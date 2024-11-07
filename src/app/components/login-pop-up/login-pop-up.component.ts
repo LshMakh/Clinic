@@ -44,7 +44,6 @@ export class LoginPopUpComponent implements OnInit {
           this.showSuccessAlert('Login successful!');
           
             this.close.emit();
-           // Close after 1.5 seconds on success
         },
         error: (error) => {
           this.showErrorAlert(error.message || 'Invalid email or password');

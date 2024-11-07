@@ -73,6 +73,23 @@ export class RegistrationComponent {
       );
     };
   }
+  sendEmailVerification() {
+    if (this.email?.valid) {
+        // You can implement the email verification logic here
+        console.log('Sending verification email to:', this.email.value);
+        // Example implementation:
+        // this.authService.sendVerificationEmail(this.email.value).subscribe({
+        //     next: (response) => {
+        //         console.log('Verification email sent successfully');
+        //         // Show success message
+        //     },
+        //     error: (error) => {
+        //         console.error('Error sending verification email:', error);
+        //         // Show error message
+        //     }
+        // });
+    }
+}
 
   // Getter for easy access in template
   get email() {

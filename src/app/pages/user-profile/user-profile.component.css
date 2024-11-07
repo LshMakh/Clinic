@@ -1,73 +1,191 @@
-.user-prof{
-    padding: 40px 5%; /* Use percentage instead of fixed pixels */
+.user-prof {
+    padding: 40px 5%;
     display: flex;
-    gap: 5%; /* Use percentage instead of fixed pixels */
+    gap: 30px;
     max-width: 100%;
+    margin: 0 auto;
     overflow-x: hidden;
 }
+
 .main-content {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     background-color: #f5f5f5;
-  }
-  
-  .user-profile {
+    width: 100%;
+}
+
+.user-profile {
     background-color: white;
     border-radius: 10px;
     padding: 20px;
     width: 366px;
+    min-width: 300px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-  }
   
-  .user-image {
+}
+
+.user-image {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     margin-bottom: 15px;
-  }
-  
-  .user-name {
+    object-fit: cover;
+}
+
+.user-name {
     font-size: 24px;
     margin-bottom: 5px;
-  }
-  
-  .user-specialty {
+}
+
+.user-specialty {
     color: #666;
     margin-bottom: 15px;
-  }
-  
-  .rating {
+    font-size: 16px;
+}
+
+.rating {
     color: #FFD700;
     font-size: 20px;
     margin-bottom: 15px;
-  }
-  
-  .contact-info {
+}
+
+.contact-info {
     margin-bottom: 15px;
-  }
-  
-  .phone, .email {
+}
+
+.phone, .email {
     margin: 5px 0;
     color: #333;
-  }
-  
-  .experience, .appointments {
+}
+
+h5 {
+    margin: 5px 0 15px;
+    word-break: break-word;
+}
+
+.experience, .appointments {
     margin: 10px 0;
     color: #666;
-  }
-  
-  .appointments span {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.experience:hover, .appointments:hover {
+    color: #333;
+}
+
+.appointments span {
     font-weight: bold;
     color: #333;
-  }
-  
-  .calendar-section {
+}
+
+.calendar-section {
     background-color: white;
     border-radius: 10px;
     padding: 20px;
     width: 830px;
+    flex-grow: 1;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1400px) {
+    .user-prof {
+        max-width: 1208px;
+    }
+    
+    .calendar-section {
+        width: 700px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .user-prof {
+        padding: 20px 3%;
+    }
+
+    .calendar-section {
+        width: 600px;
+    }
+
+    .user-profile {
+        width: 320px;
+        min-width: 280px;
+    }
+}
+
+@media (max-width: 992px) {
+    .user-prof {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .user-profile {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .calendar-section {
+        width: 100%;
+        max-width: 800px;
+    }
+
+    app-categories {
+        width: 100%;
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-prof {
+        padding: 15px 2%;
+    }
+
+    .user-profile {
+        padding: 15px;
+    }
+
+    .user-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .user-name {
+        font-size: 20px;
+    }
+
+    .user-specialty {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-prof {
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .user-profile {
+        padding: 12px;
+    }
+
+    .user-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .calendar-section {
+        padding: 12px;
+    }
+
+    .contact-info {
+        font-size: 14px;
+    }
+
+    h5 {
+        font-size: 14px;
+    }
+}

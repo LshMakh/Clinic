@@ -26,6 +26,17 @@
                           [class.is-pending]="email?.pending"
                           [class.is-invalid]="email?.errors && email?.touched"
                         >
+                        <button 
+                        type="button" 
+                        class="send-email-btn"
+                        [disabled]="!email?.valid || email?.pending"
+                        (click)="sendEmailVerification()"
+                    >
+                    <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.33333 0.333336C1.55376 0.333336 0.872333 0.724361 0.453604 1.3066C0.167283 1.70473 0 2.19583 0 2.72223V11.2778C0 12.5683 1.01637 13.6667 2.33333 13.6667H8.5C8.96025 13.6667 9.33333 13.2936 9.33333 12.8333C9.33333 12.3731 8.96025 12 8.5 12H2.33333C1.99345 12 1.66667 11.7055 1.66667 11.2778V3.62305L6.4829 8.92467C7.47488 10.0166 9.19175 10.0166 10.1838 8.92467L15 3.62305V7.11108C15 7.57133 15.3731 7.94442 15.8333 7.94442C16.2936 7.94442 16.6667 7.57133 16.6667 7.11108V2.72223C16.6667 2.19584 16.4994 1.70473 16.2131 1.3066C15.7943 0.724361 15.1129 0.333336 14.3333 0.333336H2.33333ZM7.71653 7.80392L2.44392 2H14.2228L8.95017 7.80392C8.6195 8.16792 8.04718 8.16792 7.71653 7.80392ZM15.2441 14.7441C14.9187 15.0695 14.9187 15.5972 15.2441 15.9226C15.5695 16.248 16.0972 16.248 16.4226 15.9226L18.9226 13.4226C19.248 13.0972 19.248 12.5695 18.9226 12.2441L16.4226 9.74409C16.0972 9.41867 15.5695 9.41867 15.2441 9.74409C14.9187 10.0695 14.9187 10.5972 15.2441 10.9226L16.3215 12H12.5C12.0398 12 11.6667 12.3731 11.6667 12.8333C11.6667 13.2936 12.0398 13.6667 12.5 13.6667H16.3215L15.2441 14.7441Z" fill="#053354"/>
+                        </svg>
+                        
+                    </button>
                         <div class="spinner" *ngIf="email?.pending">
                           <!-- Add your loading spinner here -->
                         </div>
@@ -64,6 +75,16 @@
                     <label for="lastName">გვარი</label>
                     <input type="text" id="lastName" formControlName="lastName">
                     <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" 
+                         class="error-message">
+                        გვარის ველის შევსება აუცილებელია
+                    </div>
+                </div>
+            </div>
+            <div class="input-container">
+                <div class="input">
+                    <label for="lastName">აქტვიაციის კოდი</label>
+                    <input type="text" id="activationCode" formControlName="activationCode">
+                    <div *ngIf="registerForm.get('activationCode')?.invalid && registerForm.get('activationCode')?.touched" 
                          class="error-message">
                         გვარის ველის შევსება აუცილებელია
                     </div>

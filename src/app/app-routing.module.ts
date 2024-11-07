@@ -24,6 +24,9 @@ const routes: Routes = [{
 {
   path:'register',
   component:RegistrationComponent,
+},{
+  path:'admin-prof/:id',
+  component:AdminProfileComponent
 },
 {
   path:'admin-cat',
@@ -39,7 +42,7 @@ const routes: Routes = [{
 
 },
 {
-  path:'book-appointment',
+  path:'book-appointment/:id',
   component:BookAppointmentComponent,
 
 },

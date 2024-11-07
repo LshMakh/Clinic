@@ -46,13 +46,18 @@ export class CategoriesComponent implements OnInit {
   }
 
   splitCategories() {
-    this.visibleCategories = this.categories.slice(0, 14);
-    this.hiddenCategories = this.categories.slice(14);
+    this.visibleCategories = this.categories.slice(0, 10);
+    this.hiddenCategories = this.categories.slice(10);
   }
 
   onCategoryClick(categoryName:string){
     console.log('Category clicked:', categoryName);
-    this.selectedCategory = this.selectedCategory === categoryName ? null : categoryName;
+    if(this.selectedCategory===categoryName){
+      this.selectedCategory = null;
+    }else{
+      this.selectedCategory = categoryName;
+    }
+    
     this.categorySelected.emit(categoryName);
   }
 

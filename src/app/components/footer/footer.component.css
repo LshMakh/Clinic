@@ -1,12 +1,12 @@
-*{
+/* Global Styles */
+* {
   font-family: 'FiraGO', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-
-
+/* Info Section */
 .info {
   height: fit-content;
   padding: 30px 120px;
@@ -14,58 +14,57 @@
   display: flex;
   gap: 150px;
 }
-.copyright {
-  padding: 15px 120px;
-  color: #053354;
-}
-.hospital {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  align-self: self-start;
-}
-.hospital img {
-  width: 90px;
-  height: 66px;
-  object-fit: cover;
-}
-.hospital h2 {
-  font-size: 22px;
-  font-weight: 500;
-  color: #fff;
-  margin-left: -25px;
-  font-family: 'FiraGO', sans-serif;
 
-}
 .details {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
+
+/* Hospital Logo and Heading */
+.hospital {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  align-self: flex-start;
+}
+
+.hospital img {
+  width: 90px;
+  height: 66px;
+  object-fit: cover;
+}
+
+.hospital h2 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #fff;
+  margin-left: -25px;
+}
+
+/* Headers Section */
 .headers {
   display: flex;
+  justify-content: space-between;
   border-bottom: 1px solid #ecf2f84d;
   padding-bottom: 20px;
-  justify-content: space-between;
-  font-family: 'FiraGO', sans-serif;
-
 }
-.headers h2 {
-  font-family: 'FiraGO', sans-serif;
 
-  width: 160px;
+.headers h2 {
   font-size: 16px;
   font-weight: 500;
   color: white;
+  width: 160px;
 }
+
+/* Information Section */
 .informations {
   display: flex;
   justify-content: space-between;
   padding-top: 20px;
 }
-.informations div h3 {
-  font-family: 'FiraGO', sans-serif;
 
+.informations div h3 {
   line-height: 1.2;
   width: 160px;
   font-size: 16px;
@@ -74,6 +73,14 @@
   padding: 5px 0;
   cursor: pointer;
 }
+
+/* Copyright */
+.copyright {
+  padding: 15px 120px;
+  color: #053354;
+}
+
+/* Responsive Styles */
 @media (max-width: 1200px) {
   .info {
     padding: 30px 60px;

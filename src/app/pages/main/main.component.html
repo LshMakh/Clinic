@@ -1,36 +1,52 @@
 <div class="main-image">
-    </div>
+</div>
 
-
-    <div class="main-section">
-        <app-categories class="categories" (categorySelected)="handleCategorySelected($event)"></app-categories>
+<div class="main-section">
+    <app-categories class="categories" (categorySelected)="handleCategorySelected($event)"></app-categories>
+    <div class="content-wrapper">
         <div class="doctors">
-            <div class="card" *ngFor="let card of displayedDoctors">
+            <div class="card" *ngFor="let card of displayedDoctors" [attr.data-pinned]="card.isPinned">
                 <div class="top">
                     <div class="views">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#053354" viewBox="0 0 256 256"><path d="M251,123.13c-.37-.81-9.13-20.26-28.48-39.61C196.63,57.67,164,44,128,44S59.37,57.67,33.51,83.52C14.16,102.87,5.4,122.32,5,123.13a12.08,12.08,0,0,0,0,9.75c.37.82,9.13,20.26,28.49,39.61C59.37,198.34,92,212,128,212s68.63-13.66,94.48-39.51c19.36-19.35,28.12-38.79,28.49-39.61A12.08,12.08,0,0,0,251,123.13Zm-46.06,33C183.47,177.27,157.59,188,128,188s-55.47-10.73-76.91-31.88A130.36,130.36,0,0,1,29.52,128,130.45,130.45,0,0,1,51.09,99.89C72.54,78.73,98.41,68,128,68s55.46,10.73,76.91,31.89A130.36,130.36,0,0,1,226.48,128,130.45,130.45,0,0,1,204.91,156.12ZM128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148Z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#053354" viewBox="0 0 256 256">
+                            <path d="M251,123.13c-.37-.81-9.13-20.26-28.48-39.61C196.63,57.67,164,44,128,44S59.37,57.67,33.51,83.52C14.16,102.87,5.4,122.32,5,123.13a12.08,12.08,0,0,0,0,9.75c.37.82,9.13,20.26,28.49,39.61C59.37,198.34,92,212,128,212s68.63-13.66,94.48-39.51c19.36-19.35,28.12-38.79,28.49-39.61A12.08,12.08,0,0,0,251,123.13Zm-46.06,33C183.47,177.27,157.59,188,128,188s-55.47-10.73-76.91-31.88A130.36,130.36,0,0,1,29.52,128,130.45,130.45,0,0,1,51.09,99.89C72.54,78.73,98.41,68,128,68s55.46,10.73,76.91,31.89A130.36,130.36,0,0,1,226.48,128,130.45,130.45,0,0,1,204.91,156.12ZM128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148Z"></path>
+                        </svg>
                         <p>127123</p>
                     </div>
-                    <svg class="pin"  width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="pin" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        [class.pinned]="card.isPinned"
+                        (click)="togglePin(card.doctorId,$event)"   
+                        xmlns="http://www.w3.org/2000/svg">
                         <path d="M23.7 11.3L12.7 0.300049L11.3 1.70005L12.7 3.10005L7.39999 8.40005C5.49999 8.50005 3.79999 9.30005 2.39999 10.7L1.69999 11.4L6.39999 16.1L0.299988 22.3L1.69999 23.7001L7.89999 17.5L12.7 22.4L13.4 21.7001C14.8 20.4001 15.6 18.6 15.7 16.7001L21 11.4L22.3 12.7L23.7 11.3ZM13.6 15.8V16.2C13.6 17.4 13.3 18.5 12.6 19.5L4.49999 11.4C5.49999 10.7 6.59999 10.3 7.69999 10.3H8.09999L14 4.40005L19.5 9.90005L13.6 15.8Z" fill="#ECF2F8"/>
-                        </svg>
-                        
+                    </svg>
                 </div>
-                    
-                    <img src="{{card.photoUrl}}" alt="Image">
-                    <h2>{{card.firstName}} {{card.lastName}}</h2>
-                    <p class="position">{{card.specialty}}</p>
-                    <div class="start">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="#FFD233" viewBox="0 0 256 256"><path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path></svg>
-                    </div>
-                    <button class="book" routerLink="/book-appointment"><p>მიღებაზე ჩაწერა</p><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg>
-                </button>
-                        
-                </div>
-                <div class="see-all">
-                    <p>ყველას ნახვა</p>
-                    <div class="see"></div>
-                </div>
-        </div>
 
+                <img [src]="card.photoUrl" alt="{{card.firstName}} {{card.lastName}}">
+                <h2>{{card.firstName}} {{card.lastName}}</h2>
+                <p class="position">{{card.specialty}}</p>
+                <div class="start">
+                    <ng-container *ngFor="let filled of getStarsArray(card.rating)">
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                             width="17" 
+                             height="17"
+                             [attr.fill]="filled ? '#FFD233' : '#ECF2F8'" 
+                             viewBox="0 0 256 256">
+                            <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+                        </svg>
+                    </ng-container>
+                </div>
+                <button class="book" [routerLink]="['/book-appointment/'+card.doctorId]">
+                    <p>მიღებაზე ჩაწერა</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256">
+                        <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="see-all" *ngIf="allDoctors.length > CARDS_PER_PAGE">
+            <p (click)="toggleShowAll()">{{ showAllDoctors ? 'ნაკლების ნახვა' : 'ყველას ნახვა' }}</p>
+            <div class="see"></div>
+        </div>
     </div>
+</div>

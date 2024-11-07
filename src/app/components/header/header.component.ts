@@ -20,8 +20,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.isAuthenticated$ = this.authService.isAuthenticated();
     this.currentUser$ = this.authService.getCurrentUser();
+
     
-  }
+    }
+  
 
   getProfileRoute(role:string):string{
     switch(role){

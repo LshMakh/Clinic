@@ -7,6 +7,11 @@
   border-radius: 10px;
   overflow: hidden;
 }
+@media(max-width:1600px){
+  .categories{
+    justify-self: center;
+  }
+}
 
 .categories-header, .categories-footer {
   padding: 20px 50px;
