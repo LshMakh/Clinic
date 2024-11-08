@@ -58,18 +58,19 @@ export class RegistrationComponent {
   private emailExistsValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       // Don't validate empty or invalid email format
-      if (
-        !control.value ||
-        !control.value.trim() ||
-        control.hasError('email')
-      ) {
+      if (!control.value || !control.value.trim() || control.hasError('email')) {
         return of(null);
       }
-
-      return this.authService.checkEmailExists(control.value).pipe(
-        debounceTime(300), // Wait for user to stop typing
-        map((exists) => (exists ? { emailExists: true } : null)),
-        catchError(() => of(null)) // Handle errors gracefully
+  
+      return control.valueChanges.pipe(
+        debounceTime(1000), // Wait for user to stop typing before HTTP call
+        switchMap((value) => 
+          this.authService.checkEmailExists(value).pipe(
+            map((exists) => (exists ? { emailExists: true } : null)),
+            catchError(() => of(null)) // handle errors
+          )
+        ),
+        first() // Complete the observable after one emission
       );
     };
   }
@@ -127,8 +128,10 @@ export class RegistrationComponent {
           this.isSubmitting = false;
         },
       });
+      this.registerForm.reset();
     } else {
       this.errorMessage = 'Please fill in all required fields correctly.';
     }
+    
   }
 }
