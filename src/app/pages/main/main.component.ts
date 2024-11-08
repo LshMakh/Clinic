@@ -1,30 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DoctorService } from '../../services/doctor.service';
 import { DoctorCard } from '../../Models/doctorCard.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   displayedDoctors: DoctorCard[] = [];
   allDoctors: DoctorCard[] = [];
   showAllDoctors: boolean = false;
   readonly CARDS_PER_PAGE = 6;
+  private subscription: Subscription = new Subscription();
 
   constructor(public doctorService: DoctorService) {}
 
   ngOnInit(): void {
-    this.doctorService.getDoctorCard().subscribe(data => {
-      this.doctorService.cardsList = data;
-      this.allDoctors = [...data];
-      this.updateDisplayedDoctors();
-      console.log(this.displayedDoctors);
-    });
+    // Get initial data
+    this.doctorService.getDoctorCard().subscribe();
+    
+    // Subscribe to filtered cards
+    this.subscription.add(
+      this.doctorService.getFilteredCards().subscribe(doctors => {
+        this.allDoctors = [...doctors]; // Keep a copy of all doctors
+        this.updateDisplayedDoctors();
+      })
+    );
   }
 
-  updateDisplayedDoctors() {
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  private updateDisplayedDoctors() {
     const sortedDoctors = [...this.allDoctors].sort((a, b) => {
       if (a.isPinned === b.isPinned) return 0;
       return a.isPinned ? -1 : 1;
@@ -43,24 +55,11 @@ export class MainComponent implements OnInit {
   togglePin(doctorId: number, event: Event) {
     event.stopPropagation();
     this.doctorService.togglePin(doctorId);
-    this.allDoctors = this.allDoctors.map(doctor => ({
-      ...doctor,
-      isPinned: doctor.doctorId === doctorId ? !doctor.isPinned : doctor.isPinned
-    }));
-    this.updateDisplayedDoctors();
   }
 
   handleCategorySelected(category: string | null) {
-    if (!category) {
-      this.allDoctors = [...this.doctorService.cardsList];
-    } else {
-      this.allDoctors = this.doctorService.cardsList.filter(
-        doctor => doctor.specialty.toLowerCase() === category.toLowerCase()
-      );
-    }
-    // Reset to first page when changing categories
     this.showAllDoctors = false;
-    this.updateDisplayedDoctors();
+    this.doctorService.filterBySpecialty(category);
   }
 
   getStarsArray(rating: number): number[] {

@@ -9,7 +9,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class CategoriesComponent implements OnInit {
   @Output() categorySelected = new EventEmitter<string|null>();
   isExpanded = false;
-  selectedCategory:string|null=null;
+  selectedCategory: string|null = null;
   categories = [
     { count: 23424, name: 'Dermatologist' },
     { count: 15678, name: 'პედიატრი' },
@@ -36,11 +36,6 @@ export class CategoriesComponent implements OnInit {
   visibleCategories: any[] | undefined;
   hiddenCategories: any[] | undefined;
 
-  selectCategory(category: string) {
-    this.selectedCategory = this.selectedCategory === category ? null : category;
-    this.categorySelected.emit(this.selectedCategory);
-  }
-
   ngOnInit() {
     this.splitCategories();
   }
@@ -50,15 +45,16 @@ export class CategoriesComponent implements OnInit {
     this.hiddenCategories = this.categories.slice(10);
   }
 
-  onCategoryClick(categoryName:string){
-    console.log('Category clicked:', categoryName);
-    if(this.selectedCategory===categoryName){
+  onCategoryClick(categoryName: string) {
+    if (this.selectedCategory === categoryName) {
+      // If clicking the same category again, deselect it
       this.selectedCategory = null;
-    }else{
+      this.categorySelected.emit(null);
+    } else {
+      // Select the new category
       this.selectedCategory = categoryName;
+      this.categorySelected.emit(categoryName);
     }
-    
-    this.categorySelected.emit(categoryName);
   }
 
   toggleView() {
