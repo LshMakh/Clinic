@@ -34,7 +34,7 @@
 
       <p class="forgot-password">პაროლის აღდგენა</p>
       
-      <button type="submit" [disabled]="isLoading" class="submit-button">
+      <button type="submit" [disabled]="!loginForm.valid" class="submit-button">
         {{ isLoading ? 'მიმდინარეობს...' : 'ავტორიზაცია' }}
       </button>
     </form>

@@ -42,8 +42,8 @@ export class CategoriesComponent implements OnInit {
   }
 
   splitCategories() {
-    this.visibleCategories = this.categories.slice(0, 10);
-    this.hiddenCategories = this.categories.slice(10);
+    this.visibleCategories = this.categories.slice(0, 16);
+    this.hiddenCategories = this.categories.slice(16);
   }
 
   onCategoryClick(categoryName: string) {
