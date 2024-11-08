@@ -13,12 +13,13 @@
                         </svg>
                         <p>127123</p>
                     </div>
+                    <button style="background-color: transparent; border: none;">
                     <svg class="pin" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         [class.pinned]="card.isPinned"
                         (click)="togglePin(card.doctorId,$event)"   
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M23.7 11.3L12.7 0.300049L11.3 1.70005L12.7 3.10005L7.39999 8.40005C5.49999 8.50005 3.79999 9.30005 2.39999 10.7L1.69999 11.4L6.39999 16.1L0.299988 22.3L1.69999 23.7001L7.89999 17.5L12.7 22.4L13.4 21.7001C14.8 20.4001 15.6 18.6 15.7 16.7001L21 11.4L22.3 12.7L23.7 11.3ZM13.6 15.8V16.2C13.6 17.4 13.3 18.5 12.6 19.5L4.49999 11.4C5.49999 10.7 6.59999 10.3 7.69999 10.3H8.09999L14 4.40005L19.5 9.90005L13.6 15.8Z" fill="#ECF2F8"/>
-                    </svg>
+                    </svg></button>
                 </div>
 
                 <img [src]="card.photoUrl" alt="{{card.firstName}} {{card.lastName}}">
@@ -45,8 +46,9 @@
         </div>
         
         <div class="see-all" *ngIf="allDoctors.length > CARDS_PER_PAGE">
+            <button style="background-color: transparent; border: none; cursor: pointer;">
             <p (click)="toggleShowAll()">{{ showAllDoctors ? 'ნაკლების ნახვა' : 'ყველას ნახვა' }}</p>
-            <div class="see"></div>
+            </button><div class="see"></div>
         </div>
     </div>
 </div>

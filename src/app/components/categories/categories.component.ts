@@ -1,5 +1,4 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-categories',
@@ -8,11 +7,13 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class CategoriesComponent implements OnInit {
   @Output() categorySelected = new EventEmitter<string|null>();
+  @ViewChild('categoriesContent') categoriesContent?: ElementRef;
+  
   isExpanded = false;
   selectedCategory: string|null = null;
   categories = [
     { count: 23424, name: 'Dermatologist' },
-    { count: 15678, name: 'პედიატრი' },
+    { count: 15678, name: 'Dentist' },
     { count: 19876, name: 'ნევროლოგი' },
     { count: 12345, name: 'ოფთალმოლოგი' },
     { count: 21098, name: 'დერმატოლოგი' },
@@ -47,11 +48,9 @@ export class CategoriesComponent implements OnInit {
 
   onCategoryClick(categoryName: string) {
     if (this.selectedCategory === categoryName) {
-      // If clicking the same category again, deselect it
       this.selectedCategory = null;
       this.categorySelected.emit(null);
     } else {
-      // Select the new category
       this.selectedCategory = categoryName;
       this.categorySelected.emit(categoryName);
     }
@@ -59,5 +58,12 @@ export class CategoriesComponent implements OnInit {
 
   toggleView() {
     this.isExpanded = !this.isExpanded;
+    
+    // If closing the expanded view, scroll to top
+    if (!this.isExpanded && this.categoriesContent) {
+      setTimeout(() => {
+        this.categoriesContent!.nativeElement.scrollTop = 0;
+      }, 0);
+    }
   }
 }

@@ -5,7 +5,7 @@
             <path d="M0 1H250" stroke="#ECF2F8"/>
         </svg>
     </div>
-    <div class="categories-content" [class.expanded]="isExpanded">
+    <div class="categories-content" #categoriesContent [class.expanded]="isExpanded">
         <div class="category" 
              *ngFor="let category of visibleCategories"
              [class.selected]="selectedCategory === category.name"
