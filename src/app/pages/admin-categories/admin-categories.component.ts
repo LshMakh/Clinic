@@ -17,7 +17,8 @@ export class AdminCategoriesComponent implements OnInit {
  constructor(public doctorService:DoctorService,private visibilityService:VisibilityService){}
 
  toggleVisibility(){
-  this.visibilityService.toggleVisibility();
+
+  this.visibilityService.setVisibility(true);
  }
 
   ngOnInit() {

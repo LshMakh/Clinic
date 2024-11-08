@@ -1,4 +1,3 @@
-// visibility.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -7,18 +6,20 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class VisibilityService {
   private visibilitySource = new BehaviorSubject<boolean>(false);
+  private editVisibilitySource = new BehaviorSubject<boolean>(false);
+  
   isVisible$ = this.visibilitySource.asObservable();
-
-  // constructor(){
-  //   this.visibilitySource.next(true);
-  // }
+  isEditVisible$ = this.editVisibilitySource.asObservable();
 
   toggleVisibility() {
-    if(!this.visibilitySource.value){
     this.visibilitySource.next(!this.visibilitySource.value);
-    }else{
-      this.visibilitySource.next(false);
-      this.visibilitySource.next(true);
-    }
+  }
+
+  setVisibility(value: boolean) {
+    this.visibilitySource.next(value);
+  }
+
+  toggleEditVisibility() {
+    this.editVisibilitySource.next(!this.editVisibilitySource.value);
   }
 }

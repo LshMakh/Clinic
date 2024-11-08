@@ -14,7 +14,7 @@
     flex-direction: row;
     width: 100%;
     gap: 50px;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .action-buttons-container {
@@ -180,8 +180,11 @@
 }
 
 .detail-label i {
-    color: #18A4E1;
-    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
 }
 
 .detail-value {
@@ -189,6 +192,19 @@
     font-size: 14px;
     margin-left: 24px;
     word-break: break-word;
+    transition: all 0.3s ease;
+}
+.detail-value.editable {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.detail-value.editable:hover {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
 }
 
 .password-change {
@@ -241,6 +257,14 @@
     background: #ECF2F8;
     color: #18A4E1;
   }
+  .btn-edit:hover {
+    background: #dde5ed;
+}
+
+.btn-edit.active {
+    background: #18A4E1;
+    color: white;
+}
 
 .btn-delete {
     background: #FF93A6;

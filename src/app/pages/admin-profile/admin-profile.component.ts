@@ -11,13 +11,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AdminProfileComponent implements OnInit {
   isVisible: boolean = false;
+  isEditVisible:boolean = false;
   doctor:any=null;
   constructor(private visibilityService:VisibilityService, private doctorService:DoctorService, private route:ActivatedRoute,private router:Router){}
 
   ngOnInit() {
     this.visibilityService.isVisible$.subscribe(visible => {
       this.isVisible = visible;
-
+      
       if(this.isVisible){
         const id = this.route.snapshot.paramMap.get('id');
         this.doctorService.getDoctorById(Number(id)).subscribe(data=>{
@@ -25,6 +26,13 @@ export class AdminProfileComponent implements OnInit {
         });
       }
     });
+    this.visibilityService.isEditVisible$.subscribe(visible=>{
+      this.isEditVisible = visible;
+    });
+  }
+
+  toggleEditVisibility(){
+    this.visibilityService.toggleEditVisibility();
   }
 
   toggleVisibility(){

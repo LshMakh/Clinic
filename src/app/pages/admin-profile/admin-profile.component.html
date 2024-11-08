@@ -43,23 +43,27 @@
                         <div class="column details">
                             <div class="detail-row">
                                 <div class="detail-label">
-                                    <i class="icon-id"></i>
+                                    <i class="icon-id" *ngIf="isEditVisible"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" stroke="#18A4E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg></i>
                                     <span>პირადი ნომერი :</span>
                                 </div>
-                                <span class="detail-value">{{doctor.personalNumber}}</span>
+                                <span class="detail-value" [class.editable]="isEditVisible">{{doctor.personalNumber}}</span>
                             </div>
 
                             <div class="detail-row">
                                 <div class="detail-label">
-                                    <i class="icon-email"></i>
+                                    <i class="icon-email" *ngIf="isEditVisible"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" stroke="#18A4E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg></i>
                                     <span>Email :</span>
                                 </div>
-                                <span class="detail-value">{{doctor.email}}</span>
+                                <span class="detail-value" [class.editable]="isEditVisible">{{doctor.email}}</span>
                             </div>
 
                             <div class="detail-row password-change">
                                 <div class="detail-label">
-                                    <i class="icon-lock"></i>
+                                  
                                     <span>პაროლის შეცვლა</span>
                                 </div>
                             </div>
@@ -70,10 +74,12 @@
                         <div class="column additional-content">
                             <div class="detail-row">
                                 <div class="detail-label">
-                                    <i class="icon-id"></i>
+                                    <i class="icon-id" *ngIf="isEditVisible"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" stroke="#18A4E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg></i>
                                     <span>დაჯავშნილია :</span>
                                 </div>
-                                <span class="detail-value">{{doctor.personalNumber}}</span>
+                                <span class="detail-value" [class.editable]="isEditVisible">{{doctor.personalNumber}}</span>
                             </div>
                         </div>
                     </div>
@@ -84,7 +90,7 @@
                     <button class="btn btn-add">
                         <span class="plus-icon">+</span> დამატება
                     </button>
-                    <button class="btn btn-edit">
+                    <button class="btn btn-edit" (click)="toggleEditVisibility()" >
                         <i class="icon-edit"></i>
                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_35_2130)">

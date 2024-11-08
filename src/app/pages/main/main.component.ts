@@ -20,11 +20,13 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Get initial data
     this.doctorService.getDoctorCard().subscribe();
+    console.log(this.doctorService.getDoctorCard().subscribe());
     
     // Subscribe to filtered cards
     this.subscription.add(
       this.doctorService.getFilteredCards().subscribe(doctors => {
         this.allDoctors = [...doctors]; // Keep a copy of all doctors
+        console.log(this.allDoctors)
         this.updateDisplayedDoctors();
       })
     );
