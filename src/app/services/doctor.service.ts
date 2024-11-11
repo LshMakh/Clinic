@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+// src/app/services/doctor.service.ts
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { DoctorCard } from '../Models/doctorCard.model';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { API_CONFIG } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +15,38 @@ export class DoctorService {
   private filteredCardsSubject = new BehaviorSubject<DoctorCard[]>([]);
   private currentFilter: string | null = null;
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient) {
     this.loadPinnedDoctors();
   }
 
+  // GET requests
+  getDoctorCard(): Observable<DoctorCard[]> {
+    return this.http.get<DoctorCard[]>(
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.cards}`
+    ).pipe(
+      tap(data => {
+        this.cardsList = data;
+      })
+    );
+  }
+
+  getDoctorById(id: number): Observable<DoctorCard> {
+    return this.http.get<DoctorCard>(
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.byId}/${id}`
+    );
+  }
+
+  deleteDoctorById(id: number): Observable<any> {
+    return this.http.delete(
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.delete}/${id}`
+    ).pipe(
+      tap(() => {
+        this.handleDoctorDeletion(id);
+      })
+    );
+  }
+
+  // Local state management
   get cardsList(): DoctorCard[] {
     return this._cards;
   }
@@ -33,6 +63,18 @@ export class DoctorService {
     this.applyCurrentFilter();
   }
 
+  private handleDoctorDeletion(id: number): void {
+    const pinnedDoctors = localStorage.getItem(this.PINNED_DOCTORS_KEY);
+    if (pinnedDoctors) {
+      const pinnedIds = JSON.parse(pinnedDoctors).filter((pinnedId: number) => pinnedId !== id);
+      localStorage.setItem(this.PINNED_DOCTORS_KEY, JSON.stringify(pinnedIds));
+    }
+
+    this._cards = this._cards.filter(card => card.doctorId !== id);
+    this.applyCurrentFilter();
+  }
+
+  // Filter and Pin functionality
   private applyCurrentFilter() {
     if (this.currentFilter) {
       const filtered = this._cards.filter(
@@ -40,47 +82,7 @@ export class DoctorService {
       );
       this.filteredCardsSubject.next(filtered);
     } else {
-      // When no filter is active, show all cards
       this.filteredCardsSubject.next(this._cards);
-    }
-  }
-
-  getDoctorCard(): Observable<DoctorCard[]> {
-    return this.http.get<DoctorCard[]>('https://localhost:7226/api/Doctor/GetDoctorCards').pipe(
-      tap(data => {
-        this.cardsList = data;
-      })
-    );
-  }
-
-  getDoctorById(id: number): Observable<DoctorCard> {
-    return this.http.get<DoctorCard>(`https://localhost:7226/api/Doctor/GetDoctorById/${id}`);
-  }
-
-  deleteDoctorById(id: number): Observable<any> {
-    return this.http.delete(`https://localhost:7226/api/Doctor/DeleteDoctorById/${id}`).pipe(
-      tap(() => {
-        const pinnedDoctors = localStorage.getItem(this.PINNED_DOCTORS_KEY);
-        if (pinnedDoctors) {
-          const pinnedIds = JSON.parse(pinnedDoctors).filter((pinnedId: number) => pinnedId !== id);
-          localStorage.setItem(this.PINNED_DOCTORS_KEY, JSON.stringify(pinnedIds));
-        }
-
-        this._cards = this._cards.filter(card => card.doctorId !== id);
-        this.applyCurrentFilter();
-      })
-    );
-  }
-
-  private loadPinnedDoctors() {
-    const pinnedDoctors = localStorage.getItem(this.PINNED_DOCTORS_KEY);
-    if (pinnedDoctors) {
-      const pinnedIds = new Set(JSON.parse(pinnedDoctors));
-      this._cards = this._cards.map(card => ({
-        ...card,
-        isPinned: pinnedIds.has(card.doctorId)
-      }));
-      this.applyCurrentFilter();
     }
   }
 
@@ -100,21 +102,24 @@ export class DoctorService {
     this.applyCurrentFilter();
   }
 
-  getPinnedDoctors(): DoctorCard[] {
-    return this._cards.filter(card => card.isPinned);
+  filterBySpecialty(specialty: string | null) {
+    this.currentFilter = specialty;
+    this.applyCurrentFilter();
   }
 
   getFilteredCards(): Observable<DoctorCard[]> {
     return this.filteredCardsSubject.asObservable();
   }
 
-  filterBySpecialty(specialty: string | null) {
-    this.currentFilter = specialty;
-    this.applyCurrentFilter();
-  }
-
-  clearFilter() {
-    this.currentFilter = null;
-    this.applyCurrentFilter();
+  private loadPinnedDoctors() {
+    const pinnedDoctors = localStorage.getItem(this.PINNED_DOCTORS_KEY);
+    if (pinnedDoctors) {
+      const pinnedIds = new Set(JSON.parse(pinnedDoctors));
+      this._cards = this._cards.map(card => ({
+        ...card,
+        isPinned: pinnedIds.has(card.doctorId)
+      }));
+      this.applyCurrentFilter();
+    }
   }
 }

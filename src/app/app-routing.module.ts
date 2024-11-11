@@ -1,18 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { MainComponent } from './pages/main/main.component';
-import { RegistrationComponent } from './pages/registration/registration.component';
-import { AdminCategoriesComponent } from './pages/admin-categories/admin-categories.component';
-import { BookAppointmentComponent } from './pages/book-appointment/book-appointment.component';
-import { DoctorProfileComponent } from './pages/doctor-profile/doctor-profile.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-import { DoctorRegistrationComponent } from './pages/doctor-registration/doctor-registration.component';
-import { AdminProfileComponent } from './pages/admin-profile/admin-profile.component';
 import { AuthGuard } from './guards/auth.guard';
-import { AdminGuard } from './guards/admin.guard';
-import { DoctorGuard } from './guards/doctor.guard';
-import { PatientGuard } from './guards/patient.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
+import { CustomPreloadingStrategy } from './custom-preloading-strategy';
 
 const routes: Routes = [
   {
@@ -20,57 +11,71 @@ const routes: Routes = [
     component: MainComponent
   },
   {
+    path:'main',
+    component:MainComponent
+  },
+  {
     path: 'register',
-    component: RegistrationComponent,
-    canActivate:[NoAuthGuard]
+    loadChildren: () => import('./modules/registration/registration.module')
+      .then(m => m.RegistrationModule)
+      .catch(err => {
+        console.error('Error loading registration module:', err);
+        throw err;
+      }),
+    canActivate: [NoAuthGuard],
+    data: { preload: true } // This module will be preloaded
   },
   {
-    path: 'doc-reg',
-    component: DoctorRegistrationComponent,
-    canActivate: [AdminGuard]
+    path: 'admin',
+    loadChildren: () => import('./modules/admin/admin.module')
+      .then(m => m.AdminModule)
+      .catch(err => {
+        console.error('Error loading admin module:', err);
+        throw err;
+      }),
+    canActivate: [AuthGuard],
+    data: { preload: false } // This module will not be preloaded
   },
   {
-    path: 'admin-prof',
-    component: AdminProfileComponent,
-    canActivate: [AdminGuard]
+    path: 'doctor',
+    loadChildren: () => import('./modules/doctor/doctor.module')
+      .then(m => m.DoctorModule)
+      .catch(err => {
+        console.error('Error loading doctor module:', err);
+        throw err;
+      }),
+    canActivate: [AuthGuard],
+    data: { preload: true }
   },
   {
-    path: 'admin-prof/:id',
-    component: AdminProfileComponent,
-    canActivate: [AdminGuard]
-  },
-  {
-    path: 'admin-cat',
-    component: AdminCategoriesComponent,
-    canActivate: [AdminGuard]
-  },
-  {
-    path: 'doc-prof',
-    component: DoctorProfileComponent,
-    canActivate: [DoctorGuard]
-  },
-  {
-    path: 'user-prof',
-    component: UserProfileComponent,
-    canActivate: [PatientGuard]
-  },
-  {
-    path: 'book-appointment/:id',
-    component: BookAppointmentComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'main',
-    component: MainComponent
+    path: 'patient',
+    loadChildren: () => import('./modules/patient/patient.module')
+      .then(m => m.PatientModule)
+      .catch(err => {
+        console.error('Error loading patient module:', err);
+        throw err;
+      }),
+    canActivate: [AuthGuard],
+    data: { preload: true }
   },
   {
     path: '**',
-    redirectTo: 'main'
+    redirectTo: ''
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      
+      preloadingStrategy: CustomPreloadingStrategy,
+      
+     
+      scrollPositionRestoration: 'enabled', // Restore scroll position when navigating
+      anchorScrolling: 'enabled', // Enable anchor scrolling
+      onSameUrlNavigation: 'reload' // Reload the same URL when navigating
+    })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
