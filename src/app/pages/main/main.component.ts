@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DoctorService } from '../../services/doctor.service';
 import { DoctorCard } from '../../Models/doctorCard.model';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -15,38 +16,40 @@ export class MainComponent implements OnInit, OnDestroy {
   readonly CARDS_PER_PAGE = 6;
   private subscription: Subscription = new Subscription();
 
-  constructor(public doctorService: DoctorService) {}
+  constructor(public doctorService: DoctorService, private authService:AuthService) {}
 
   ngOnInit(): void {
-    // Get initial data
-    this.doctorService.getDoctorCard().subscribe();
-    console.log(this.doctorService.getDoctorCard().subscribe());
-    
-    // Subscribe to filtered cards
+    // Combine auth state and filtered cards observables
     this.subscription.add(
-      this.doctorService.getFilteredCards().subscribe(doctors => {
-        this.allDoctors = [...doctors]; // Keep a copy of all doctors
-        console.log(this.allDoctors)
+      combineLatest([
+        this.authService.getCurrentUser(),
+        this.doctorService.getFilteredCards()
+      ]).subscribe(([user, doctors]) => {
+        this.allDoctors = doctors;
         this.updateDisplayedDoctors();
       })
     );
+
+    // Initial load
+    this.loadDoctors();
   }
+  
 
   ngOnDestroy(): void {
-    if (this.subscription) {
+    
       this.subscription.unsubscribe();
-    }
+    
+  }
+  private loadDoctors(): void {
+    this.subscription.add(
+      this.doctorService.getDoctorCard().subscribe()
+    );
   }
 
-  private updateDisplayedDoctors() {
-    const sortedDoctors = [...this.allDoctors].sort((a, b) => {
-      if (a.isPinned === b.isPinned) return 0;
-      return a.isPinned ? -1 : 1;
-    });
-
+  private updateDisplayedDoctors(): void {
     this.displayedDoctors = this.showAllDoctors 
-      ? sortedDoctors 
-      : sortedDoctors.slice(0, this.CARDS_PER_PAGE);
+      ? this.allDoctors 
+      : this.allDoctors.slice(0, this.CARDS_PER_PAGE);
   }
 
   toggleShowAll() {
@@ -54,11 +57,14 @@ export class MainComponent implements OnInit, OnDestroy {
     this.updateDisplayedDoctors();
   }
 
-  togglePin(doctorId: number, event: Event) {
+  togglePin(doctorId: number, event: Event): void {
     event.stopPropagation();
+    if (!this.authService.getUserId()) {
+      // Optionally show login dialog or message
+      return;
+    }
     this.doctorService.togglePin(doctorId);
   }
-
   handleCategorySelected(category: string | null) {
     this.showAllDoctors = false;
     this.doctorService.filterBySpecialty(category);
