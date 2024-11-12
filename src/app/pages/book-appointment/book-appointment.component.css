@@ -1,5 +1,6 @@
 .cont-app {
   padding: 40px 5%;
+  justify-content: center;
   display: flex;
   gap: 5%;
   max-width: 100%;

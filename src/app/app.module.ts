@@ -20,6 +20,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     FooterComponent,
     MainComponent,
     LoginPopUpComponent,
+    
   ],
   imports: [
     BrowserModule,

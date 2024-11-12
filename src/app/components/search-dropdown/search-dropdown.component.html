@@ -1,0 +1,46 @@
+<div class="search-container">
+    <div class="inputs">
+      <input 
+        placeholder="მოძებნე ექიმი სახელით" 
+        type="text"
+        [(ngModel)]="nameSearch"
+        (input)="onNameSearch($event)"
+      >
+      <input 
+        placeholder="მოძებნე სპეციალობით" 
+        type="text"
+        [(ngModel)]="specialtySearch"
+        (input)="onSpecialtySearch($event)"
+      >
+      <div class="search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" viewBox="0 0 256 256">
+          <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <div class="dropdown-container" *ngIf="showDropdown$ | async">
+      <div class="dropdown-content">
+        <div class="search-results">
+          <div class="doctor-card" *ngFor="let doctor of searchResults$ | async" (click)="onDoctorClick(doctor)">
+            <img [src]="doctor.photoUrl" [alt]="doctor.firstName + ' ' + doctor.lastName">
+            <div class="doctor-info">
+              <h3>{{doctor.firstName}} {{doctor.lastName}}</h3>
+              <p>{{doctor.specialty}}</p>
+              <div class="rating">
+              <ng-container *ngFor="let filled of getStarsArray(doctor.rating)">
+                      <svg xmlns="http://www.w3.org/2000/svg" 
+                           width="17" 
+                           height="17"
+                           [attr.fill]="filled ? '#FFD233' : '#ECF2F8'" 
+                           viewBox="0 0 256 256">
+                          <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+                      </svg>
+                  </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

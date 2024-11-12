@@ -5,11 +5,13 @@ import { CalendarModule } from 'primeng/calendar';
 import { CategoriesComponent } from '../../components/categories/categories.component';
 import { CalendarComponent } from '../../components/calendar/calendar.component';
 import { DoctorProfileCardComponent } from '../../components/doctor-profile-card/doctor-profile-card.component';
+import { SearchDropdownComponent } from '../../components/search-dropdown/search-dropdown.component';
 
 @NgModule({
   declarations: [
     CategoriesComponent,
     CalendarComponent,
+    SearchDropdownComponent,
     DoctorProfileCardComponent
   ],
   imports: [
@@ -23,6 +25,7 @@ import { DoctorProfileCardComponent } from '../../components/doctor-profile-card
     FormsModule,
     CalendarModule,
     CategoriesComponent,
+    SearchDropdownComponent,
     CalendarComponent,
     DoctorProfileCardComponent
   ]

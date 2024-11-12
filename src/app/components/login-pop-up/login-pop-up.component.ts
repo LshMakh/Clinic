@@ -1,8 +1,8 @@
-// login-pop-up.component.ts
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-pop-up',
@@ -18,6 +18,7 @@ export class LoginPopUpComponent implements OnInit {
   showAlert: boolean = false;
 
   constructor(
+    private router:Router,
     private authService: AuthService,
     private fb: FormBuilder
   ) {
@@ -42,17 +43,18 @@ export class LoginPopUpComponent implements OnInit {
       this.authService.authenticate(loginData).subscribe({
         next: (response) => {
           this.showSuccessAlert('Login successful!');
-          
+            this.router.navigate(['/main']);
             this.close.emit();
         },
         error: (error) => {
-          this.showErrorAlert(error.message || 'Invalid email or password');
+          this.showErrorAlert(error.message);
           this.isLoading = false;
         }
       });
     } else {
       this.showErrorAlert('Please fill in all required fields correctly');
     }
+  
   }
 
   showSuccessAlert(message: string): void {

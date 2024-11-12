@@ -1,0 +1,228 @@
+/* Search container */
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Search inputs container */
+.inputs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Base input styles */
+input {
+  flex: 1;
+ width: 480px;
+  border-radius: 50px;
+  border: 1px solid #18a4e180;
+  padding: 15px 25px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+input:focus {
+  outline: none;
+  border-color: #18a4e1;
+  box-shadow: 0 0 0 2px rgba(24, 164, 225, 0.1);
+}
+
+/* Search icon button */
+.search {
+  border-radius: 50%;
+  background-color: #053354;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search:hover {
+  background-color: #0a4c7c;
+}
+
+/* Dropdown container */
+.dropdown-container {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-results {
+  padding: 12px;
+}
+
+/* Doctor card in dropdown */
+.doctor-card {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background-color: white;
+}
+
+.doctor-card:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+}
+
+.doctor-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 16px;
+  object-fit: cover;
+  border: 2px solid #f0f0f0;
+}
+
+.doctor-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.doctor-info h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #053354;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doctor-info p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1600px) {
+  .search-container {
+    max-width: 800px;
+  }
+  
+  input {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .search-container {
+    max-width: 700px;
+    padding: 0 20px;
+  }
+  
+  input {
+    max-width: 350px;
+  }
+
+  .dropdown-container {
+    left: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 968px) {
+  .inputs {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  input {
+    width: 100%;
+    max-width: none;
+  }
+  
+
+
+  .doctor-card {
+    padding: 12px;
+  }
+  
+  .doctor-card img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .doctor-info h3 {
+    font-size: 14px;
+  }
+
+  .doctor-info p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-container {
+    padding: 0 15px;
+  }
+  
+  input {
+    padding: 12px 50px 12px 15px;
+    font-size: 14px;
+  }
+  
+  .search {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .dropdown-container {
+    max-height: 350px;
+    left: 15px;
+    right: 15px;
+  }
+
+  .doctor-card {
+    padding: 10px;
+  }
+
+  .doctor-card img {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+  }
+}
+
+/* Custom scrollbar for dropdown */
+.dropdown-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dropdown-container::-webkit-scrollbar-thumb {
+  background: #18a4e1;
+  border-radius: 3px;
+}
+
+.dropdown-container::-webkit-scrollbar-thumb:hover {
+  background: #1493cc;
+}

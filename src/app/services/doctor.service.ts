@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
+import { tap, map, catchError } from 'rxjs/operators';
 import { DoctorCard } from '../Models/doctorCard.model';
 import { API_CONFIG } from '../config/api.config';
 import { AuthService } from './auth.service';
@@ -49,17 +49,69 @@ export class DoctorService {
     this.applyCurrentFilter();
   }
 
-  getDoctorCard(): Observable<DoctorCard[]> {
-    return this.http.get<DoctorCard[]>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.cards}`
-    ).pipe(
-      map(doctors => this.applyUserPins(doctors)),
-      tap(data => {
-        this._cards = data;
-        this.applyCurrentFilter();
-      })
-    );
-  }
+  // getDoctorCard(): Observable<DoctorCard[]> {
+  //   return this.http.get<DoctorCard[]>(
+  //     `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.cards}`
+  //   ).pipe(
+  //     map(doctors => this.applyUserPins(doctors)),
+  //     tap(data => {
+  //       this._cards = data;
+  //       this.applyCurrentFilter();
+  //     })
+  //   );
+  // }
+
+    // Method to get doctor cards with error handling
+    getDoctorCard(): Observable<DoctorCard[]> {
+      return this.http.get<DoctorCard[]>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.cards}`)
+        .pipe(
+          map(doctors => this.applyUserPins(doctors)),
+          tap(data => {
+            this._cards = data;
+            this.applyCurrentFilter();
+          }),
+          catchError((error: HttpErrorResponse) => {
+            console.error('Error fetching doctor cards:', error);
+            return throwError(() => new Error('Failed to load doctor cards. Please try again later.'));
+          })
+        );
+    }
+  
+    // Method to get a doctor by ID with error handling
+    getDoctorById(id: number): Observable<DoctorCard> {
+      return this.http.get<DoctorCard>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.byId}/${id}`
+      ).pipe(
+        map(doctor => {
+          const currentUserId = this.authService.getUserId();
+          if (!currentUserId) return doctor;
+  
+          const userPinnedDoctors = this.getUserPinnedDoctors();
+          const userPins = new Set(userPinnedDoctors[currentUserId] || []);
+          
+          return {
+            ...doctor,
+            isPinned: userPins.has(doctor.doctorId)
+          };
+        }),
+          catchError((error: HttpErrorResponse) => {
+            console.error('Error fetching doctor by ID:', error);
+            return throwError(() => new Error('Failed to load doctor details. Please try again later.'));
+          })
+        );
+    }
+  
+    // Method to delete a doctor by ID with error handling
+    deleteDoctorById(id: number): Observable<any> {
+      return this.http.delete(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.delete}/${id}`)
+        .pipe(
+          tap(() => this.handleDoctorDeletion(id)),
+          catchError((error: HttpErrorResponse) => {
+            console.error('Error deleting doctor:', error);
+            return throwError(() => new Error('Failed to delete doctor. Please try again later.'));
+          })
+        );
+    }
 
   private applyUserPins(doctors: DoctorCard[]): DoctorCard[] {
     const currentUserId = this.authService.getUserId();
@@ -74,34 +126,34 @@ export class DoctorService {
     }));
   }
 
-  getDoctorById(id: number): Observable<DoctorCard> {
-    return this.http.get<DoctorCard>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.byId}/${id}`
-    ).pipe(
-      map(doctor => {
-        const currentUserId = this.authService.getUserId();
-        if (!currentUserId) return doctor;
+  // getDoctorById(id: number): Observable<DoctorCard> {
+  //   return this.http.get<DoctorCard>(
+  //     `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.byId}/${id}`
+  //   ).pipe(
+  //     map(doctor => {
+  //       const currentUserId = this.authService.getUserId();
+  //       if (!currentUserId) return doctor;
 
-        const userPinnedDoctors = this.getUserPinnedDoctors();
-        const userPins = new Set(userPinnedDoctors[currentUserId] || []);
+  //       const userPinnedDoctors = this.getUserPinnedDoctors();
+  //       const userPins = new Set(userPinnedDoctors[currentUserId] || []);
         
-        return {
-          ...doctor,
-          isPinned: userPins.has(doctor.doctorId)
-        };
-      })
-    );
-  }
+  //       return {
+  //         ...doctor,
+  //         isPinned: userPins.has(doctor.doctorId)
+  //       };
+  //     })
+  //   );
+  // }
 
-  deleteDoctorById(id: number): Observable<any> {
-    return this.http.delete(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.delete}/${id}`
-    ).pipe(
-      tap(() => {
-        this.handleDoctorDeletion(id);
-      })
-    );
-  }
+  // deleteDoctorById(id: number): Observable<any> {
+  //   return this.http.delete(
+  //     `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.delete}/${id}`
+  //   ).pipe(
+  //     tap(() => {
+  //       this.handleDoctorDeletion(id);
+  //     })
+  //   );
+  // }
 
   private handleDoctorDeletion(id: number): void {
     const currentUserId = this.authService.getUserId();

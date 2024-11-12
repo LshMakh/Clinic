@@ -1,5 +1,5 @@
 .categories {
-  height: 800px;
+  height: 810px;
   width: 350px;
   display: flex;
   flex-direction: column;
@@ -60,13 +60,13 @@
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
-  margin-bottom: 25px;
   width: 100%;
 }
 
 .category-content {
   display: flex;
-  gap: 15px;
+ 
+  gap: 25px;
   flex: 1;
   min-width: 0;
   padding-right: 30px;

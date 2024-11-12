@@ -1,6 +1,8 @@
 // doctor-profile-card.component.ts
 import { Component, Input, OnInit } from '@angular/core';
 import { DoctorService } from '../../services/doctor.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-doctor-profile-card',
@@ -9,7 +11,8 @@ import { DoctorService } from '../../services/doctor.service';
 })
 export class DoctorProfileCardComponent implements OnInit {
   @Input() doctorId: number = 0;
-  
+  private routeSub: Subscription | null = null;
+
   doctor: any = null;
   experiences: any[] = [
     { year: '2017', description: 'დღემდე, ჩვენი კლინიკის გენერალური დირექტორი' },
@@ -17,9 +20,16 @@ export class DoctorProfileCardComponent implements OnInit {
     { year: '1995', description: 'დღემდე, კარდიოლოგი / არითმოლოგი' }
   ];
 
-  constructor(private doctorService: DoctorService) {}
+  constructor(private doctorService: DoctorService, private route:ActivatedRoute) {}
 
   ngOnInit() {
+    this.routeSub = this.route.params.subscribe(params => {
+      const id = +params['id']; // Convert route param to number
+      if (id && id !== this.doctorId) {
+        this.doctorId = id;
+        this.loadDoctorDetails();
+      }
+    });
     if (this.doctorId) {
       this.loadDoctorDetails();
     }
