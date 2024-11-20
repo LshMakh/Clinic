@@ -80,16 +80,21 @@
                     </div>
                 </div>
             </div>
-            <div class="input-container">
+            <div class="input-container" *ngIf="isVerificationSent">
                 <div class="input">
-                    <label for="lastName">აქტვიაციის კოდი</label>
-                    <input type="text" id="activationCode" formControlName="activationCode">
-                    <div *ngIf="registerForm.get('activationCode')?.invalid && registerForm.get('activationCode')?.touched" 
-                         class="error-message">
-                        გვარის ველის შევსება აუცილებელია
-                    </div>
+                  <label for="verificationCode">აქტივაციის კოდი</label>
+                  <input 
+                    type="text" 
+                    id="verificationCode" 
+                    formControlName="verificationCode"
+                    placeholder="შეიყვანეთ 6-ნიშნა კოდი"
+                  >
+                  <div *ngIf="verificationCode?.errors && verificationCode?.touched" 
+                       class="error-message">
+                    კოდის შეყვანა სავალდებულოა
+                  </div>
                 </div>
-            </div>
+              </div>
             <div class="input-container">
                 <div class="input">
                     <label for="password">პაროლი</label>

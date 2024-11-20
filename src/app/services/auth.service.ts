@@ -12,6 +12,11 @@ interface EmailCheckResponse {
   exists: boolean;
 }
 
+interface EmailVerificationRequest {
+  email: string;
+  verificationCode?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,7 +40,7 @@ export class AuthService {
       if (decodedToken?.nameid) {
         this.fetchUserDetails(decodedToken.nameid).subscribe({
           next: (user) => this.currentUserSubject.next(user),
-          error: () => this.logout() // Logout on error fetching user details
+          error: () => this.logout()
         });
       }
     }
@@ -53,7 +58,25 @@ export class AuthService {
           this.isAuthenticatedSubject.next(true);
           this.initializeFromToken();
         }
-      })
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  // Email Verification Methods
+  sendVerificationCode(email: string): Observable<any> {
+    return this.http.post(`${API_CONFIG.baseUrl}/Verification/send`, { email })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  verifyCode(email: string, verificationCode: string): Observable<any> {
+    return this.http.post(`${API_CONFIG.baseUrl}/Verification/verify`, {
+      email,
+      verificationCode
+    }).pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -64,7 +87,6 @@ export class AuthService {
     ).pipe(
       map(response => response.exists),
       catchError(() => {
-        // Return false on error to allow registration to proceed
         return throwError(() => new Error('Unable to verify email. Please try again.'));
       })
     );
@@ -76,12 +98,7 @@ export class AuthService {
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.patient.base}${API_CONFIG.endpoints.patient.register}`,
       user
     ).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 409) {
-          return throwError(() => new Error('This email is already registered'));
-        }
-        return throwError(() => new Error('Registration failed. Please try again later.'));
-      })
+      catchError(this.handleError)
     );
   }
 
@@ -91,12 +108,7 @@ export class AuthService {
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.register}`,
       doctor
     ).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 409) {
-          return throwError(() => new Error('This doctor is already registered'));
-        }
-        return throwError(() => new Error('Doctor registration failed. Please try again later.'));
-      })
+      catchError(this.handleError)
     );
   }
 
@@ -105,13 +117,42 @@ export class AuthService {
     return this.http.get<any>(
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.info}/${userId}`
     ).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 404) {
-          return throwError(() => new Error('User not found'));
-        }
-        return throwError(() => new Error('Failed to fetch user details'));
-      })
+      catchError(this.handleError)
     );
+  }
+
+  // Error handling
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'An error occurred. Please try again later.';
+
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Server-side error
+      switch (error.status) {
+        case 400:
+          errorMessage = error.error?.message || 'Invalid request';
+          break;
+        case 401:
+          errorMessage = 'Unauthorized: Please login again';
+          break;
+        case 403:
+          errorMessage = 'You do not have permission to perform this action';
+          break;
+        case 404:
+          errorMessage = 'Resource not found';
+          break;
+        case 409:
+          errorMessage = 'This email is already registered';
+          break;
+        case 422:
+          errorMessage = 'Invalid verification code';
+          break;
+      }
+    }
+
+    return throwError(() => new Error(errorMessage));
   }
 
   // Logout
