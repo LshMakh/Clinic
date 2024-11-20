@@ -17,7 +17,10 @@ export class DoctorProfileComponent implements OnInit{
   ngOnInit() {
     this.isAuthenticated$ = this.authService.isAuthenticated();
     this.currentUser$ = this.authService.getCurrentUser();
-    
+  }
+
+  getStarsArray(rating: number): number[] {
+    return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
   }
 
   
