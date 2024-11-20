@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
       case 'PATIENT':
         return  '/patient/profile';
       case 'DOCTOR':
-        return '/patient/profile';
+        return '/doctor/profile';
         default:
           return '/user-prof';
     }
