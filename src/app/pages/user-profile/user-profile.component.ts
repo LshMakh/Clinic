@@ -12,6 +12,9 @@ export class UserProfileComponent implements OnInit {
   isAuthenticated$! : Observable<boolean>;
   userId :number|null = null;
   currentUser$! : Observable<any>;
+showChangePasswordModal = false;
+
+
 
   constructor(private authService: AuthService) {}
 
@@ -21,5 +24,7 @@ export class UserProfileComponent implements OnInit {
     this.userId = Number(this.authService.getUserId());
     
   }
-
+  toggleChangePasswordModal() {
+    this.showChangePasswordModal = !this.showChangePasswordModal;
+  }
 }

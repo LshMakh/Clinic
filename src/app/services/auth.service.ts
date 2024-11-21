@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { UserLoginDto } from '../Models/Login.model';
+import { PasswordChangeDto, UserLoginDto } from '../Models/Login.model';
 import { User } from '../Models/Patient.model';
 import { API_CONFIG } from '../config/api.config';
 
@@ -59,9 +59,32 @@ export class AuthService {
           this.initializeFromToken();
         }
       }),
-      catchError(this.handleError)
+    
     );
   }
+  
+  requestPasswordReset(email: string): Observable<any> {
+    const body = { email: email };
+    return this.http.post(
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.forgotPassword}`,
+      body
+    );
+  }
+
+  
+  changePassword(currentPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
+    const payload: PasswordChangeDto = {
+      currentPassword,
+      newPassword,
+      confirmPassword
+    };
+
+    return this.http.post(
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.changePassword}`,
+      payload
+    );
+  }
+  
 
   // Email Verification Methods
   sendVerificationCode(email: string): Observable<any> {
