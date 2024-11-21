@@ -34,7 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
           // Unauthorized - clear token and redirect to main page
           localStorage.removeItem('Token');
           this.router.navigate(['/main']);
-          return throwError(() => new Error('Unauthorized: Incorrect username or password'));
+          return throwError(() => new Error('არასოწრი ელ-ფოსტა ან პაროლი'));
         }
         
         if (error.status === 403) {

@@ -63,10 +63,23 @@ input {
     cursor: pointer;
     
   }
+  .btn:hover:not(:disabled) {
+    background-color: #18A4E1;
+  }
+  input:focus {
+    outline: none;
+    border-color: #18A4E1;
+  }
+  .error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-left: 20px;
+  }
 
- /* Add these responsive styles at the end of your existing CSS */
-
-/* Add these responsive styles at the end of your existing CSS */
+  .btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
 
 @media (max-width: 1800px) {
   .registration {
