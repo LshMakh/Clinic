@@ -33,6 +33,10 @@ export class DoctorService {
     
   }
 
+  getCategoryCount(categoryName:string):Observable<number>{
+    return this.http.get<any>(`https://localhost:7226/api/Doctor/GetSpecialtyCount/specialty-count/${categoryName}`)
+  }
+
   ngOnDestroy(){
     if(this.authSubscription){
       this.authSubscription.unsubscribe();
