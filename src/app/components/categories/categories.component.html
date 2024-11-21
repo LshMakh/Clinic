@@ -11,7 +11,7 @@
              [class.selected]="selectedCategory === category.name"
              (click)="onCategoryClick(category.name)">
             <div class="category-content">
-                <span>({{ category.count }})</span>
+                <span>({{ categoryCounts[category.name] || 0 }})</span>
                 <h4>{{ category.name }}</h4>
             </div>
             <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -24,7 +24,7 @@
                  [class.selected]="selectedCategory === category.name"
                  (click)="onCategoryClick(category.name)">
                 <div class="category-content">
-                    <span>({{ category.count }})</span>
+                    <span>({{ categoryCounts[category.name] || 0 }})</span>
                     <h4>{{ category.name }}</h4>
                 </div>
                 <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

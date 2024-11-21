@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { DoctorService } from '../../services/doctor.service';
 
 @Component({
   selector: 'app-categories',
@@ -11,34 +12,40 @@ export class CategoriesComponent implements OnInit {
   
   isExpanded = false;
   selectedCategory: string|null = null;
+  categoryCounts: { [key: string]: number } = {}; 
   categories = [
-    { count: 23424, name: 'Dermatologist' },
-    { count: 15678, name: 'Dentist' },
-    { count: 19876, name: 'ნევროლოგი' },
-    { count: 12345, name: 'ოფთალმოლოგი' },
-    { count: 21098, name: 'დერმატოლოგი' },
-    { count: 18765, name: 'ორთოპედი' },
-    { count: 14567, name: 'გინეკოლოგი' },
-    { count: 17890, name: 'ენდოკრინოლოგი' },
-    { count: 13456, name: 'უროლოგი' },
-    { count: 16789, name: 'გასტროენტეროლოგი' },
-    { count: 20987, name: 'ოტორინოლარინგოლოგი' },
-    { count: 11234, name: 'პულმონოლოგი' },
-    { count: 15678, name: 'რევმატოლოგი' },
-    { count: 19876, name: 'ონკოლოგი' },
-    { count: 22345, name: 'ნეფროლოგი' },
-    { count: 18765, name: 'ჰემატოლოგი' },
-    { count: 14567, name: 'ალერგოლოგი' },
-    { count: 17890, name: 'იმუნოლოგი' },
-    { count: 21098, name: 'ფსიქიატრი' },
-    { count: 13456, name: 'ნეიროქირურგი' },
+    { name: 'Dermatologist' },
+    { name: 'Dentist' },
+    { name: 'ნევროლოგი' },
+    {  name: 'ოფთალმოლოგი' },
+    {  name: 'დერმატოლოგი' },
+    {  name: 'ორთოპედი' },
+    {  name: 'გინეკოლოგი' },
+    {  name: 'ენდოკრინოლოგი' },
+    {  name: 'უროლოგი' },
+    {  name: 'გასტროენტეროლოგი' },
+    {  name: 'ოტორინოლარინგოლოგი' },
+    {  name: 'პულმონოლოგი' },
+    {  name: 'რევმატოლოგი' },
+    {  name: 'ონკოლოგი' },
+    {  name: 'ნეფროლოგი' },
+    {  name: 'ჰემატოლოგი' },
+    {  name: 'ალერგოლოგი' },
+    {  name: 'იმუნოლოგი' },
+    {  name: 'ფსიქიატრი' },
+    {  name: 'ნეიროქირურგი' },
   ];
 
   visibleCategories: any[] | undefined;
   hiddenCategories: any[] | undefined;
 
+  constructor(private doctorService:DoctorService){}
+
   ngOnInit() {
     this.splitCategories();
+    this.visibleCategories?.forEach(category => {
+      this.loadCategoryCount(category.name);
+    });
   }
 
   splitCategories() {
@@ -56,8 +63,33 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
+  loadCategoryCount(category: string) {
+    this.doctorService.getCategoryCount(category).subscribe({
+      next: (count) => {
+        this.categoryCounts[category] = count;
+      },
+      error: (error) => {
+        console.error(`Error loading count for ${category}:`, error);
+        this.categoryCounts[category] = 0; // Default to 0 on error
+      }
+    });
+  }
+
+  getCategoryCount(category: string): number {
+    return this.categoryCounts[category] || 0;
+  }
+
   toggleView() {
     this.isExpanded = !this.isExpanded;
+    
+    if (this.isExpanded && this.hiddenCategories) {
+      // Load counts for newly visible categories
+      this.hiddenCategories.forEach(category => {
+        if (!(category.name in this.categoryCounts)) {
+          this.loadCategoryCount(category.name);
+        }
+      });
+    }
     
     // If closing the expanded view, scroll to top
     if (!this.isExpanded && this.categoriesContent) {
