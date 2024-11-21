@@ -1,7 +1,6 @@
-<!-- login-pop-up.component.html -->
 <div class="modal-overlay" (click)="onClose()"></div>
 <div class="modal-container">
-  <h2>ავტორიზაცია</h2>
+  <h2>{{ showForgotPassword ? 'პაროლის აღდგენა' : 'ავტორიზაცია' }}</h2>
   
   <!-- Alert Message -->
   <div *ngIf="showAlert" 
@@ -10,7 +9,8 @@
   </div>
 
   <div class="modal-content">
-    <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+    <!-- Login Form -->
+    <form *ngIf="!showForgotPassword" (ngSubmit)="onLogin()" [formGroup]="loginForm">
       <div class="form-group">
         <input formControlName="email" 
                placeholder='ელ.ფოსტა' 
@@ -32,12 +32,31 @@
         </div>
       </div>
 
-      <p class="forgot-password">პაროლის აღდგენა</p>
+      <p class="forgot-password" (click)="toggleForgotPassword()">პაროლის აღდგენა</p>
       
-      <button type="submit" [disabled]="!loginForm.valid" class="submit-button">
-        {{ isLoading ? 'მიმდინარეობს...' : 'ავტორიზაცია' }}
+      <button type="submit" [disabled]="!loginForm.valid || isSubmitting" class="submit-button">
+        {{ isSubmitting ? 'მიმდინარეობს...' : 'ავტორიზაცია' }}
+      </button>
+    </form>
+
+    <!-- Forgot Password Form -->
+    <form *ngIf="showForgotPassword" (ngSubmit)="onForgotPassword()" [formGroup]="forgotPasswordForm">
+      <div class="form-group">
+        <input formControlName="email" 
+               placeholder='ელ.ფოსტა' 
+               type="email" 
+               [class.invalid]="forgotPasswordForm.get('email')?.invalid && forgotPasswordForm.get('email')?.touched">
+        <div class="error-message" *ngIf="forgotPasswordForm.get('email')?.invalid && forgotPasswordForm.get('email')?.touched">
+          <span *ngIf="forgotPasswordForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="forgotPasswordForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+        </div>
+      </div>
+
+      <p class="back-to-login" (click)="toggleForgotPassword()">↩ უკან დაბრუნება</p>
+
+      <button type="submit" [disabled]="!forgotPasswordForm.valid || isSubmitting" class="submit-button">
+        {{ isSubmitting ? 'მიმდინარეობს...' : 'გაგზავნა' }}
       </button>
     </form>
   </div>
-
 </div>

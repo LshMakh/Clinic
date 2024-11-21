@@ -143,3 +143,88 @@ input.invalid {
 .close-button:hover {
   background-color: #e2e6ea;
 }
+
+/* Add these styles to your existing login-pop-up.component.css */
+
+.back-to-login {
+  color: #18A4E1;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.back-to-login:hover {
+  color: #053354;
+}
+
+.forgot-password,
+.back-to-login {
+  align-self: flex-start;
+  color: #053354;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 10px 0;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover,
+.back-to-login:hover {
+  color: #18A4E1;
+}
+
+.alert {
+  width: 100%;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.error-message {
+  position: absolute;
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+  left: 15px;
+}
+
+input.invalid {
+  border-color: #dc3545;
+}
+
+/* Animation for form transition */
+form {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
