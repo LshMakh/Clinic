@@ -6,13 +6,15 @@ import { CategoriesComponent } from '../../components/categories/categories.comp
 import { CalendarComponent } from '../../components/calendar/calendar.component';
 import { DoctorProfileCardComponent } from '../../components/doctor-profile-card/doctor-profile-card.component';
 import { SearchDropdownComponent } from '../../components/search-dropdown/search-dropdown.component';
+import { ChangePasswordModalComponent } from '../../components/change-password-modal/change-password-modal.component';
 
 @NgModule({
   declarations: [
     CategoriesComponent,
     CalendarComponent,
     SearchDropdownComponent,
-    DoctorProfileCardComponent
+    DoctorProfileCardComponent,
+    ChangePasswordModalComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { SearchDropdownComponent } from '../../components/search-dropdown/search
     CategoriesComponent,
     SearchDropdownComponent,
     CalendarComponent,
-    DoctorProfileCardComponent
+    DoctorProfileCardComponent,
+    ChangePasswordModalComponent
   ]
 })
 export class SharedModule { }

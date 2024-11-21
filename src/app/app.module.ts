@@ -12,6 +12,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
+    BrowserAnimationsModule,
     AppRoutingModule
   ],
   providers: [
