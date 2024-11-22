@@ -45,15 +45,15 @@
                       <div class="error-messages">
                         <div *ngIf="email?.errors?.['required'] && email?.touched" 
                              class="error-message">
-                          Email is required
+                          ელ-ფოსტის ველის შევსება აუცილებელია
                         </div>
                         <div *ngIf="email?.errors?.['email'] && email?.touched" 
                              class="error-message">
-                          Please enter a valid email address
+                          გთხოვთ შეიყვანეთ ვალიდური ელ-ფოსტა
                         </div>
                         <div *ngIf="email?.errors?.['emailExists']" 
                              class="error-message">
-                          This email is already in use
+                          ელ-ფოსტა უკვე გამოყენებულია
                         </div>
                       </div>
                 </div>

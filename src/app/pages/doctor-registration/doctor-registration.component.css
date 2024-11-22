@@ -1,186 +1,269 @@
+/* doctor-registration.component.css */
 @import url("https://free.bboxtype.com/embedfonts/?family=FiraGO:200,300,400,500,600,700,800,900");
 
-*{
-  font-family: 'FiraGO', sans-serif;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+* {
+    font-family: 'FiraGO', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+
 input {
     width: 480px;
     border-radius: 50px;
     border: 1px solid #18a4e180;
     padding: 15px 25px;
-  }
-  label {
+}
+
+label {
     margin-left: 20px;
-    font-weight:400;
-  }
-  .input {
+    font-weight: 400;
+}
+
+.input {
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
+}
 
-  .registration {
-    
+.registration {
     padding: 20px 120px;
-  }
-  .remove {
-    padding: 20px 0;
-  }
-  .header {
-  font-family: 'FiraGO', sans-serif;
+}
 
+.remove {
+    padding: 20px 0;
+}
+
+.header {
     margin: 30px 0;
     color: #18A4E1;
     font-weight: bold;
-  }
-  form {
+}
+
+form {
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: fit-content;
     margin-bottom: 100px;
-  }
-  .row1,
-  .row2,
-  .row3 {
+}
+
+.row1,
+.row2,
+.row3 {
     display: flex;
     flex-wrap: wrap;
     gap: 50px;
-  }
-  button {
-    border: none;
+}
+
+.btn {
+    align-self: flex-end;
     background-color: #053354;
+    font-size: 16px;
+    border: none;
     border-radius: 50px;
     padding: 15px 35px;
     color: white;
-  }
-  .btn {
-    align-self: flex-end;
-    font-size: 16px;
     cursor: pointer;
-    
-  }
-  .btn:hover:not(:disabled) {
-    background-color: #18A4E1;
-  }
-  input:focus {
-    outline: none;
-    border-color: #18A4E1;
-  }
-  .error-message {
-    color: #dc3545;
-    font-size: 12px;
-    margin-left: 20px;
-  }
+    transition: all 0.3s ease;
+}
 
-  .btn:disabled {
+.btn:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
-  }
+}
 
-@media (max-width: 1800px) {
-  .registration {
-    padding: 20px 60px;
+.btn:hover:not(:disabled) {
+    background-color: #18A4E1;
+}
+
+/* File Input Styles */
+.file-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.file-input-wrapper input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.custom-file-input {
     display: flex;
-    flex-direction: column;
     align-items: center;
-  }
+    width: 480px;
+    gap: 10px;
+    padding: 12px 25px;
+    border: 1px solid #18a4e180;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: white;
+}
 
-  form {
-    max-width: 1000px;
-    width: 100%;
-  }
+.custom-file-input:hover {
+    background-color: #f8f9fa;
+    border-color: #18a4e1;
+}
 
-  .row1,
-  .row2,
-  .row3 {
-    gap: 30px;
-    justify-content: center;
-  }
+.custom-file-input span {
+    color: #053354;
+    opacity: 0.5;
+}
 
-  .input-container {
-    width: calc(33.333% - 20px);
-    max-width: 480px;
-  }
+/* Error Styles */
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    padding-left: 20px;
+}
 
-  input {
-    width: 100%;
-  }
+.error-alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Loading Spinner */
+.spinner {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #18A4E1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Input States */
+.is-pending {
+    background-color: #f8f9fa;
+    border-color: #18A4E1;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+/* Responsive Styles */
+@media (max-width: 1800px) {
+    .registration {
+        padding: 20px 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    form {
+        max-width: 1000px;
+        width: 100%;
+    }
+
+    .row1,
+    .row2,
+    .row3 {
+        gap: 30px;
+        justify-content: center;
+    }
+
+    .input-container {
+        width: calc(33.333% - 20px);
+        max-width: 480px;
+    }
+
+    input {
+        width: 100%;
+    }
 }
 
 @media (max-width: 992px) {
-  .registration {
-    padding: 20px 40px;
-  }
+    .registration {
+        padding: 20px 40px;
+    }
 
-  form {
-    max-width: 600px;
-  }
+    form {
+        max-width: 600px;
+    }
 
-  .row1,
-  .row2,
-  .row3 {
-    flex-direction: column;
-    gap: 20px;
-  }
+    .row1,
+    .row2,
+    .row3 {
+        flex-direction: column;
+        gap: 20px;
+    }
 
-  .input-container {
-    width: 100%;
-  }
+    .input-container {
+        width: 100%;
+    }
 
-  .btn {
-    align-self: center;
-    margin-top: 20px;
-  }
+    .btn {
+        align-self: center;
+        margin-top: 20px;
+    }
 }
 
 @media (max-width: 768px) {
-  .registration {
-    padding: 20px 20px;
-  }
+    .registration {
+        padding: 20px 20px;
+    }
 
-  .header {
-    font-size: 24px;
-    margin: 20px 0;
-    text-align: center;
-  }
+    .header {
+        font-size: 24px;
+        margin: 20px 0;
+        text-align: center;
+    }
 
-  form {
-    max-width: 480px;
-  }
+    form {
+        max-width: 480px;
+    }
 
-  input {
-    padding: 12px 20px;
-  }
+    input {
+        padding: 12px 20px;
+    }
 
-  .btn {
-    width: 100%;
-    max-width: 300px;
-  }
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
 }
 
 @media (max-width: 480px) {
-  .registration {
-    padding: 15px 15px;
-  }
+    .registration {
+        padding: 15px 15px;
+    }
 
-  .header {
-    font-size: 20px;
-  }
+    .header {
+        font-size: 20px;
+    }
 
-  label {
-    margin-left: 15px;
-  }
+    label {
+        margin-left: 15px;
+    }
 
-  input {
-    padding: 10px 15px;
-  }
+    input {
+        padding: 10px 15px;
+    }
 
-  .btn {
-    font-size: 14px;
-    padding: 12px 25px;
-  }
+    .btn {
+        font-size: 14px;
+        padding: 12px 25px;
+    }
+
+    .custom-file-input {
+        padding: 10px 15px;
+    }
 }

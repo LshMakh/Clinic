@@ -126,12 +126,20 @@ export class AuthService {
   }
 
   // Add new doctor
-  addDoctor(doctor: any): Observable<any> {
+  addDoctor(formData: FormData): Observable<any> {
     return this.http.post<any>(
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.register}`,
-      doctor
+      formData
     ).pipe(
-      catchError(this.handleError)
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 409) {
+          return throwError(() => new Error('This doctor is already registered'));
+        }
+        if (error.status === 413) {
+          return throwError(() => new Error('The uploaded files are too large'));
+        }
+        return throwError(() => new Error('Doctor registration failed. Please try again later.'));
+      })
     );
   }
 
