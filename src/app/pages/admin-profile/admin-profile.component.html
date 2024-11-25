@@ -14,16 +14,16 @@
 
     <div class="sel-doc" *ngIf="isVisible" >
         <div class="sel-doc-container">
-            <!-- Doctor Info Section -->
+            
             <div class="sel-doc-info">
                 <div class="doctor-card">
                     <div class="card-grid">
-                        <!-- Column 1: Basic Info -->
+                        
                         <div class="column basic-info">
                             <img [src]="photoUrl" alt="გიორგი სირაძე" class="doctor-avatar">
                             <div class="doctor-header">
-                                <h3 class="doctor-name">{{doctor.firstName}} {{doctor.lastName}}</h3>
-                                <p class="doctor-role">ექიმი</p>
+                                <h3 class="doctor-name" style="color:#18A4E1">{{doctor.firstName}} {{doctor.lastName}}</h3>
+                                <p class="doctor-role" style="color :#053354; font-weight: bold;">ექიმი</p>
                                 <p class="doctor-specialty">{{doctor.specialty}}</p>
                                 <div class="rating">
                                     <ng-container *ngFor="let filled of getStarsArray(doctor.rating)">

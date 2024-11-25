@@ -22,9 +22,29 @@
     <div class="vertical-divider"></div>
     <div class="history-column">
       <div class="history-content">
-        <div *ngFor="let exp of experiences" class="experience-item">
-          <span class="experience-year">{{ exp.year }} - </span>
-          <span class="experience-description">{{ exp.description }}</span>
+        <div class="experience-section">
+          <ng-container *ngIf="isLoadingCv">
+            <div class="loading-spinner">
+              Loading experience details...
+            </div>
+          </ng-container>
+        
+          <ng-container *ngIf="!isLoadingCv && cvError">
+            <div class="error-message">
+              {{ cvError }}
+            </div>
+          </ng-container>
+        
+          <ng-container *ngIf="!isLoadingCv && !cvError">
+            <div *ngFor="let exp of experiences" class="experience-item">
+              <span class="experience-year">{{ exp.year }}</span>
+              <span class="experience-description">, {{ exp.description }}</span>
+            </div>
+            
+            <div *ngIf="experiences.length === 0" class="no-experience">
+              No experience details available
+            </div>
+          </ng-container>
         </div>
       </div>
     </div>

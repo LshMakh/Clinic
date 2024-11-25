@@ -141,7 +141,7 @@ form-group {
 
 .sel-doc-info {
   flex: 1;
-  
+  height: 426px;
   min-width: 750px; /* Minimum width for smaller screens */
 }
 

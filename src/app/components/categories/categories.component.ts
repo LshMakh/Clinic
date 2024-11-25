@@ -14,8 +14,7 @@ export class CategoriesComponent implements OnInit {
   selectedCategory: string|null = null;
   categoryCounts: { [key: string]: number } = {}; 
   categories = [
-    { name: 'Dermatologist' },
-    { name: 'Dentist' },
+    
     { name: 'ნევროლოგი' },
     {  name: 'ოფთალმოლოგი' },
     {  name: 'დერმატოლოგი' },

@@ -41,6 +41,7 @@
 .doctor-name {
   font-size: 24px;
   margin-bottom: 8px;
+  color:#18A4E1;
   word-wrap: break-word;
   padding: 0;
   line-height: 1.3;
@@ -70,13 +71,13 @@
   margin: 40px 0; /* Increased margin */
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Increased gap */
+  
 }
 
 /* Phone and email labels */
 .phone, .email {
   margin: 5px 0;
-  color: #333;
+  color: #053354;
   padding: 8px 0;
 }
 
@@ -84,6 +85,7 @@ h5 {
   margin: 10px 0 25px;
   word-break: break-word;
   line-height: 1.5;
+  color: #B4C2CC;
   padding: 5px 0;
 }
 

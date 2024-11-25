@@ -19,6 +19,7 @@ export class DoctorService {
   private filteredCardsSubject = new BehaviorSubject<DoctorCard[]>([]);
   private currentFilter: string | null = null;
   private authSubscription:Subscription;
+  private photoCache = new Map<number, string>();
 
   constructor(
     private http: HttpClient,
@@ -65,9 +66,21 @@ export class DoctorService {
   //   );
   // }
    // Add a cache to store doctor photos
-   private photoCache = new Map<number, string>();
   
-   // Method to get doctor's photo
+   extractCvText(doctorId: number): Observable<string> {
+    return this.http.post<{ text: string }>(
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.cv}/${doctorId}`,
+      {}
+    ).pipe(
+      map(response => response.text),
+      catchError(error => {
+        console.error('Error extracting CV text:', error);
+        return throwError(() => new Error('Failed to extract CV text. Please try again later.'));
+      })
+    );
+  }
+
+   
    getDoctorPhoto(id: number): Observable<string> {
      // Check cache first
      if (this.photoCache.has(id)) {

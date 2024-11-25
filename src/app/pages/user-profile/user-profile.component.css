@@ -18,7 +18,7 @@
 .user-profile {
     background-color: white;
     border-radius: 10px;
-    padding: 30px;  /* Increased padding */
+    padding: 30px;  
     width: 366px;
     min-width: 300px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -29,53 +29,54 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    margin-bottom: 25px;  /* Increased margin */
+    
     object-fit: cover;
 }
 
 .user-name {
     font-size: 24px;
-    margin-bottom: 15px;  /* Increased margin */
+    margin-bottom: 15px; 
 }
 
 .user-specialty {
-    color: #666;
-    margin-bottom: 25px;  /* Increased margin */
+    color: #18A4E1;
+    margin-bottom: 25px; 
     font-size: 16px;
-    padding: 5px 0;  /* Added padding */
+    padding: 5px 0;  
 }
 
 .rating {
     color: #FFD700;
     font-size: 20px;
-    margin-bottom: 25px;  /* Increased margin */
+    margin-bottom: 25px; 
 }
 
 .contact-info {
-    margin-bottom: 25px;  /* Increased margin */
+    margin-bottom: 25px; 
     display: flex;
     flex-direction: column;
-    gap: 15px;  /* Added gap between elements */
+    gap: 15px;  
 }
 
 .phone, .email {
-    margin: 10px 0;  /* Increased margin */
-    color: #333;
-    padding: 5px 0;  /* Added padding */
+    margin: 10px 0; 
+    color: #053354;
+    padding: 5px 0;  
 }
 
 h5 {
-    margin: 10px 0 25px;  /* Increased margin */
+    margin: 10px 0 25px; 
     word-break: break-word;
-    line-height: 1.5;  /* Added line height */
+    color: #B4C2CC;
+    line-height: 1.5;  
 }
 
 .experience, .appointments {
-    margin: 20px 0;  /* Increased margin */
+    margin: 20px 0; 
     color: #666;
     cursor: pointer;
     transition: color 0.3s ease;
-    padding: 5px 0;  /* Added padding */
+    padding: 5px 0;  
 }
 
 .experience:hover, .appointments:hover {
@@ -85,13 +86,13 @@ h5 {
 .appointments span {
     font-weight: bold;
     color: #333;
-    margin-left: 8px;  /* Added margin */
+    margin-left: 8px;  
 }
 
 .calendar-section {
     background-color: white;
     border-radius: 10px;
-    padding: 30px;  /* Increased padding */
+    padding: 30px;  
     width: 830px;
     flex-grow: 1;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -120,7 +121,7 @@ h5 {
     .user-profile {
         width: 320px;
         min-width: 280px;
-        padding: 25px;  /* Adjusted padding for smaller screens */
+        padding: 25px;  
     }
 }
 
@@ -128,7 +129,7 @@ h5 {
     .user-prof {
         flex-direction: column;
         align-items: center;
-        gap: 25px;  /* Increased gap */
+        gap: 25px; 
     }
 
     .user-profile {
@@ -153,13 +154,13 @@ h5 {
     }
 
     .user-profile {
-        padding: 20px;  /* Adjusted padding */
+        padding: 20px;  
     }
 
     .user-image {
         width: 120px;
         height: 120px;
-        margin-bottom: 20px;  /* Adjusted margin */
+        margin-bottom: 20px;  
     }
 
     .user-name {
@@ -168,7 +169,7 @@ h5 {
 
     .user-specialty {
         font-size: 14px;
-        margin-bottom: 20px;  /* Adjusted margin */
+        margin-bottom: 20px;  
     }
 }
 
@@ -179,13 +180,13 @@ h5 {
     }
 
     .user-profile {
-        padding: 15px;  /* Adjusted padding */
+        padding: 15px;  
     }
 
     .user-image {
         width: 100px;
         height: 100px;
-        margin-bottom: 15px;  /* Adjusted margin */
+        margin-bottom: 15px;  
     }
 
     .calendar-section {
@@ -194,12 +195,12 @@ h5 {
 
     .contact-info {
         font-size: 14px;
-        margin-bottom: 20px;  /* Adjusted margin */
-        gap: 10px;  /* Adjusted gap */
+        margin-bottom: 20px;  
+        gap: 10px; 
     }
 
     h5 {
         font-size: 14px;
-        margin: 8px 0 20px;  /* Adjusted margin */
+        margin: 8px 0 20px;  
     }
 }
