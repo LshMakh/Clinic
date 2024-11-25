@@ -79,7 +79,7 @@ export class AuthService {
       confirmPassword
     };
 
-    return this.http.post(
+    return this.http.put(
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.changePassword}`,
       payload
     );

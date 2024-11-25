@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize, Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { DoctorService } from '../../services/doctor.service';
+import { ChangePasswordModalComponent } from '../../components/change-password-modal/change-password-modal.component';
 
 @Component({
   selector: 'app-doctor-profile',
@@ -15,12 +16,17 @@ export class DoctorProfileComponent implements OnInit{
   private photoSubscriptions = new Map<number, Subscription>();
   doctorPhotos = new Map<number, string>();
   loadingPhotos = new Set<number>();
+  showChangePasswordModal = false;
 
   constructor(private authService: AuthService, private doctorService:DoctorService) {}
 
   ngOnInit() {
     this.isAuthenticated$ = this.authService.isAuthenticated();
     this.currentUser$ = this.authService.getCurrentUser();
+  }
+
+  toggleChangePasswordModal(){
+    this.showChangePasswordModal = !this.showChangePasswordModal;
   }
   
   loadDoctorPhoto(doctorId: number): void {

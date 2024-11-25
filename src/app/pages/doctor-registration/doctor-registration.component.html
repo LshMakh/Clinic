@@ -32,15 +32,15 @@
                   <div class="error-messages">
                       <div *ngIf="email?.errors?.['required'] && email?.touched" 
                            class="error-message">
-                          Email is required
+                          ელ-ფოსტის ველის შევსება სავალდებულოა
                       </div>
                       <div *ngIf="email?.errors?.['email'] && email?.touched" 
                            class="error-message">
-                          Please enter a valid email
+                          გთხოვთ შეიყვანეთ ვალიდური ელ-ფოსტა
                       </div>
                       <div *ngIf="email?.errors?.['emailExists']" 
                            class="error-message">
-                          This email is already in use
+                          ელ-ფოსტა უკვე გამოყენებულია
                       </div>
                   </div>
               </div>
@@ -108,14 +108,7 @@
                          accept="image/jpeg,image/png"
                          class="file-input">
                   
-                  <!-- Photo preview -->
-                  <div *ngIf="photoPreview" class="preview-container">
-                      <img [src]="photoPreview" alt="Selected photo" class="photo-preview">
-                  </div>
-                  
-                  <div class="file-info">
-                      <span>Allowed: JPEG, PNG (max 5MB)</span>
-                  </div>
+                
               </div>
           </div>
       </div>

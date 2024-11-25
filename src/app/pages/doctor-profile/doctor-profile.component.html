@@ -25,7 +25,7 @@
           <h5>{{user.email}}</h5>
         </div>
         </div>
-        <p class="password-change">პაროლის შეცვლა</p>
+        <p class="password-change" (click)="toggleChangePasswordModal()">პაროლის შეცვლა</p>
         <p class="appointments">დაჯავშნილია : <span>(20)</span></p>
       </div>
     
@@ -34,3 +34,7 @@
         <app-calendar [isDoctorView]="true" [doctorId]="1"></app-calendar>
       </div>
 </div>
+<app-change-password-modal 
+  *ngIf="showChangePasswordModal"
+  (close)="toggleChangePasswordModal()">
+</app-change-password-modal>

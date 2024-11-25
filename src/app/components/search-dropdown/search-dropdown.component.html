@@ -23,7 +23,7 @@
       <div class="dropdown-content">
         <div class="search-results">
           <div class="doctor-card" *ngFor="let doctor of searchResults$ | async" (click)="onDoctorClick(doctor)">
-            <img [src]="doctor.photoUrl" [alt]="doctor.firstName + ' ' + doctor.lastName">
+            <img [src]="getDoctorPhoto(doctor.doctorId)" [alt]="doctor.firstName + ' ' + doctor.lastName">
             <div class="doctor-info">
               <h3>{{doctor.firstName}} {{doctor.lastName}}</h3>
               <p>{{doctor.specialty}}</p>
