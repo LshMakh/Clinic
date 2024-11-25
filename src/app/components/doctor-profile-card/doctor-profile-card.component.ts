@@ -95,32 +95,30 @@ export class DoctorProfileCardComponent implements OnInit, OnDestroy {
   private parseExperienceFromCv(cvText: string) {
     const experiences: Experience[] = [];
     
-    // Split the CV text into lines and process each line
     const lines = cvText.split('\n')
       .map(line => line.trim())
-      .filter(line => line.length > 0); // Remove empty lines
-
-    const experiencePattern = /^(\d{4}\s*-\s*დღემდე),\s*(.+)$/;
-
-    lines.forEach(line => {
-      const match = line.match(experiencePattern);
-      if (match) {
-        const [_, yearPortion, description] = match;
+      .filter(line => line.length > 0);
+  
+    // Match three formats: YYYY - დღემდე, YYYY - YYYY, or YYYY–YYYY (with em dash)
+    const experiencePattern = /(\d{4})\s*[-–]\s*(დღემდე|\d{4}),\s*(.+?)(?=\s*\d{4}\s*[-–]|$)/g;
+  
+    for (const line of lines) {
+      let match;
+      while ((match = experiencePattern.exec(line)) !== null) {
+        const [_, startYear, endYear, description] = match;
         experiences.push({
-          year: yearPortion.trim(),
+          year: `${startYear} - ${endYear}`,
           description: description.trim()
         });
       }
-    });
-
-    // Sort experiences by year (newest first)
+    }
+  
     this.experiences = experiences.sort((a, b) => {
       const yearA = parseInt(a.year.split('-')[0]);
       const yearB = parseInt(b.year.split('-')[0]);
       return yearB - yearA;
     });
-
-    // If no experiences were parsed, set error state
+  
     if (experiences.length === 0) {
       this.cvError = 'No experience entries found in CV';
     }
