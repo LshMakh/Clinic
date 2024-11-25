@@ -17,6 +17,15 @@ export class DoctorRegistrationComponent {
   photoPreview: string | null = null;
   cvFileName: string | null = null;
 
+  specialties = [
+    { name: 'ნევროლოგი' }, { name: 'ოფთალმოლოგი' }, { name: 'დერმატოლოგი' },
+    { name: 'ორთოპედი' }, { name: 'გინეკოლოგი' }, { name: 'ენდოკრინოლოგი' },
+    { name: 'უროლოგი' }, { name: 'გასტროენტეროლოგი' }, { name: 'ოტორინოლარინგოლოგი' },
+    { name: 'პულმონოლოგი' }, { name: 'რევმატოლოგი' }, { name: 'ონკოლოგი' },
+    { name: 'ნეფროლოგი' }, { name: 'ჰემატოლოგი' }, { name: 'ალერგოლოგი' },
+    { name: 'იმუნოლოგი' }, { name: 'ფსიქიატრი' }, { name: 'ნეიროქირურგი' }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

@@ -69,16 +69,22 @@
               </div>
           </div>
           <div class="input-container">
-              <div class="input">
-                  <label for="specialty">სპეციალობა</label>
-                  <input type="text" id="specialty" formControlName="specialty" 
-                         placeholder="შეიყვანეთ სპეციალობა">
-                  <div *ngIf="registerForm.get('specialty')?.invalid && registerForm.get('specialty')?.touched" 
-                       class="error-message">
-                      სპეციალობის ველის შევსება აუცილებელია
-                  </div>
-              </div>
-          </div>
+            <div class="input">
+                <label for="specialty">სპეციალობა</label>
+                <select id="specialty" formControlName="specialty" 
+                        class="form-control">
+                    <option value="">აირჩიეთ სპეციალობა</option>
+                    <option *ngFor="let specialty of specialties" 
+                            [value]="specialty.name">
+                        {{specialty.name}}
+                    </option>
+                </select>
+                <div *ngIf="registerForm.get('specialty')?.invalid && registerForm.get('specialty')?.touched" 
+                     class="error-message">
+                    სპეციალობის არჩევა აუცილებელია
+                </div>
+            </div>
+        </div>
           <div class="input-container">
               <div class="input">
                   <label for="password">პაროლი</label>
