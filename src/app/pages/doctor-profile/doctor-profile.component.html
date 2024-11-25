@@ -2,7 +2,7 @@
  
     <div class="doctor-profile"> 
       <div *ngIf="currentUser$|async as user">
-        <img [src]="user.photoUrl" alt="გიორგი ხიზაძე" class="doctor-image">
+        <img [src]="getDoctorPhoto(user.doctorId)" alt="გიორგი ხიზაძე" class="doctor-image">
         <h2 class="doctor-name">{{user.firstName}} {{user.lastName}}</h2>
         <p class="doctor-specialty">ექიმი</p>
        

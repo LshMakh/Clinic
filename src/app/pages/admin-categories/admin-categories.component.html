@@ -16,7 +16,7 @@
             <tr *ngFor="let row of doctors">
               <td>{{ row.firstName }} {{row.lastName}}</td>
               <td>{{ row.specialty }}</td>
-              <td><img [src]="row.photoUrl" alt="User" class="user-image"></td>
+              <td><img [src]="getDoctorPhoto(row.doctorId)" alt="User" class="user-image"></td>
               <td class="rating">
                 <ng-container *ngFor="let filled of getStarsArray(row.rating)">
                   <svg xmlns="http://www.w3.org/2000/svg" 

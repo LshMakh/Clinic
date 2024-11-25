@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription, throwError } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
 import { DoctorCard } from '../Models/doctorCard.model';
 import { API_CONFIG } from '../config/api.config';
@@ -64,8 +64,42 @@ export class DoctorService {
   //     })
   //   );
   // }
+   // Add a cache to store doctor photos
+   private photoCache = new Map<number, string>();
+  
+   // Method to get doctor's photo
+   getDoctorPhoto(id: number): Observable<string> {
+     // Check cache first
+     if (this.photoCache.has(id)) {
+       return of(this.photoCache.get(id)!);
+     }
+ 
+     return this.http.get(
+       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}/GetDoctorPhoto/photo/${id}`, 
+       { responseType: 'blob' }
+     ).pipe(
+       tap(blob => {
+         // Create object URL and cache it
+         const imageUrl = URL.createObjectURL(blob);
+         this.photoCache.set(id, imageUrl);
+       }),
+       map(blob => {
+         return URL.createObjectURL(blob);
+       }),
+       catchError(error => {
+         console.error(`Error loading photo for doctor ${id}:`, error);
+         // Return a default image URL in case of error
+         return of('assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png');
+       })
+     );
+   }
+ 
+   // Add cleanup method for object URLs
+   clearPhotoCache(): void {
+     this.photoCache.forEach(url => URL.revokeObjectURL(url));
+     this.photoCache.clear();
+   }
 
-    // Method to get doctor cards with error handling
     getDoctorCard(): Observable<DoctorCard[]> {
       return this.http.get<DoctorCard[]>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.cards}`)
         .pipe(

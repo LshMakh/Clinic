@@ -9,6 +9,7 @@ export interface User {
     role: string;
     password?: string;
     // Additional fields for doctors
+    doctorId?:number;
     specialization?: string;
     rating?: number;
     photoUrl?: string;

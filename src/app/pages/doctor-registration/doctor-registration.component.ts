@@ -1,31 +1,21 @@
-// doctor-registration.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { catchError, debounceTime, map, Observable, of } from 'rxjs';
-
-interface FileValidationError {
-  maxSize?: boolean;
-  invalidType?: boolean;
-}
+import { User } from '../../Models/Patient.model';
 
 @Component({
   selector: 'app-doctor-registration',
   templateUrl: './doctor-registration.component.html',
   styleUrls: ['./doctor-registration.component.css']
 })
-export class DoctorRegistrationComponent implements OnInit {
+export class DoctorRegistrationComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
   isSubmitting: boolean = false;
-  photoFileName: string = '';
-  cvFileName: string = '';
-  
-  readonly MAX_PHOTO_SIZE = 5 * 1024 * 1024; // 5MB
-  readonly MAX_CV_SIZE = 10 * 1024 * 1024; // 10MB
-  readonly ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png'];
-  readonly ALLOWED_CV_TYPES = ['application/pdf'];
+  photoPreview: string | null = null;
+  cvFileName: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -44,12 +34,10 @@ export class DoctorRegistrationComponent implements OnInit {
       ]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       specialty: ['', Validators.required],
-      photoFile: [null, [this.fileValidator(this.MAX_PHOTO_SIZE, this.ALLOWED_PHOTO_TYPES)]],
-      cvFile: [null, [this.fileValidator(this.MAX_CV_SIZE, this.ALLOWED_CV_TYPES)]]
+      photo: [null, Validators.required],
+      cv: [null, Validators.required]
     });
   }
-
-  ngOnInit(): void {}
 
   private emailExistsValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
@@ -65,66 +53,48 @@ export class DoctorRegistrationComponent implements OnInit {
     };
   }
 
-  private fileValidator(maxSize: number, allowedTypes: string[]) {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const file = control.value as File;
-      if (!file) return null;
-
-      const errors: FileValidationError = {};
-
-      if (file.size > maxSize) {
-        errors.maxSize = true;
-      }
-
-      if (!allowedTypes.includes(file.type)) {
-        errors.invalidType = true;
-      }
-
-      return Object.keys(errors).length ? errors : null;
-    };
-  }
+  get email() { return this.registerForm.get('email'); }
 
   onPhotoSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement)?.files?.[0];
+    const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      this.photoFileName = file.name;
-      this.registerForm.patchValue({ photoFile: file });
-      this.registerForm.get('photoFile')?.markAsTouched();
+      // Validate file type and size
+      if (!file.type.match(/image\/(jpeg|png)/)) {
+        this.errorMessage = 'Please select a valid image file (JPEG or PNG)';
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        this.errorMessage = 'Image size should not exceed 5MB';
+        return;
+      }
+
+      this.registerForm.patchValue({ photo: file });
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.photoPreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
     }
   }
 
   onCVSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement)?.files?.[0];
+    const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
+      // Validate file type and size
+      if (file.type !== 'application/pdf') {
+        this.errorMessage = 'Please select a valid PDF file';
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        this.errorMessage = 'CV size should not exceed 10MB';
+        return;
+      }
+
+      this.registerForm.patchValue({ cv: file });
       this.cvFileName = file.name;
-      this.registerForm.patchValue({ cvFile: file });
-      this.registerForm.get('cvFile')?.markAsTouched();
     }
-  }
-
-  get email() { return this.registerForm.get('email'); }
-
-  private createFormData(): FormData {
-    const formData = new FormData();
-    const formValue = this.registerForm.value;
-
-    // Add basic fields
-    formData.append('firstName', formValue.firstName);
-    formData.append('lastName', formValue.lastName);
-    formData.append('email', formValue.email);
-    formData.append('personalNumber', formValue.personalNumber);
-    formData.append('password', formValue.password);
-    formData.append('specialty', formValue.specialty);
-
-    // Add files if selected
-    if (formValue.photoFile) {
-      formData.append('photoFile', formValue.photoFile);
-    }
-    if (formValue.cvFile) {
-      formData.append('cvFile', formValue.cvFile);
-    }
-
-    return formData;
   }
 
   onRegister(): void {
@@ -132,7 +102,19 @@ export class DoctorRegistrationComponent implements OnInit {
       this.isSubmitting = true;
       this.errorMessage = '';
 
-      const formData = this.createFormData();
+      const formData = new FormData();
+      const formValue = this.registerForm.value;
+
+      // Append file data
+      formData.append('photo', formValue.photo);
+      formData.append('cv', formValue.cv);
+
+      // Append other form data
+      Object.keys(formValue).forEach(key => {
+        if (key !== 'photo' && key !== 'cv') {
+          formData.append(key, formValue[key]);
+        }
+      });
 
       this.authService.addDoctor(formData).subscribe({
         next: (response) => {
@@ -148,8 +130,6 @@ export class DoctorRegistrationComponent implements OnInit {
           this.isSubmitting = false;
         }
       });
-    } else {
-      this.errorMessage = 'Please fill in all required fields correctly';
     }
   }
 }

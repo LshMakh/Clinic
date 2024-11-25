@@ -108,6 +108,14 @@ nav a {
   flex-shrink: 0;
 }
 
+.doc-photo{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 .user-info {
   display: flex;
   flex-direction: column;
@@ -140,7 +148,7 @@ nav a {
   font-size: 12px;
   cursor: pointer;
   padding: 0;
-  text-align: left;
+  text-align: center;
 }
 
 .logout-btn:hover {
@@ -152,7 +160,7 @@ nav a {
   border: 2px solid #ff4081; 
 }
 
-.user-profile-container[data-role="DOCTOR"] .avatar-circle {
+.user-profile-container[data-role="DOCTOR"] .doc-photo {
   border: 2px solid #2196f3; 
 }
 

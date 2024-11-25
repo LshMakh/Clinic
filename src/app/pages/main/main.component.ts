@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DoctorService } from '../../services/doctor.service';
 import { DoctorCard } from '../../Models/doctorCard.model';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, finalize, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -15,6 +15,9 @@ export class MainComponent implements OnInit, OnDestroy {
   showAllDoctors: boolean = false;
   readonly CARDS_PER_PAGE = 6;
   private subscription: Subscription = new Subscription();
+  private photoSubscriptions = new Map<number, Subscription>();
+  doctorPhotos = new Map<number, string>();
+  loadingPhotos = new Set<number>();
 
   constructor(public doctorService: DoctorService, private authService:AuthService) {}
 
@@ -38,8 +41,43 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     
       this.subscription.unsubscribe();
+      this.photoSubscriptions.forEach(sub => sub.unsubscribe());
+      this.photoSubscriptions.clear();
+      this.doctorService.clearPhotoCache();
     
   }
+  loadDoctorPhoto(doctorId: number): void {
+    if (this.photoSubscriptions.has(doctorId)) {
+      return; // Already loading or loaded
+    }
+
+    this.loadingPhotos.add(doctorId);
+    
+    const subscription = this.doctorService.getDoctorPhoto(doctorId)
+      .pipe(
+        finalize(() => this.loadingPhotos.delete(doctorId))
+      )
+      .subscribe({
+        next: (photoUrl) => {
+          this.doctorPhotos.set(doctorId, photoUrl);
+        },
+        error: () => {
+          // Set default image on error
+          this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
+        }
+      });
+
+    this.photoSubscriptions.set(doctorId, subscription);
+  }
+
+  getDoctorPhoto(doctorId: number): string {
+    if (!this.doctorPhotos.has(doctorId)) {
+      this.loadDoctorPhoto(doctorId);
+      return 'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'; // Show placeholder while loading
+    }
+    return this.doctorPhotos.get(doctorId) || '/assets/default-doctor.png';
+  }
+  
   private loadDoctors(): void {
     this.subscription.add(
       this.doctorService.getDoctorCard().subscribe()

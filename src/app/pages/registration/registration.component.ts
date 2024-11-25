@@ -34,7 +34,6 @@ export class RegistrationComponent {
       verificationCode: ['']
     });
 
-    // Add verification code validator when verification is sent
     this.registerForm.get('verificationCode')?.setValidators([
       Validators.required,
       Validators.minLength(6),

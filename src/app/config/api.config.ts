@@ -15,7 +15,8 @@ export const API_CONFIG = {
         cards: '/GetDoctorCards',
         byId: '/GetDoctorById',
         delete: '/DeleteDoctorById',
-        categories:'/GetSpecialtyCount/specialty-count'
+        categories:'/GetSpecialtyCount/specialty-count',
+        photo:'/GetDoctorPhoto/photo'
       },
       patient: {
         base: '/Patient',

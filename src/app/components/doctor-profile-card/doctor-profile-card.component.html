@@ -2,7 +2,7 @@
 <div class="card" *ngIf="doctor">
   <div class="card-content">
     <div class="profile-info-column">
-      <img [src]="doctor.photoUrl" [alt]="doctor.firstName + ' ' + doctor.lastName" class="doctor-photo">
+      <img [src]="photoUrl" [alt]="doctor.firstName + ' ' + doctor.lastName" class="doctor-photo">
       <div class="info-content">
         <h2 class="doctor-name">{{ doctor.firstName }} {{ doctor.lastName }}</h2>
         <p class="doctor-specialization">{{ doctor.specialty }}</p>
