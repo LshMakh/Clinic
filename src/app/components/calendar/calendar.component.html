@@ -1,49 +1,46 @@
-<div class="calendar-container">
+<div class="weekly-calendar-container">
   <div class="calendar-header">
-    <div class="month-navigation">
-      <button (click)="changeMonth('prev')">&lt;</button>
-      <span>{{ currentMonth }} {{ currentYear }}</span>
-      <button (click)="changeMonth('next')">&gt;</button>
-    </div>
-    <div class="week-navigation">
-      <button (click)="changeWeek('prev')">&lt;</button>
-      <span>კვირა</span>
-      <button (click)="changeWeek('next')">&gt;</button>
-    </div>
+      <span>{{ currentYear }} {{ currentMonthName }}</span>
   </div>
-  <div class="calendar-body">
-    <div class="week-days">
-      <div class="time-column"></div>
-      <div *ngFor="let day of weekDays" class="day-column">
-        <div class="day-name">{{ day.name }}</div>
-        <div class="day-date">{{ day.date }}</div>
+
+  <div class="calendar-grid">
+      <div class="time-slot-header">
+          <button (click)="previousWeek()" class="arrow">&#10094;</button>
+          <button (click)="nextWeek()" class="arrow">&#10095;</button>
       </div>
-    </div>
-    <div class="time-slots">
-      <div class="time-column">
-        <div *ngFor="let slot of timeSlots" class="time-slot">{{ slot }}</div>
+
+      <div *ngFor="let day of displayedWeek" class="day-header">
+          {{ daysOfWeek[day.getDay()] }} {{ day | date : "d" }}
       </div>
-      <div *ngFor="let day of weekDays" class="day-column">
-        <div *ngFor="let slot of day.timeSlots" 
-             class="appointment-slot" 
-             [class.selected]="slot.isSelected"
-             [class.available]="slot.isAvailable"
-             [class.unavailable]="!slot.isAvailable"
-             (click)="toggleTimeSlot(day, slot)">
-        </div>
-      </div>
-    </div>
+      <ng-container *ngFor="let timeSlot of timeSlots">
+          <div class="time-slot">{{ timeSlot }}</div>
+          @for (day of displayedWeek; track $index) {
+              <div class="calendar-cell">
+                  @if (getEventsForDayAndTime(day, timeSlot).length > 0) {
+                      @for (event of getEventsForDayAndTime(day, timeSlot); track $index) {
+                          <!-- suppose my userId is 1 -->
+                          @if (event.userId === 1) {
+                              <div class="activity reservation">
+                                  <div> ჩემი ჯავშანი</div>
+                                  <div (click)="deleteReservation(event.userId, day, timeSlot)">
+                                      <div class="white-circle">
+                                          <img src="/assets/images/close.svg" alt="">
+                                      </div>
+                                  </div>
+                              </div>
+                          } @else {
+                              <div class="activity off"></div>
+                          }
+                      }
+                  } @else if (daysOfWeek[day.getDay()] === 'Sat' || daysOfWeek[day.getDay()] === 'Sun') {
+                      <div class="activity off yellow"></div>
+                  } @else {
+                      <div class="activity empty" (click)="makeReservation(day, timeSlot)">
+                          <span>+&nbsp;</span> დაჯავშნა
+                      </div>
+                  }
+              </div>
+          }
+      </ng-container>
   </div>
 </div>
-
-<div class="appointment-popup" *ngIf="showPopup">
-  <div class="popup-content">
-    <h3>Book Appointment</h3>
-    <p>Date: {{ selectedDay?.fullDate | date:'mediumDate' }}</p>
-    <p>Time: {{ selectedSlot?.time }}</p>
-    <textarea [(ngModel)]="appointmentDescription" placeholder="Enter appointment description"></textarea>
-    <div class="popup-buttons">
-      <button (click)="bookAppointment()">Submit</button>
-      <button (click)="closePopup()">Cancel</button>
-    </div>
-  </div>
