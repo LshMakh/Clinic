@@ -20,27 +20,83 @@
                     <div class="card-grid">
                         
                         <div class="column basic-info">
-                            <img [src]="photoUrl" alt="გიორგი სირაძე" class="doctor-avatar">
-                            <div class="doctor-header">
-                                <h3 class="doctor-name" style="color:#18A4E1">{{doctor.firstName}} {{doctor.lastName}}</h3>
-                                <p class="doctor-role" style="color :#053354; font-weight: bold;">ექიმი</p>
-                                <p class="doctor-specialty">{{doctor.specialty}}</p>
-                                <div class="rating">
-                                    <ng-container *ngFor="let filled of getStarsArray(doctor.rating)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" 
-                                             width="17" 
-                                             height="17" 
-                                             [attr.fill]="filled ? '#FFD233' : '#ECF2F8'"
-                                             viewBox="0 0 256 256">
-                                            <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-                                        </svg>
-                                    </ng-container>
-                                </div>
+                          <div class="photo-container" [class.edit-mode]="isEditVisible">
+                            <img [src]="isEditVisible ? (photoPreview || photoUrl) : photoUrl" 
+                                 alt="" 
+                                 class="doctor-avatar">
+                            <div class="photo-overlay" *ngIf="isEditVisible" (click)="fileInput.click()">
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="white" stroke-width="2"/>
+                                <path d="M3 16V8a2 2 0 0 1 2-2h2.19a2 2 0 0 0 1.42-.587l.91-.913A2 2 0 0 1 11.41 4h1.18a2 2 0 0 1 1.42.587l.91.913A2 2 0 0 0 16.81 6H19a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="white" stroke-width="2"/>
+                              </svg>
+                              <span>აირჩიეთ ფოტო</span>
                             </div>
-                        </div>
+                            <input #fileInput 
+                                   type="file" 
+                                   (change)="onPhotoSelected($event)" 
+                                   accept="image/jpeg,image/png"
+                                   class="hidden-input">
+                          </div>
+                            
+                            <div class="doctor-header">
+                              <ng-container *ngIf="!isEditVisible">
+                                <h3 class="doctor-name">{{doctor.firstName}} {{doctor.lastName}}</h3>
+                                <p class="doctor-role" style="color:#053354">ექიმი</p>
+                                <p class="doctor-specialty">{{doctor.specialty}}</p>
+                                <div class="doctor-rating">
+                                  <ng-container *ngFor="let filled of getStarsArray(doctor.rating)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" 
+                                         width="17" 
+                                         height="17" 
+                                         [attr.fill]="filled ? '#FFD233' : '#ECF2F8'"
+                                         viewBox="0 0 256 256">
+                                        <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+                                    </svg>
+                                </ng-container>
+                                </div>
+                              </ng-container>
+                          
+                              <ng-container *ngIf="isEditVisible">
+                                <form [formGroup]="editForm">
+                                  <div class="edit-field">
+                                    <input formControlName="firstName" 
+                                           class="name-input" 
+                                           placeholder="First Name">
+                                    <div class="error-message" 
+                                         *ngIf="editForm.get('firstName')?.invalid && editForm.get('firstName')?.touched">
+                                      სახელის ველის შევსება აუცილებელია
+                                    </div>
+                                  </div>
+                          
+                                  <div class="edit-field">
+                                    <input formControlName="lastName" 
+                                           class="name-input" 
+                                           placeholder="Last Name">
+                                    <div class="error-message" 
+                                         *ngIf="editForm.get('lastName')?.invalid && editForm.get('lastName')?.touched">
+                                      გვარის ველის შევსება აუცილებელია
+                                    </div>
+                                  </div>
+                          
+                                  <div class="edit-field">
+                                    <select formControlName="specialty" class="specialty-input">
+                                      <option value="">აირჩიეთ სპეციალობა</option>
+                                      <option *ngFor="let specialty of specialties" [value]="specialty">
+                                        {{specialty}}
+                                      </option>
+                                    </select>
+                                    <div class="error-message" 
+                                         *ngIf="editForm.get('specialty')?.invalid && editForm.get('specialty')?.touched">
+                                      სპეციალობის არჩევა აუცილებელია
+                                    </div>
+                                  </div>
+                                </form>
+                              </ng-container>
+                            </div>
+                          </div>
 
-                        <!-- Column 2: Details -->
                         <div class="column details">
+                            <ng-container *ngIf="!isEditVisible">
                             <div class="detail-row">
                                 <div class="detail-label">
                                     <i class="icon-id" *ngIf="isEditVisible"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,26 +123,67 @@
                                     <span>პაროლის შეცვლა</span>
                                 </div>
                             </div>
+
+                            </ng-container>
+                            <ng-container *ngIf="isEditVisible">
+                                <form [formGroup]="editForm">
+                                  <div class="edit-field">
+                                    <label>პირადი ნომერი</label>
+                                    <input formControlName="personalNumber" 
+                                           class="detail-input" 
+                                           placeholder="Personal Number">
+                                    <div class="error-message" 
+                                         *ngIf="editForm.get('personalNumber')?.invalid && editForm.get('personalNumber')?.touched">
+                                      პირადი ნომრის ველის შევსება აუცილებელია
+                                    </div>
+                                  </div>
+                            
+                                  <div class="edit-field">
+                                    <label>Email</label>
+                                    <input formControlName="email" 
+                                           class="detail-input" 
+                                           placeholder="Email">
+                                    <div class="error-message" 
+                                         *ngIf="editForm.get('email')?.invalid && editForm.get('email')?.touched">
+                                      ელ-ფოსტის ველის შევსება აუცილებელია
+                                    </div>
+                                  </div>
+                            
+                                  <div class="edit-field">
+                                    <label>CV</label>
+                                    <input type="file" 
+                                           (change)="onCVSelected($event)" 
+                                           accept="application/pdf"
+                                           class="file-input">
+                                  </div>
+                                </form>
+                              </ng-container>
                             
                         </div>
+                    
+                          <div *ngIf="errorMessage" class="error-message">
+                            {{errorMessage}}
+                          </div>
 
-                        <!-- Column 3: -->
                         <div class="column additional-content">
+                          <ng-container *ngIf="!isEditVisible">
                             <div class="detail-row">
                                 <div class="detail-label">
+                                  
                                     <i class="icon-id" *ngIf="isEditVisible"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" stroke="#18A4E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg></i>
                                     <span>დაჯავშნილია :</span>
                                 </div>
                                 <span class="detail-value" [class.editable]="isEditVisible">{{doctor.personalNumber}}</span>
-                            </div>
+                            </div></ng-container>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Action buttons -->
                 <div class="doctor-actions">
+                    <ng-container *ngIf="!isEditVisible">
                     <button class="btn btn-add">
                         <span class="plus-icon">+</span> დამატება
                     </button>
@@ -111,6 +208,18 @@
                             
                         წაშლა
                     </button>
+                    </ng-container>
+                    <ng-container *ngIf="isEditVisible">
+                        <button class="btn btn-save" 
+                                (click)="saveChanges()" 
+                                [disabled]="!editForm.valid || isSubmitting">
+                          {{ isSubmitting ? 'მიმდინარეობს...' : 'შენახვა' }}
+                        </button>
+                        <button class="btn btn-cancel" 
+                                (click)="cancelEdit()">
+                          გაუქმება
+                        </button>
+                      </ng-container>
                 </div>
             </div>
 

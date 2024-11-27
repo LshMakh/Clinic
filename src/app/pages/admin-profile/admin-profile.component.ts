@@ -1,11 +1,11 @@
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { VisibilityService } from '../../services/visibility.service';
 import { DoctorCard } from '../../Models/doctorCard.model';
 import { DoctorService } from '../../services/doctor.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { filter, finalize } from 'rxjs/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-profile',
@@ -19,26 +19,76 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   photoUrl: string = 'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png';
   isLoadingPhoto: boolean = false;
   photoError: boolean = false;
+  editForm: FormGroup;
+  isSubmitting = false;
+  uploadedPhoto: File | null = null;
+  uploadedCV: File | null = null;
+  photoPreview: string | null = null;
+  successMessage: string = '';
+  errorMessage: string = '';
+  private routerSubscription: Subscription | undefined;
+
   
   private subscriptions: Subscription[] = [];
   private photoSubscription: Subscription | null = null;
 
+  specialties: string[] = [
+    'ნევროლოგი', 'ოფთალმოლოგი', 'დერმატოლოგი',
+    'ორთოპედი', 'გინეკოლოგი', 'ენდოკრინოლოგი',
+    'უროლოგი', 'გასტროენტეროლოგი', 'ოტორინოლარინგოლოგი',
+    'პულმონოლოგი', 'რევმატოლოგი', 'ონკოლოგი',
+    'ნეფროლოგი', 'ჰემატოლოგი', 'ალერგოლოგი',
+    'იმუნოლოგი', 'ფსიქიატრი', 'ნეიროქირურგი'
+  ];
+
   constructor(
+    private fb:FormBuilder,
     private visibilityService: VisibilityService,
     private doctorService: DoctorService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
 
+   
+    this.editForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      personalNumber: ['', [
+        Validators.required,
+        Validators.minLength(11),
+        Validators.maxLength(11),
+        Validators.pattern('^[0-9]*$')
+      ]],
+      specialty: ['', Validators.required]
+    });
+
+    this.routerSubscription = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      const id = this.route.snapshot.paramMap.get('id');
+      if (!id) {
+        this.visibilityService.setVisibility(false);
+      }
+    });
+    
+  }
+
+  
+
+  
   ngOnInit() {
-    // Subscribe to visibility changes
     this.subscriptions.push(
       this.visibilityService.isVisible$.subscribe(visible => {
         this.isVisible = visible;
         
         if (this.isVisible) {
           const id = this.route.snapshot.paramMap.get('id');
-          this.loadDoctorDetails(Number(id));
+          if (id) {
+            this.loadDoctorDetails(Number(id));
+          } else {
+            this.visibilityService.setVisibility(false);
+          }
         }
       })
     );
@@ -48,6 +98,12 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
         this.isEditVisible = visible;
       })
     );
+
+    // Check URL params on init
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.visibilityService.setVisibility(false);
+    }
   }
 
   loadDoctorDetails(id: number) {
@@ -95,9 +151,105 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
       this.loadDoctorPhoto(this.doctor.doctorId);
     }
   }
+  toggleEditVisibility(): void {
+    this.isEditVisible = !this.isEditVisible;
+    if (this.isEditVisible && this.doctor) {
+      // Populate form with current doctor data
+      this.editForm.patchValue({
+        firstName: this.doctor.firstName,
+        lastName: this.doctor.lastName,
+        email: this.doctor.email,
+        personalNumber: this.doctor.personalNumber,
+        specialty: this.doctor.specialty
+      });
+    }
+  }
+  onPhotoSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      if (file.type.match(/image\/(jpeg|png)/) && file.size <= 5 * 1024 * 1024) {
+        this.uploadedPhoto = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.photoPreview = e.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.errorMessage = 'Please select a valid image file (JPEG/PNG, max 5MB)';
+      }
+    }
+  }
 
-  toggleEditVisibility() {
-    this.visibilityService.toggleEditVisibility();
+  onCVSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      if (file.type === 'application/pdf' && file.size <= 10 * 1024 * 1024) {
+        this.uploadedCV = file;
+      } else {
+        this.errorMessage = 'Please select a valid PDF file (max 10MB)';
+      }
+    }
+  }
+
+  saveChanges(): void {
+    if (this.editForm.valid && !this.isSubmitting) {
+      this.isSubmitting = true;
+      this.errorMessage = '';
+      this.successMessage = '';
+
+      try {
+        const formData = new FormData();
+        const formValue = this.editForm.value;
+
+        // Only append changed values
+        Object.keys(formValue).forEach(key => {
+          if (this.doctor[key] !== formValue[key]) {
+            formData.append(key, formValue[key]);
+          }
+        });
+
+        if (this.uploadedPhoto) {
+          formData.append('photo', this.uploadedPhoto);
+        }
+
+        if (this.uploadedCV) {
+          formData.append('cv', this.uploadedCV);
+        }
+
+        this.doctorService.updateDoctor(this.doctor.doctorId, formData).subscribe({
+          next: () => {
+            this.successMessage = 'Doctor information updated successfully';
+            this.loadDoctorDetails(this.doctor.doctorId);
+            this.isEditVisible = false;
+            this.isSubmitting = false;
+          },
+          error: (error) => {
+            // Check if the error actually indicates success
+            if (error.status === 200 || (error.error && error.error.success)) {
+              this.successMessage = 'Doctor information updated successfully';
+              this.loadDoctorDetails(this.doctor.doctorId);
+              this.isEditVisible = false;
+            } else {
+              this.errorMessage = error.message || 'Failed to update doctor information';
+              console.error('Update error:', error);
+            }
+            this.isSubmitting = false;
+          }
+        });
+      } catch (error: any) {
+        this.errorMessage = error.message || 'Failed to update doctor information';
+        console.error('Update error:', error);
+        this.isSubmitting = false;
+      }
+    }
+  }
+  cancelEdit(): void {
+    this.isEditVisible = false;
+    this.uploadedPhoto = null;
+    this.uploadedCV = null;
+    this.photoPreview = null;
+    this.errorMessage = '';
+    this.successMessage = '';
   }
 
   toggleVisibility() {
@@ -107,11 +259,13 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   getStarsArray(rating: number): number[] {
     return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
   }
-
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
     if (this.photoSubscription) {
       this.photoSubscription.unsubscribe();
+    }
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
     }
   }
 }

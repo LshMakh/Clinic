@@ -1,381 +1,511 @@
 
+.edit-field {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.detail-input, .name-input, .specialty-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #18a4e180;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+.specialty-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #18a4e180;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.specialty-input:focus {
+  outline: none;
+  border-color: #18A4E1;
+}
+.detail-input:focus, .name-input:focus, .specialty-input:focus {
+  outline: none;
+  border-color: #18A4E1;
+}
+
+.photo-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.photo-input {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  font-size: 12px;
+}
+.photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: white;
+  font-size: 14px;
+}
+
+.photo-overlay svg {
+  margin-bottom: 8px;
+}
+
+.photo-container:hover .photo-overlay {
+  opacity: 1;
+}
+
+.photo-container:hover .doctor-avatar {
+  filter: brightness(0.8);
+}
+
+.hidden-input {
+  display: none;
+}
+
+.file-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px dashed #18a4e180;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.success-message {
+  color: #28a745;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #d4edda;
+  margin-bottom: 15px;
+}
+
+.btn-save {
+  background-color: #3ACF99;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: #FF93A6;
+  color: white;
+}
+
+.btn-save:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .detail-input, .name-input, .specialty-input {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .photo-input {
+    width: 150px;
+    font-size: 11px;
+  }
+}
+
 
 form-group {
-    margin-bottom: 20px;
-    position: relative;
-  }
-  input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #18a4e180;
-    border-radius: 25px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-  }
-  
-  input:focus {
-    outline: none;
-    border-color: #18A4E1;
-  }
-  
-  input.invalid {
-    border-color: #ff4444;
-  }
-  
-  .error-message {
-    color: #ff4444;
-    font-size: 12px;
-    margin-top: 5px;
-    padding-left: 15px;
-  }
-  .submit-button:hover:not(:disabled) {
-    background-color: #18A4E1;
-  }
-  
-  .submit-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  .submit-button {
-    background-color: #053354;
-    color: white;
-  }
-  .button-group {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-  }
-  
-  .cancel-button, .submit-button {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
+  margin-bottom: 20px;
+  position: relative;
+}
+input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #18a4e180;
+  border-radius: 25px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #18A4E1;
+}
+
+input.invalid {
+  border-color: #ff4444;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 12px;
+  margin-top: 5px;
+  padding-left: 15px;
+}
+.submit-button:hover:not(:disabled) {
+  background-color: #18A4E1;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+.submit-button {
+  background-color: #053354;
+  color: white;
+}
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.cancel-button, .submit-button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 .admin-container {
-    width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 20px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .buttons-container {
-    margin: 50px auto;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 50px;
-    justify-content: space-around;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 50px;
+  justify-content: space-around;
 }
 
 .action-buttons-container {
-    width: 450px;
-    display: flex;
-    height: 45px;
-    border: 1px solid #f2f2f2;
-    border-radius: 20px;
-    align-items: center;
-    justify-content: space-around;
-    flex-shrink: 0;
+  width: 450px;
+  display: flex;
+  height: 45px;
+  border: 1px solid #f2f2f2;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: space-around;
+  flex-shrink: 0;
 }
 
 .action-button {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 16px;
-    padding: 8px 16px;
-    transition: color 0.3s ease;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 8px 16px;
+  transition: color 0.3s ease;
 }
 
 .action-button:hover {
-    color: #18a4e1;
+  color: #18a4e1;
 }
 
 .active_button {
-    color: #18a4e1;
+  color: #18a4e1;
 }
 
 .user-buttons {
-    display: flex;
-    gap: 20px;
-    flex-grow: 1;
-    max-width: 800px;
-    justify-content: space-between;
+  display: flex;
+  gap: 20px;
+  flex-grow: 1;
+  max-width: 800px;
+  justify-content: space-between;
 }
 
 .user-button {
-    flex: 1;
-    height: 45px;
-    border: 1px solid #18a4e1;
-    border-radius: 40px;
-    background-color: transparent;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 16px;
-    color: #18a4e1;
-    transition: all 0.3s ease;
+  flex: 1;
+  height: 45px;
+  border: 1px solid #18a4e1;
+  border-radius: 40px;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  color: #18a4e1;
+  transition: all 0.3s ease;
 }
 
 .user-button:hover {
-    background-color: #18a4e1;
-    color: white;
+  background-color: #18a4e1;
+  color: white;
 }
 .sel-doc {
-  width: 100%;
-  padding: 0 20px;
+width: 100%;
+padding: 0 20px;
 }
 
 .sel-doc-container {
-  display: flex;
-  gap: 40px; /* Increased gap for better spacing */
-  width: 100%;
-  max-width: 1600px; /* Increased max-width to accommodate both sections */
-  margin: 0 auto;
-  justify-content: center; /* Centers the content */
+display: flex;
+gap: 40px; /* Increased gap for better spacing */
+width: 100%;
+max-width: 1600px; /* Increased max-width to accommodate both sections */
+margin: 0 auto;
+justify-content: center; /* Centers the content */
 }
 
 .sel-doc-info {
-  flex: 1;
-  height: 426px;
-  min-width: 750px; /* Minimum width for smaller screens */
+flex: 1;
+height: 426px;
+min-width: 750px; /* Minimum width for smaller screens */
 }
 
 .calendar-wrapper {
-  flex: 1;
-  min-width: 830px;
+flex: 1;
+min-width: 830px;
 }
 .doctor-card {
-    background: #FFFFFF;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    margin-bottom: 20px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
 }
 
 .card-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    align-items: start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
 }
 
 .column.basic-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .doctor-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 16px;
-    border: 2px solid #F5F5F5;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
 }
 
 .doctor-header {
-    width: 100%;
+  width: 100%;
 }
 
 .doctor-name {
-    font-size: 20px;
-    font-weight: 600;
-    color: #1A1A1A;
-    margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #18A4E1;
+  margin-bottom: 8px;
 }
 
 .doctor-role {
-    font-size: 14px;
-    color: #666666;
-    margin-bottom: 4px;
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 4px;
 }
 
 .doctor-specialty {
-    font-size: 14px;
-    color: #666666;
-    margin-bottom: 12px;
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 12px;
 }
 
 .rating {
-    display: flex;
-    justify-content: center;
-    gap: 4px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
 }
 
 .star {
-    color: #FFD700;
-    font-size: 18px;
+  color: #FFD700;
+  font-size: 18px;
 }
 
 .column.details {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .detail-row {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
 .detail-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #666666;
-    font-size: 14px;
-    margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666666;
+  font-size: 14px;
+  margin-bottom: 4px;
 }
 
 .detail-label i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
 }
 
 .detail-value {
-    color: #1A1A1A;
-    font-size: 14px;
-    margin-left: 24px;
-    word-break: break-word;
-    transition: all 0.3s ease;
+  color: #1A1A1A;
+  font-size: 14px;
+  margin-left: 24px;
+  word-break: break-word;
+  transition: all 0.3s ease;
 }
 .detail-value.editable {
-    background-color: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 4px;
-    padding: 4px 8px;
-    cursor: pointer;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
 }
 
 .detail-value.editable:hover {
-    background-color: #e9ecef;
-    border-color: #dee2e6;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
 }
 
 .password-change {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .password-change .detail-label {
-    color: #18A4E1;
+  color: #18A4E1;
 }
 
 .column.additional-content {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .doctor-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
 }
 
 .btn {
-    flex: 1;
-    height: 40px;
-    border-radius: 20px;
-    border: none;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.2s ease;
+  flex: 1;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
 }
 
 .btn:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 .btn-add {
-    background: #3ACF99;
-    color: white;
+  background: #3ACF99;
+  color: white;
 }
 
 .btn-edit {
-    background: #ECF2F8;
-    color: #18A4E1;
-  }
-  .btn-edit:hover {
-    background: #dde5ed;
+  background: #ECF2F8;
+  color: #18A4E1;
+}
+.btn-edit:hover {
+  background: #dde5ed;
 }
 
 .btn-edit.active {
-    background: #18A4E1;
-    color: white;
+  background: #18A4E1;
+  color: white;
 }
 
 .btn-delete {
-    background: #FF93A6;
-    color: white;
+  background: #FF93A6;
+  color: white;
 }
 
 .plus-icon {
-    font-size: 18px;
-    font-weight: bold;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-    .buttons-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
+  .buttons-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+  }
 
-    .user-buttons {
-        width: 100%;
-        max-width: none;
-    }
+  .user-buttons {
+      width: 100%;
+      max-width: none;
+  }
 }
 
 @media (max-width: 992px) {
-    .sel-doc-container {
-        flex-direction: column;
-    }
+  .sel-doc-container {
+      flex-direction: column;
+  }
 
-    .calendar-wrapper {
-        max-width: none;
-    }
+  .calendar-wrapper {
+      max-width: none;
+  }
 
-    .card-grid {
-        grid-template-columns: 1fr 1fr;
-    }
+  .card-grid {
+      grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-    .action-buttons-container {
-        width: 100%;
-    }
+  .action-buttons-container {
+      width: 100%;
+  }
 
-    .user-buttons {
-        flex-direction: column;
-    }
+  .user-buttons {
+      flex-direction: column;
+  }
 
-    .card-grid {
-        grid-template-columns: 1fr;
-    }
+  .card-grid {
+      grid-template-columns: 1fr;
+  }
 
-    .doctor-actions {
-        flex-direction: column;
-    }
+  .doctor-actions {
+      flex-direction: column;
+  }
 
-    .btn {
-        width: 100%;
-    }
+  .btn {
+      width: 100%;
+  }
 }

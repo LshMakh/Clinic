@@ -10,6 +10,7 @@ interface UserPinnedDoctors {
   [userId: string]: number[];
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -66,6 +67,47 @@ export class DoctorService {
   //   );
   // }
    // Add a cache to store doctor photos
+
+  //  updateDoctor(doctorId: number, formData: FormData): Observable<any> {
+  //   return this.http.put<any>(
+  //     `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.update}/${doctorId}`,
+  //     formData
+  //   ).pipe(
+  //     catchError((error: HttpErrorResponse) => {
+  //       if (error.status === 409) {
+  //         return throwError(() => new Error('This email is already in use'));
+  //       }
+  //       if (error.status === 413) {
+  //         return throwError(() => new Error('The uploaded files are too large'));
+  //       }
+  //       return throwError(() => new Error('Failed to update doctor information'));
+  //     })
+  //   );
+  // }
+
+  updateDoctor(doctorId: number, formData: FormData): Observable<any> {
+    return this.http.put<any>(
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.update}/${doctorId}`,
+      formData
+    ).pipe(
+      map(response => {
+        // Return a standardized success response
+        return { success: true, message: 'Doctor information updated successfully' };
+      }),
+      catchError((error: HttpErrorResponse) => {
+        // Check if it's a specific error we want to handle
+        if (error.status === 409) {
+          return throwError(() => new Error('This email is already in use'));
+        }
+        if (error.status === 413) {
+          return throwError(() => new Error('The uploaded files are too large'));
+        }
+        // If the error contains a specific message, use it
+        const errorMessage = error.error?.message || 'Failed to update doctor information';
+        return throwError(() => new Error(errorMessage));
+      })
+    );
+  }
   
    extractCvText(doctorId: number): Observable<string> {
     return this.http.post<{ text: string }>(

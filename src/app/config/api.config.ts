@@ -17,7 +17,8 @@ export const API_CONFIG = {
         delete: '/DeleteDoctorById',
         categories:'/GetSpecialtyCount/specialty-count',
         photo:'/GetDoctorPhoto/photo',
-        cv: '/ExtractCvText/extract-cv'
+        cv: '/ExtractCvText/extract-cv',
+        update:'/UpdateDoctor/update'
       },
       patient: {
         base: '/Patient',
