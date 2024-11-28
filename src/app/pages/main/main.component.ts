@@ -22,7 +22,6 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(public doctorService: DoctorService, private authService:AuthService) {}
 
   ngOnInit(): void {
-    // Combine auth state and filtered cards observables
     this.subscription.add(
       combineLatest([
         this.authService.getCurrentUser(),
@@ -33,7 +32,6 @@ export class MainComponent implements OnInit, OnDestroy {
       })
     );
 
-    // Initial load
     this.loadDoctors();
   }
   
@@ -48,7 +46,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
   loadDoctorPhoto(doctorId: number): void {
     if (this.photoSubscriptions.has(doctorId)) {
-      return; // Already loading or loaded
+      return; 
     }
 
     this.loadingPhotos.add(doctorId);
@@ -62,7 +60,6 @@ export class MainComponent implements OnInit, OnDestroy {
           this.doctorPhotos.set(doctorId, photoUrl);
         },
         error: () => {
-          // Set default image on error
           this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
         }
       });
@@ -98,7 +95,6 @@ export class MainComponent implements OnInit, OnDestroy {
   togglePin(doctorId: number, event: Event): void {
     event.stopPropagation();
     if (!this.authService.getUserId()) {
-      // Optionally show login dialog or message
       return;
     }
     this.doctorService.togglePin(doctorId);

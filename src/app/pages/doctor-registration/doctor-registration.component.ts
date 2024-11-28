@@ -67,7 +67,6 @@ export class DoctorRegistrationComponent {
   onPhotoSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      // Validate file type and size
       if (!file.type.match(/image\/(jpeg|png)/)) {
         this.errorMessage = 'Please select a valid image file (JPEG or PNG)';
         return;
@@ -91,7 +90,6 @@ export class DoctorRegistrationComponent {
   onCVSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      // Validate file type and size
       if (file.type !== 'application/pdf') {
         this.errorMessage = 'Please select a valid PDF file';
         return;
@@ -114,11 +112,9 @@ export class DoctorRegistrationComponent {
       const formData = new FormData();
       const formValue = this.registerForm.value;
 
-      // Append file data
       formData.append('photo', formValue.photo);
       formData.append('cv', formValue.cv);
 
-      // Append other form data
       Object.keys(formValue).forEach(key => {
         if (key !== 'photo' && key !== 'cv') {
           formData.append(key, formValue[key]);

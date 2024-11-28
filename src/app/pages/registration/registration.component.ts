@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { catchError, debounceTime, first, map, Observable, of, switchMap } from 'rxjs';
 
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',

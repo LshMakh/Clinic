@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RegistrationRoutingModule } from './registration-routing.modue';
-import { SharedModule } from '../shared/shared.module';
 import { RegistrationComponent } from '../../pages/registration/registration.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,9 @@ import { RegistrationComponent } from '../../pages/registration/registration.com
   ],
   imports: [
     CommonModule,
-    SharedModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterModule,
     RegistrationRoutingModule
   ]
 })

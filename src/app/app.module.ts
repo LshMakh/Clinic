@@ -9,11 +9,10 @@ import { MainComponent } from './pages/main/main.component';
 import { LoginPopUpComponent } from './components/login-pop-up/login-pop-up.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { CategoriesComponent } from './components/categories/categories.component';
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterComponent,
     MainComponent,
     LoginPopUpComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -30,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatDialogModule,
     ReactiveFormsModule,
     FormsModule,
+    RouterModule,
     SharedModule,
     BrowserAnimationsModule,
     AppRoutingModule

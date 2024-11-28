@@ -1,5 +1,3 @@
-// src/app/components/login-pop-up/login-pop-up.component.ts
-
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';

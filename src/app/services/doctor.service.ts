@@ -27,9 +27,8 @@ export class DoctorService {
     private authService: AuthService
   ) {
     this.authSubscription = this.authService.getCurrentUser().subscribe(()=>{
-      //reload cards with new users pins when auth state changes
       if(this._cards.length>0){
-        this.cardsList = [...this._cards]; //refresh pins
+        this.cardsList = [...this._cards]; 
       }
     });
     
@@ -91,18 +90,15 @@ export class DoctorService {
       formData
     ).pipe(
       map(response => {
-        // Return a standardized success response
         return { success: true, message: 'Doctor information updated successfully' };
       }),
       catchError((error: HttpErrorResponse) => {
-        // Check if it's a specific error we want to handle
         if (error.status === 409) {
           return throwError(() => new Error('This email is already in use'));
         }
         if (error.status === 413) {
           return throwError(() => new Error('The uploaded files are too large'));
         }
-        // If the error contains a specific message, use it
         const errorMessage = error.error?.message || 'Failed to update doctor information';
         return throwError(() => new Error(errorMessage));
       })
@@ -124,7 +120,6 @@ export class DoctorService {
 
    
    getDoctorPhoto(id: number): Observable<string> {
-     // Check cache first
      if (this.photoCache.has(id)) {
        return of(this.photoCache.get(id)!);
      }
@@ -134,7 +129,6 @@ export class DoctorService {
        { responseType: 'blob' }
      ).pipe(
        tap(blob => {
-         // Create object URL and cache it
          const imageUrl = URL.createObjectURL(blob);
          this.photoCache.set(id, imageUrl);
        }),
@@ -143,13 +137,11 @@ export class DoctorService {
        }),
        catchError(error => {
          console.error(`Error loading photo for doctor ${id}:`, error);
-         // Return a default image URL in case of error
          return of('assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png');
        })
      );
    }
  
-   // Add cleanup method for object URLs
    clearPhotoCache(): void {
      this.photoCache.forEach(url => URL.revokeObjectURL(url));
      this.photoCache.clear();
@@ -170,7 +162,6 @@ export class DoctorService {
         );
     }
   
-    // Method to get a doctor by ID with error handling
     getDoctorById(id: number): Observable<DoctorCard> {
       return this.http.get<DoctorCard>(
         `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.byId}/${id}`
@@ -194,7 +185,6 @@ export class DoctorService {
         );
     }
   
-    // Method to delete a doctor by ID with error handling
     deleteDoctorById(id: number): Observable<any> {
       return this.http.delete(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.delete}/${id}`)
         .pipe(
