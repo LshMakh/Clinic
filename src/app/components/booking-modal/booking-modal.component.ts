@@ -1,4 +1,3 @@
-// booking-modal.component.ts
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppointmentService } from '../../services/appointment.service';
@@ -18,11 +17,6 @@ import { AppointmentService } from '../../services/appointment.service';
 
       <div class="modal-content">
         <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
-          <div class="datetime-display">
-            <p>თარიღი: {{ appointmentDate | date:'longDate' }}</p>
-            <p>დრო: {{ timeSlot }}</p>
-          </div>
-
           <div class="form-group">
             <textarea 
               formControlName="description" 
@@ -85,18 +79,6 @@ import { AppointmentService } from '../../services/appointment.service';
       margin-bottom: 30px;
       font-size: 24px;
       text-align: center;
-    }
-
-    .datetime-display {
-      margin-bottom: 20px;
-      padding: 15px;
-      background-color: #f8f9fa;
-      border-radius: 8px;
-    }
-
-    .datetime-display p {
-      margin: 5px 0;
-      color: #053354;
     }
 
     .form-group {
@@ -177,7 +159,7 @@ import { AppointmentService } from '../../services/appointment.service';
     }
 
     .submit-button {
-      background-color: #053354;
+      background-color: #3ACF99;
       color: white;
     }
 
@@ -233,7 +215,7 @@ export class BookingModalComponent {
   bookingForm: FormGroup;
   isSubmitting = false;
   showAlert = false;
-  alertMessage = '';
+  alertMessage: string = '';
   alertType: 'success' | 'error' = 'error';
 
   constructor(

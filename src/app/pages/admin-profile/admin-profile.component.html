@@ -40,6 +40,7 @@
                             
                             <div class="doctor-header">
                               <ng-container *ngIf="!isEditVisible">
+                                <ng-container *ngIf="doctor">
                                 <h3 class="doctor-name">{{doctor.firstName}} {{doctor.lastName}}</h3>
                                 <p class="doctor-role" style="color:#053354">ექიმი</p>
                                 <p class="doctor-specialty">{{doctor.specialty}}</p>
@@ -54,6 +55,7 @@
                                     </svg>
                                 </ng-container>
                                 </div>
+                                </ng-container>
                               </ng-container>
                           
                               <ng-container *ngIf="isEditVisible">
@@ -97,6 +99,7 @@
 
                         <div class="column details">
                             <ng-container *ngIf="!isEditVisible">
+                              <ng-container *ngIf="doctor">
                             <div class="detail-row">
                                 <div class="detail-label">
                                     <i class="icon-id" *ngIf="isEditVisible"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +126,7 @@
                                     <span>პაროლის შეცვლა</span>
                                 </div>
                             </div>
-
+                              </ng-container>
                             </ng-container>
                             <ng-container *ngIf="isEditVisible">
                                 <form [formGroup]="editForm">
@@ -175,7 +178,7 @@
                                     </svg></i>
                                     <span>დაჯავშნილია :</span>
                                 </div>
-                                <span class="detail-value" [class.editable]="isEditVisible">{{doctor.personalNumber}}</span>
+                                <span class="detail-value" [class.editable]="isEditVisible"></span>
                             </div></ng-container>
                         </div>
                     </div>

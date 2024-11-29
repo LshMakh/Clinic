@@ -5,6 +5,10 @@
             <app-doctor-profile-card [doctorId]="doctorId"></app-doctor-profile-card>
         </div>
         <div class="calendar-section">
-       <app-calendar></app-calendar></div>
+            <app-calendar 
+            [doctorId]="doctorId"
+            viewMode="patient">
+        </app-calendar>
+    </div>
         </div>
 </div>
