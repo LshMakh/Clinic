@@ -1,7 +1,6 @@
-// appointment.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { API_CONFIG } from '../config/api.config';
 
@@ -43,7 +42,11 @@ export class AppointmentService {
   private doctorAppointmentsSubject = new BehaviorSubject<Appointment[]>([]);
 
   constructor(private http: HttpClient) {}
-
+  
+  getCurrentUserAppointmentCount(): Observable<number> {
+    return this.http.get<any>(`https://localhost:7226/api/Appointment/count`);
+  }
+  
   // Create a new appointment
   createAppointment(appointmentData: CreateAppointmentDto): Observable<any> {
     return this.http.post(`${this.apiUrl}/book`, appointmentData).pipe(

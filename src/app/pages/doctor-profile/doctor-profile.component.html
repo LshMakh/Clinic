@@ -26,12 +26,16 @@
         </div>
         </div>
         <p class="password-change" (click)="toggleChangePasswordModal()">პაროლის შეცვლა</p>
-        <p class="appointments">დაჯავშნილია : <span>(20)</span></p>
+        <p class="appointments">დაჯავშნილია : <span>{{appointmentCount}}</span></p>
       </div>
     
       
       <div class="calendar-section">
-        <app-calendar></app-calendar>
+        <div class="calendar-section">
+          <app-calendar 
+              [doctorId]="userId"
+              viewMode="doctor">
+          </app-calendar>
       </div>
 </div>
 <app-change-password-modal 

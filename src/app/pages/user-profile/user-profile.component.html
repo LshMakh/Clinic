@@ -11,12 +11,15 @@
           <h5>{{user.email}}</h5>
         </div>
         <p class="experience" (click)="toggleChangePasswordModal()">პაროლის შეცვლა</p>
-        <p class="appointments">ჯავშანი: <span>(20)</span></p>
+        <p class="appointments">ჯავშანი: <span>{{appointmentCount}}</span></p>
       </div>
     </div>
       
       <div class="calendar-section">
-        <app-calendar></app-calendar>      </div>
+        <app-calendar 
+        [doctorId]="doctorId"
+        viewMode="patient">
+    </app-calendar>     </div>
 </div>
 
 <app-change-password-modal 

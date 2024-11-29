@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize, Observable, Subscription } from 'rxjs';
+import { count, finalize, Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { DoctorService } from '../../services/doctor.service';
 import { ChangePasswordModalComponent } from '../../components/change-password-modal/change-password-modal.component';
+import { AppointmentService } from '../../services/appointment.service';
 
 @Component({
   selector: 'app-doctor-profile',
@@ -17,21 +18,38 @@ export class DoctorProfileComponent implements OnInit{
   doctorPhotos = new Map<number, string>();
   loadingPhotos = new Set<number>();
   showChangePasswordModal = false;
+  userId: number= 0;
+  appointmentCount:number = 0;
 
-  constructor(private authService: AuthService, private doctorService:DoctorService) {}
+
+  constructor(private authService: AuthService, private doctorService:DoctorService, private appointmentService:AppointmentService) {}
 
   ngOnInit() {
     this.isAuthenticated$ = this.authService.isAuthenticated();
     this.currentUser$ = this.authService.getCurrentUser();
+    this.userId = Number(this.authService.getUserId());
+    this.loadAppointmentCount();
+
+
   }
 
   toggleChangePasswordModal(){
     this.showChangePasswordModal = !this.showChangePasswordModal;
   }
+
+  
+  loadAppointmentCount(): void {
+    this.appointmentService.getCurrentUserAppointmentCount().subscribe({
+      next:(count)=>{
+        this.appointmentCount = count;
+      }
+    });
+  }
+
   
   loadDoctorPhoto(doctorId: number): void {
     if (this.photoSubscriptions.has(doctorId)) {
-      return; // Already loading or loaded
+      return; 
     }
 
     this.loadingPhotos.add(doctorId);
@@ -45,7 +63,6 @@ export class DoctorProfileComponent implements OnInit{
           this.doctorPhotos.set(doctorId, photoUrl);
         },
         error: () => {
-          // Set default image on error
           this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
         }
       });

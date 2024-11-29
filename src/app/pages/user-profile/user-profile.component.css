@@ -71,10 +71,13 @@ h5 {
     line-height: 1.5;  
 }
 
+.experience{
+    cursor: pointer;
+}
+
 .experience, .appointments {
     margin: 20px 0; 
     color: #666;
-    cursor: pointer;
     transition: color 0.3s ease;
     padding: 5px 0;  
 }
