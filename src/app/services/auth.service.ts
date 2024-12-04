@@ -31,7 +31,6 @@ export class AuthService {
     this.initializeFromToken();
   }
 
-  // Initialize authentication state from token
   private initializeFromToken() {
     const token = localStorage.getItem('Token');
     if (token) {
@@ -46,7 +45,6 @@ export class AuthService {
     }
   }
 
-  // Authentication
   authenticate(loginData: UserLoginDto): Observable<any> {
     return this.http.post<any>(
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.authenticate}`,
@@ -86,7 +84,6 @@ export class AuthService {
   }
   
 
-  // Email Verification Methods
   sendVerificationCode(email: string): Observable<any> {
     return this.http.post(`${API_CONFIG.baseUrl}/Verification/send`, { email })
       .pipe(
@@ -103,7 +100,6 @@ export class AuthService {
     );
   }
 
-  // Check if email exists
   checkEmailExists(email: string): Observable<boolean> {
     return this.http.get<EmailCheckResponse>(
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.checkEmail}/${email}`
@@ -115,7 +111,6 @@ export class AuthService {
     );
   }
 
-  // Add new user (registration)
   addUser(user: User): Observable<any> {
     return this.http.post<any>(
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.patient.base}${API_CONFIG.endpoints.patient.register}`,
@@ -125,7 +120,6 @@ export class AuthService {
     );
   }
 
-  // Add new doctor
   addDoctor(formData: FormData): Observable<any> {
     return this.http.post<any>(
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.register}`,
@@ -143,7 +137,6 @@ export class AuthService {
     );
   }
 
-  // Fetch user details
   private fetchUserDetails(userId: string): Observable<any> {
     return this.http.get<any>(
       `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.info}/${userId}`
@@ -152,7 +145,6 @@ export class AuthService {
     );
   }
 
-  // Error handling
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred. Please try again later.';
 
@@ -186,7 +178,7 @@ export class AuthService {
     return throwError(() => new Error(errorMessage));
   }
 
-  // Logout
+
   logout(): void {
     localStorage.removeItem('Token');
     this.isAuthenticatedSubject.next(false);
@@ -194,7 +186,6 @@ export class AuthService {
     this.router.navigate(['/main']);
   }
 
-  // Public observables
   isAuthenticated(): Observable<boolean> {
     return this.isAuthenticatedSubject.asObservable();
   }
@@ -203,7 +194,6 @@ export class AuthService {
     return this.currentUserSubject.asObservable();
   }
 
-  // Utility methods
   private getDecodedToken(): any {
     const token = localStorage.getItem('Token');
     return token ? jwtDecode(token) : null;
@@ -214,12 +204,21 @@ export class AuthService {
     return decodedToken?.nameid || null;
   }
 
+  getUserPatientId():string|null{
+    const decodedToken = this.getDecodedToken();
+    return decodedToken?.PatientId || null;
+  }
+
+  getUserDoctorId():string|null{
+    const decodedToken = this.getDecodedToken();
+    return decodedToken?.DoctorId || null;
+  }
+
   getRole(): string | null {
     const decodedToken = this.getDecodedToken();
     return decodedToken?.role || null;
   }
 
-  // Role checking methods
   isPatient(): boolean {
     return this.getRole() === 'Patient';
   }

@@ -46,30 +46,28 @@ export class AppointmentService {
   getCurrentUserAppointmentCount(): Observable<number> {
     return this.http.get<any>(`https://localhost:7226/api/Appointment/count`);
   }
+  getSelectedDoctorAppointmentCount(doctorId:number):Observable<number>{
+    return this.http.get<any>(`https://localhost:7226/api/Appointment/count/${doctorId}`);
+  }
   
-  // Create a new appointment
   createAppointment(appointmentData: CreateAppointmentDto): Observable<any> {
     return this.http.post(`${this.apiUrl}/book`, appointmentData).pipe(
       tap(() => {
-        // Refresh appointments after successful booking
         this.loadPatientAppointments();
       }),
       catchError(this.handleError)
     );
   }
 
-  // Block time slot (for doctors)
   blockTimeSlot(date: Date, timeSlot: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/block`, { appointmentDate: date, timeSlot }).pipe(
       tap(() => {
-        // Refresh doctor appointments after blocking
         this.loadDoctorAppointments();
       }),
       catchError(this.handleError)
     );
   }
 
-  // Get appointments for logged-in doctor
   loadDoctorAppointments(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.apiUrl}/doctor`).pipe(
       tap(appointments => this.doctorAppointmentsSubject.next(appointments)),
@@ -77,7 +75,14 @@ export class AppointmentService {
     );
   }
 
-  // Get appointments for logged-in patient
+   // Get appointments for doctor (non-logged in)
+   loadDoctorAppointmentsFromUser(id:number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.apiUrl}/doctor/${id}`).pipe(
+      tap(appointments => this.doctorAppointmentsSubject.next(appointments)),
+      catchError(this.handleError)
+    );
+  }
+
   loadPatientAppointments(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.apiUrl}/patient`).pipe(
       tap(appointments => this.patientAppointmentsSubject.next(appointments)),
@@ -85,23 +90,21 @@ export class AppointmentService {
     );
   }
 
-  // Update appointment description
   updateAppointmentDescription(appointmentId: number, description: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${appointmentId}/description`, { description }).pipe(
       tap(() => {
-        // Refresh appointments after update
+       
         this.loadPatientAppointments();
         this.loadDoctorAppointments();
       }),
       catchError(this.handleError)
     );
   }
+  
 
-  // Delete appointment
   deleteAppointment(appointmentId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${appointmentId}`).pipe(
       tap(() => {
-        // Refresh appointments after deletion
         this.loadPatientAppointments();
         this.loadDoctorAppointments();
       }),
@@ -109,7 +112,6 @@ export class AppointmentService {
     );
   }
 
-  // Get available time slots for a specific doctor and date
   getAvailableSlots(doctorId: number, date: Date): Observable<TimeSlot[]> {
     const formattedDate = this.formatDate(date);
     return this.http.get<TimeSlot[]>(
@@ -119,7 +121,6 @@ export class AppointmentService {
     );
   }
 
-  // Check if a specific slot is available
   checkSlotAvailability(doctorId: number, date: Date, timeSlot: string): Observable<boolean> {
     const formattedDate = this.formatDate(date);
     return this.http.get<{isAvailable: boolean}>(
@@ -130,7 +131,6 @@ export class AppointmentService {
     );
   }
 
-  // Get observable streams of appointments
   getDoctorAppointments(): Observable<Appointment[]> {
     return this.doctorAppointmentsSubject.asObservable();
   }
