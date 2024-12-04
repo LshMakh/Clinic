@@ -2,14 +2,12 @@
 <div class="modal-container">
   <h2>{{ showForgotPassword ? 'პაროლის აღდგენა' : 'ავტორიზაცია' }}</h2>
   
-  <!-- Alert Message -->
   <div *ngIf="showAlert" 
        [class]="'alert ' + (alertType === 'success' ? 'alert-success' : 'alert-error')">
     {{ alertMessage }}
   </div>
 
   <div class="modal-content">
-    <!-- Login Form -->
     <form *ngIf="!showForgotPassword" (ngSubmit)="onLogin()" [formGroup]="loginForm">
       <div class="form-group">
         <input formControlName="email" 
@@ -17,8 +15,8 @@
                type="email" 
                [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
         <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-          <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
-          <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+          <span *ngIf="loginForm.get('email')?.errors?.['required']">ელ-ფოსტის ველის შევსება აუცილებელია</span>
+          <span *ngIf="loginForm.get('email')?.errors?.['email']">გთხოვთ შეიყვანეთ ვალიდური ელ-ფოსტა</span>
         </div>
       </div>
 
@@ -28,7 +26,7 @@
                type="password"
                [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
         <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-          Password is required
+          პაროლის ველის შევსება აუცილებელია
         </div>
       </div>
 
@@ -39,7 +37,6 @@
       </button>
     </form>
 
-    <!-- Forgot Password Form -->
     <form *ngIf="showForgotPassword" (ngSubmit)="onForgotPassword()" [formGroup]="forgotPasswordForm">
       <div class="form-group">
         <input formControlName="email" 
@@ -47,8 +44,8 @@
                type="email" 
                [class.invalid]="forgotPasswordForm.get('email')?.invalid && forgotPasswordForm.get('email')?.touched">
         <div class="error-message" *ngIf="forgotPasswordForm.get('email')?.invalid && forgotPasswordForm.get('email')?.touched">
-          <span *ngIf="forgotPasswordForm.get('email')?.errors?.['required']">Email is required</span>
-          <span *ngIf="forgotPasswordForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+          <span *ngIf="forgotPasswordForm.get('email')?.errors?.['required']">ელ-ფოსტის ველის შევსება აუცილებელია</span>
+          <span *ngIf="forgotPasswordForm.get('email')?.errors?.['email']">გთხოვთ შეიყვანეთ ვალიდური ელ-ფოსტა</span>
         </div>
       </div>
 

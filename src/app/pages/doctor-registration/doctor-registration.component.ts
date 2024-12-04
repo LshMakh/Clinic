@@ -32,8 +32,8 @@ export class DoctorRegistrationComponent {
     private router: Router
   ) {
     this.registerForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
+      lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email], [this.emailExistsValidator()]],
       personalNumber: ['', [
         Validators.required,

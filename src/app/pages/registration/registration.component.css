@@ -1,6 +1,5 @@
 @import url("https://free.bboxtype.com/embedfonts/?family=FiraGO:200,300,400,500,600,700,800,900");
 
-/* General Reset */
 * {
   font-family: 'FiraGO', sans-serif;
   box-sizing: border-box;
@@ -8,7 +7,6 @@
   padding: 0;
 }
 
-/* Input Styles */
 input {
   width: 480px;
   border-radius: 50px;
@@ -21,7 +19,6 @@ label {
   font-weight: 400;
 }
 
-/* Layout Styles */
 .input {
   display: flex;
   flex-direction: column;
@@ -50,7 +47,6 @@ form {
   margin-bottom: 100px;
 }
 
-/* Row Styles */
 .row1,
 .row2 {
   display: flex;
@@ -58,7 +54,6 @@ form {
   gap: 50px;
 }
 
-/* Button Styles */
 .btn {
   align-self: flex-end;
   background-color: #053354;
@@ -70,14 +65,17 @@ form {
   cursor: pointer;
 }
 
-/* Error Message Styles */
+.btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
 .error-message {
   color: #ff0000;
   font-size: 12px;
   margin-top: 5px;
 }
 
-/* Responsive Styles */
 @media (max-width: 1800px) {
   .registration {
     padding: 20px 60px;
@@ -180,7 +178,6 @@ form {
   }
 }
 
-/* Input Wrapper */
 .input-wrapper {
   position: relative;
   width: 100%;
@@ -189,10 +186,10 @@ form {
 }
 
 .input-wrapper input {
-  padding-right: 120px; /* Space for the button */
+  padding-right: 120px; 
 }
 
-/* Button in Input Wrapper */
+
 .send-email-btn {
   position: absolute;
   right: 5px;
@@ -209,7 +206,6 @@ form {
   z-index: 2;
 }
 
-/* Spinner Styles */
 .spinner {
   position: absolute;
   right: 10px;
@@ -228,7 +224,6 @@ form {
   100% { transform: translateY(-50%) rotate(360deg); }
 }
 
-/* State Classes */
 .is-pending {
   background-color: #f8f9fa;
   border-color: #007bff;
@@ -238,7 +233,6 @@ form {
   border-color: #dc3545;
 }
 
-/* Error Message Container */
 .error-messages {
   margin-top: 5px;
 }

@@ -6,6 +6,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter, finalize } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AppointmentService } from '../../services/appointment.service';
 
 @Component({
   selector: 'app-admin-profile',
@@ -27,6 +28,7 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   successMessage: string = '';
   errorMessage: string = '';
   private routerSubscription: Subscription | undefined;
+  appointmentCount : number = 0;
 
   
   private subscriptions: Subscription[] = [];
@@ -44,6 +46,7 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   constructor(
     private fb:FormBuilder,
     private visibilityService: VisibilityService,
+    private appointmentService:AppointmentService,
     private doctorService: DoctorService,
     private route: ActivatedRoute,
     private router: Router
@@ -99,11 +102,21 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
       })
     );
 
-    // Check URL params on init
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.visibilityService.setVisibility(false);
     }
+  }
+
+  loadAppointmentCount(){
+    const id =  Number(this.route.snapshot.paramMap.get('id'));
+    this.appointmentService.getSelectedDoctorAppointmentCount(id).subscribe({
+      next:(count)=>{
+        this.appointmentCount = count;
+      }
+    })
+
+
   }
 
   loadDoctorDetails(id: number) {
@@ -113,6 +126,7 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.doctor = data;
         this.loadDoctorPhoto(id);
+        this.loadAppointmentCount()
       },
       error: (error) => {
         console.error('Error loading doctor details:', error);
@@ -154,7 +168,6 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   toggleEditVisibility(): void {
     this.isEditVisible = !this.isEditVisible;
     if (this.isEditVisible && this.doctor) {
-      // Populate form with current doctor data
       this.editForm.patchValue({
         firstName: this.doctor.firstName,
         lastName: this.doctor.lastName,
@@ -224,7 +237,6 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
             this.isSubmitting = false;
           },
           error: (error) => {
-            // Check if the error actually indicates success
             if (error.status === 200 || (error.error && error.error.success)) {
               this.successMessage = 'Doctor information updated successfully';
               this.loadDoctorDetails(this.doctor.doctorId);

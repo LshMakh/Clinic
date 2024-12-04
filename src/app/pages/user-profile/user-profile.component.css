@@ -101,7 +101,6 @@ h5 {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Breakpoints */
 @media (max-width: 1400px) {
     .user-prof {
         max-width: 1208px;

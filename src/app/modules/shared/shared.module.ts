@@ -9,6 +9,7 @@ import { SearchDropdownComponent } from '../../components/search-dropdown/search
 import { ChangePasswordModalComponent } from '../../components/change-password-modal/change-password-modal.component';
 import { BookingModalComponent } from '../../components/booking-modal/booking-modal.component';
 import { RouterModule } from '@angular/router';
+import { CalendarEditModalComponent } from '../../components/calendar-edit-modal/calendar-edit-modal.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RouterModule } from '@angular/router';
     CalendarComponent,
     SearchDropdownComponent,
     DoctorProfileCardComponent,
-    ChangePasswordModalComponent
+    ChangePasswordModalComponent,
+    CalendarEditModalComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { RouterModule } from '@angular/router';
     CalendarComponent,
     DoctorProfileCardComponent,
     ChangePasswordModalComponent,
-    BookingModalComponent
+    BookingModalComponent,
+    CalendarEditModalComponent
   ]
 })
 export class SharedModule { }

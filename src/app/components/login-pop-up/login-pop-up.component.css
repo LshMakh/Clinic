@@ -122,7 +122,7 @@ input.invalid {
   padding: 10px 20px;
   border-radius: 25px;
   cursor: pointer;
-  width: 100%;
+  width: 180px;
   margin-top: 15px;
 }
 
@@ -144,7 +144,6 @@ input.invalid {
   background-color: #e2e6ea;
 }
 
-/* Add these styles to your existing login-pop-up.component.css */
 
 .back-to-login {
   color: #18A4E1;
@@ -162,7 +161,7 @@ input.invalid {
 
 .forgot-password,
 .back-to-login {
-  align-self: flex-start;
+  align-self: flex-end;
   color: #053354;
   font-size: 14px;
   cursor: pointer;

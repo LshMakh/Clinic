@@ -14,7 +14,9 @@
                   <input type="text" id="firstName" formControlName="firstName" placeholder="(მინიმუმ 2 სიმბოლო)">
                   <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" 
                        class="error-message">
-                      სახელის ველის შევსება აუცილებელია
+                     <span *ngIf="registerForm.get('firstName')?.errors?.['required']">სახელის ველის შევსება აუცილებელია</span>
+                     <span *ngIf="registerForm.get('firstName')?.errors?.['maxlength']">სახელი უნდა იყოს მაქსიმუმ 15 სიმბოლო</span>
+                     <span *ngIf="registerForm.get('firstName')?.errors?.['minlength']">სახელი უნდა იყოს მინიმუმ 2 სიმბოლო</span>
                   </div>
               </div>
           </div>
@@ -51,7 +53,9 @@
                   <input type="text" id="personalNumber" formControlName="personalNumber" placeholder="00000000000">
                   <div *ngIf="registerForm.get('personalNumber')?.invalid && registerForm.get('personalNumber')?.touched" 
                        class="error-message">
-                      პირადი ნომრის ველის შევსება აუცილებელია
+                    <span *ngIf="registerForm.get('personalNumber')?.errors?.['required']">პირადი ნომრის ველის შევსება აუცილებელია</span>
+                    <span *ngIf="registerForm.get('personalNumber')?.errors?.['minlength']">გთხოვთ შეიყვანეთ 11 ციფრი</span>
+                    <span *ngIf="registerForm.get('personalNumber')?.errors?.['maxlength']">გთხოვთ შეიყვანეთ 11 ციფრი</span>
                   </div>
               </div>
           </div>
@@ -64,7 +68,9 @@
                   <input type="text" id="lastName" formControlName="lastName">
                   <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" 
                        class="error-message">
-                      გვარის ველის შევსება აუცილებელია
+                      <span *ngIf="registerForm.get('lastName')?.errors?.['required']">გვარის ველის შევსება აუცილებელია</span>
+                      <span *ngIf="registerForm.get('lastName')?.errors?.['maxlength']">გვარი უნდა იყოს მაქსიმუმ 20 სიმბოლო</span>
+                      <span *ngIf="registerForm.get('lastName')?.errors?.['minlength']">გვარი უნდა იყოს მინიმუმ 2 სიმბოლო</span>
                   </div>
               </div>
           </div>
@@ -91,7 +97,8 @@
                   <input type="password" id="password" formControlName="password" placeholder="(მინიმუმ 8 სიმბოლო)">
                   <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" 
                        class="error-message">
-                      პაროლის ველის შევსება აუცილებელია
+                      <span *ngIf="registerForm.get('password')?.errors?.['required']">პაროლის ველის შევსება აუცილებელია</span>
+                      <span *ngIf="registerForm.get('password')?.errors?.['minlength']">პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს</span>
                   </div>
               </div>
           </div>

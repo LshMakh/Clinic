@@ -71,7 +71,7 @@ export class LoginPopUpComponent {
           this.showSuccessAlert('პაროლის აღდგენის ინსტრუქცია გამოგზავნილია თქვენს ელ-ფოსტაზე');
           this.isSubmitting = false;
           setTimeout(() => {
-            this.toggleForgotPassword(); // Switch back to login form
+            this.toggleForgotPassword(); 
           }, 3000);
         },
         error: (error) => {
@@ -85,7 +85,6 @@ export class LoginPopUpComponent {
   toggleForgotPassword(): void {
     this.showForgotPassword = !this.showForgotPassword;
     this.hideAlert();
-    // Transfer email if switching to forgot password
     if (this.showForgotPassword && this.loginForm.get('email')?.value) {
       this.forgotPasswordForm.patchValue({
         email: this.loginForm.get('email')?.value

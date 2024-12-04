@@ -178,13 +178,13 @@
                                     </svg></i>
                                     <span>დაჯავშნილია :</span>
                                 </div>
-                                <span class="detail-value" [class.editable]="isEditVisible"></span>
+                                <span class="detail-value" [class.editable]="isEditVisible">({{appointmentCount}})</span>
                             </div></ng-container>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Action buttons -->
+               
                 <div class="doctor-actions">
                     <ng-container *ngIf="!isEditVisible">
                     <button class="btn btn-add">
