@@ -1,1 +1,39 @@
-<p>booking-modal works!</p>
+<div class="modal-overlay" (click)="onClose()"></div>
+<div class="modal-container">
+  <span>გსურთ ვიზიტის დაჯავშნა?</span>
+  <br>
+  <p>შეგიძლიათ მიუთითოთ თქვენი პრობლემა</p>
+  
+  <div *ngIf="showAlert" 
+       [class]="'alert ' + (alertType === 'success' ? 'alert-success' : 'alert-error')">
+    {{ alertMessage }}
+  </div>
+
+  <div class="modal-content">
+    <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <textarea 
+          formControlName="description" 
+          placeholder="აღწერა..."
+          rows="4"
+          [class.invalid]="bookingForm.get('description')?.invalid && 
+                          bookingForm.get('description')?.touched">
+        </textarea>
+        <div class="error-message" 
+             *ngIf="bookingForm.get('description')?.invalid && 
+                    bookingForm.get('description')?.touched">
+          აღწერის ველის შევსება აუცილებელია
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="cancel-button" (click)="onClose()">გაუქმება</button>
+        <button type="submit" 
+                class="submit-button" 
+                [disabled]="!bookingForm.valid || isSubmitting">
+          {{ isSubmitting ? 'მიმდინარეობს...' : 'დაჯავშნა' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -13,6 +13,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { CalendarEditModalComponent } from './components/calendar-edit-modal/calendar-edit-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
     FooterComponent,
     MainComponent,
     LoginPopUpComponent,
+    
   ],
   imports: [
     BrowserModule,
