@@ -1,101 +1,119 @@
 .weekly-calendar-container {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
-.calendar-grid {
-  display: grid;
-  grid-template-columns: 150px repeat(7, 1fr);
-  border-radius: 10px;
-  overflow: hidden;
-}
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: 150px repeat(7, 1fr);
+      border-radius: 10px;
+      overflow: hidden;
+    }
 
-.time-slot-header,
-.day-header {
-  background-color: #ecf2f8;
-  padding: 10px;
-  text-align: center;
-}
+    .time-slot-header,
+    .day-header {
+      background-color: #ecf2f8;
+      padding: 10px;
+      text-align: center;
+    }
 
-.time-slot {
-  background-color: white;
-  padding: 10px;
-  text-align: right;
-  border-bottom: 1px solid #ecf2f8;
-  border-right: 1px solid #ecf2f8dd;
-  border-left: 1px solid #ecf2f8dd;
-  color: #053354;
-}
+    .time-slot {
+      background-color: white;
+      padding: 10px;
+      text-align: right;
+      border-bottom: 1px solid #ecf2f8;
+      border-right: 1px solid #ecf2f8dd;
+      border-left: 1px solid #ecf2f8dd;
+      color: #053354;
+    }
 
-.calendar-cell {
-  background-color: white;
-  border-bottom: 1px solid #ecf2f8;
-  border-right: 1px solid #ecf2f8dd;
-  height: 60px;
-  position: relative;
-}
+    .calendar-cell {
+      background-color: white;
+      border-bottom: 1px solid #ecf2f8;
+      border-right: 1px solid #ecf2f8dd;
+      height: 60px;
+      position: relative;
+    }
 
-.activity {
-  background-color: #dafaee;
-  padding: 13px 7px;
-  border-radius: 4px;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    .activity {
+      padding: 13px 7px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-align: center;
+      cursor: pointer;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.activity.reservation {
-  color: #3acf99;
-}
+    .activity.empty {
+      background-color: white;
+      color: #0533544D;
+      cursor: pointer;
+    }
 
-.activity.off {
-  background-color: #ff93a6;
-  cursor: default;
-}
+    .activity.empty > span {
+      color: #3ACF99;
+    }
 
-.activity.off.yellow {
-  background-color: #FFFFF5;
-}
+    .activity.empty:hover {
+      background-color: #f8f9fa;
+    }
 
-.activity.empty {
-  background-color: white;
-  color: #0533544D;
-}
-.empty > span {
-  color: #3ACF99;
-}
-.arrow {
-  cursor: pointer;
-}
+    .activity.reservation {
+      background-color: #dafaee;
+      color: #3acf99;
+    }
 
-.white-circle {
-  height: 18px;
-  width: 18px;
-  background-color: white;
-  border-radius: 100%;
-  display: flex;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  justify-content: center;
-}
+    .activity.off {
+      background-color: #ff93a6;
+      cursor: default;
+    }
 
-.white-circle > img {
-  width: 6px;
-  height: 6px;
-  align-self: center;
-}
+    .activity.off.yellow {
+      background-color: #FFFFF5;
+    }
+
+    .white-circle {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      height: 18px;
+      width: 18px;
+      background-color: white;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .white-circle > img {
+      width: 6px;
+      height: 6px;
+    }
+
+    .arrow {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 16px;
+      color: #053354;
+    }
+
+    .arrow:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }

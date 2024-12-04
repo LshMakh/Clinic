@@ -1,46 +1,49 @@
 <div class="weekly-calendar-container">
-  <div class="calendar-header">
+    <div class="calendar-header">
       <span>{{ currentYear }} {{ currentMonthName }}</span>
-  </div>
+    </div>
 
-  <div class="calendar-grid">
+    <div class="calendar-grid">
       <div class="time-slot-header">
-          <button (click)="previousWeek()" class="arrow">&#10094;</button>
-          <button (click)="nextWeek()" class="arrow">&#10095;</button>
+        <button (click)="previousWeek()" class="arrow" [disabled]="isFirstWeekOfMonth()">&#10094;</button>
+        <button (click)="nextWeek()" class="arrow">&#10095;</button>
       </div>
 
       <div *ngFor="let day of displayedWeek" class="day-header">
-          {{ daysOfWeek[day.getDay()] }} {{ day | date : "d" }}
+        {{ daysOfWeek[day.getDay()] }} {{ day | date:'d' }}
       </div>
+
       <ng-container *ngFor="let timeSlot of timeSlots">
-          <div class="time-slot">{{ timeSlot }}</div>
-          @for (day of displayedWeek; track $index) {
-              <div class="calendar-cell">
-                  @if (getEventsForDayAndTime(day, timeSlot).length > 0) {
-                      @for (event of getEventsForDayAndTime(day, timeSlot); track $index) {
-                          <!-- suppose my userId is 1 -->
-                          @if (event.userId === 1) {
-                              <div class="activity reservation">
-                                  <div> ჩემი ჯავშანი</div>
-                                  <div (click)="deleteReservation(event.userId, day, timeSlot)">
-                                      <div class="white-circle">
-                                          <img src="/assets/images/close.svg" alt="">
-                                      </div>
-                                  </div>
-                              </div>
-                          } @else {
-                              <div class="activity off"></div>
-                          }
-                      }
-                  } @else if (daysOfWeek[day.getDay()] === 'Sat' || daysOfWeek[day.getDay()] === 'Sun') {
-                      <div class="activity off yellow"></div>
-                  } @else {
-                      <div class="activity empty" (click)="makeReservation(day, timeSlot)">
-                          <span>+&nbsp;</span> დაჯავშნა
-                      </div>
-                  }
+        <div class="time-slot">{{ timeSlot }}</div>
+        <div *ngFor="let day of displayedWeek" class="calendar-cell">
+          <ng-container [ngSwitch]="getSlotStatus(day, timeSlot)">
+            <div *ngSwitchCase="'available'" 
+                 class="activity empty" 
+                 (click)="makeReservation(day, timeSlot)">
+              <span>+&nbsp;</span> დაჯავშნა
+            </div>
+
+            <div *ngSwitchCase="'own'" class="activity reservation">
+              <div>ჩემი ჯავშანი</div>
+              <div (click)="deleteReservation($event, day, timeSlot)" class="white-circle">
+                <img src="assets/Group 1.svg" alt="delete">
               </div>
-          }
+            </div>
+
+            <div *ngSwitchCase="'booked'" class="activity off"></div>
+            
+            <div *ngSwitchCase="'weekend'" class="activity off yellow"></div>
+          </ng-container>
+        </div>
       </ng-container>
+    </div>
   </div>
-</div>
+
+  <app-booking-modal 
+    *ngIf="showBookingModal"
+    [doctorId]="doctorId"
+    [appointmentDate]="selectedDate!"
+    [timeSlot]="selectedTimeSlot!"
+    (close)="closeBookingModal()"
+    (booked)="onAppointmentBooked()">
+  </app-booking-modal>

@@ -1,14 +1,12 @@
-/* Main container for doctor profile */
 .doc-prof {
   padding: 40px 5%;
   display: flex;
   gap: 40px;
-  max-width: 1720px;
+  max-width: 100%;
   margin: 0 auto;
   overflow-x: hidden;
 }
 
-/* Main content layout */
 .main-content {
   display: flex;
   justify-content: space-between;
@@ -17,7 +15,6 @@
   width: 100%;
 }
 
-/* Doctor profile card */
 .doctor-profile {
   background-color: white;
   border-radius: 10px;
@@ -28,7 +25,6 @@
   text-align: center;
 }
 
-/* Doctor profile image */
 .doctor-image {
   width: 150px;
   height: 150px;
@@ -37,7 +33,6 @@
   object-fit: cover;
 }
 
-/* Doctor name styling - reduced margin */
 .doctor-name {
   font-size: 24px;
   margin-bottom: 8px;
@@ -47,7 +42,6 @@
   line-height: 1.3;
 }
 
-/* Doctor specialty styling - reduced margin */
 .doctor-specialty {
   color: #666;
   margin-bottom: 8px;
@@ -56,25 +50,22 @@
   line-height: 1.3;
 }
 
-/* Rating stars - closer to specialty */
 .rating {
   color: #FFD700;
   font-size: 20px;
-  margin: 8px 0 40px; /* Small top margin, large bottom margin */
+  margin: 8px 0 40px; 
   display: flex;
   gap: 5px;
   justify-content: center;
 }
 
-/* Contact information section - increased spacing from above */
 .contact-info {
-  margin: 40px 0; /* Increased margin */
+  margin: 40px 0; 
   display: flex;
   flex-direction: column;
   
 }
 
-/* Phone and email labels */
 .phone, .email {
   margin: 5px 0;
   color: #053354;
@@ -89,7 +80,6 @@ h5 {
   padding: 5px 0;
 }
 
-/* Experience and appointments styling */
 .experience, .appointments {
   margin: 25px 0;
   color: #666;
@@ -97,16 +87,14 @@ h5 {
   line-height: 1.4;
 }
 
-/* Appointment count styling */
 .appointments span {
   font-weight: bold;
   color: #333;
   margin-left: 8px;
 }
 
-/* Password change link */
 .password-change {
-  margin: 35px 0; /* Increased margin */
+  margin: 35px 0; 
   color: #666;
   cursor: pointer;
   transition: color 0.3s ease;
@@ -117,7 +105,6 @@ h5 {
   color: #333;
 }
 
-/* Calendar section styling */
 .calendar-section {
   background-color: white;
   border-radius: 10px;
@@ -127,9 +114,7 @@ h5 {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Breakpoints */
 
-/* Large screens */
 @media (max-width: 1400px) {
   .doc-prof {
     max-width: 1208px;
@@ -140,7 +125,6 @@ h5 {
   }
 }
 
-/* Medium-large screens */
 @media (max-width: 1200px) {
   .doc-prof {
     padding: 25px 3%;
@@ -157,7 +141,6 @@ h5 {
   }
 }
 
-/* Tablet landscape */
 @media (max-width: 992px) {
   .doc-prof {
     flex-direction: column;
@@ -181,7 +164,6 @@ h5 {
   }
 }
 
-/* Tablet portrait */
 @media (max-width: 768px) {
   .doc-prof {
     padding: 20px 2%;
@@ -209,7 +191,7 @@ h5 {
 
   .rating {
     font-size: 18px;
-    margin: 6px 0 30px; /* Adjusted margins for smaller screens */
+    margin: 6px 0 30px;
   }
 
   .contact-info {
@@ -218,7 +200,6 @@ h5 {
   }
 }
 
-/* Mobile devices */
 @media (max-width: 480px) {
   .doc-prof {
     padding: 15px;
@@ -245,7 +226,7 @@ h5 {
 
   .rating {
     font-size: 16px;
-    margin: 5px 0 25px; /* Adjusted margins for mobile */
+    margin: 5px 0 25px; 
   }
 
   .calendar-section {

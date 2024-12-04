@@ -1,4 +1,3 @@
-// calendar.component.ts
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { AppointmentService, TimeSlot, Appointment } from '../../services/appointment.service';
 import { AuthService } from '../../services/auth.service';
@@ -6,186 +5,12 @@ import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-calendar',
-  template: `
-    <div class="weekly-calendar-container">
-      <div class="calendar-header">
-        <span>{{ currentYear }} {{ currentMonthName }}</span>
-      </div>
-
-      <div class="calendar-grid">
-        <div class="time-slot-header">
-          <button (click)="previousWeek()" class="arrow" [disabled]="isFirstWeekOfMonth()">&#10094;</button>
-          <button (click)="nextWeek()" class="arrow">&#10095;</button>
-        </div>
-
-        <div *ngFor="let day of displayedWeek" class="day-header">
-          {{ daysOfWeek[day.getDay()] }} {{ day | date:'d' }}
-        </div>
-
-        <ng-container *ngFor="let timeSlot of timeSlots">
-          <div class="time-slot">{{ timeSlot }}</div>
-          <div *ngFor="let day of displayedWeek" class="calendar-cell">
-            <ng-container [ngSwitch]="getSlotStatus(day, timeSlot)">
-              <!-- Available Slot -->
-              <div *ngSwitchCase="'available'" 
-                   class="activity empty" 
-                   (click)="makeReservation(day, timeSlot)">
-                <span>+&nbsp;</span> დაჯავშნა
-              </div>
-
-              <!-- User's Own Appointment -->
-              <div *ngSwitchCase="'own'" class="activity reservation">
-                <div>ჩემი ჯავშანი</div>
-                <div (click)="deleteReservation($event, day, timeSlot)" class="white-circle">
-                  <img src="/assets/images/close.svg" alt="delete">
-                </div>
-              </div>
-
-              <!-- Booked by Someone Else or Blocked -->
-              <div *ngSwitchCase="'booked'" class="activity off"></div>
-              
-              <!-- Weekend -->
-              <div *ngSwitchCase="'weekend'" class="activity off yellow"></div>
-            </ng-container>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-
-    <app-booking-modal 
-      *ngIf="showBookingModal"
-      [doctorId]="doctorId"
-      [appointmentDate]="selectedDate!"
-      [timeSlot]="selectedTimeSlot!"
-      (close)="closeBookingModal()"
-      (booked)="onAppointmentBooked()">
-    </app-booking-modal>
-  `,
-  styles: [`
-    .weekly-calendar-container {
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: 150px repeat(7, 1fr);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .time-slot-header,
-    .day-header {
-      background-color: #ecf2f8;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .time-slot {
-      background-color: white;
-      padding: 10px;
-      text-align: right;
-      border-bottom: 1px solid #ecf2f8;
-      border-right: 1px solid #ecf2f8dd;
-      border-left: 1px solid #ecf2f8dd;
-      color: #053354;
-    }
-
-    .calendar-cell {
-      background-color: white;
-      border-bottom: 1px solid #ecf2f8;
-      border-right: 1px solid #ecf2f8dd;
-      height: 60px;
-      position: relative;
-    }
-
-    .activity {
-      padding: 13px 7px;
-      border-radius: 4px;
-      font-size: 14px;
-      text-align: center;
-      cursor: pointer;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .activity.empty {
-      background-color: white;
-      color: #0533544D;
-      cursor: pointer;
-    }
-
-    .activity.empty > span {
-      color: #3ACF99;
-    }
-
-    .activity.empty:hover {
-      background-color: #f8f9fa;
-    }
-
-    .activity.reservation {
-      background-color: #dafaee;
-      color: #3acf99;
-    }
-
-    .activity.off {
-      background-color: #ff93a6;
-      cursor: default;
-    }
-
-    .activity.off.yellow {
-      background-color: #FFFFF5;
-    }
-
-    .white-circle {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      height: 18px;
-      width: 18px;
-      background-color: white;
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .white-circle > img {
-      width: 6px;
-      height: 6px;
-    }
-
-    .arrow {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 5px;
-      font-size: 16px;
-      color: #053354;
-    }
-
-    .arrow:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-  `]
+  templateUrl: './calendar.component.html',
+  styleUrl:'./calendar.component.css',
 })
 export class CalendarComponent implements OnInit, OnDestroy {
   @Input() doctorId!: number;
-  @Input() viewMode: 'doctor' | 'patient' = 'patient';
+  @Input() viewMode: 'doctor' | 'patient'|'booking' = 'patient';
 
   currentYear: number = new Date().getFullYear();
   currentMonthName: string = '';
@@ -206,6 +31,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private availableSlots: Map<string, TimeSlot> = new Map();
   private destroy$ = new Subject<void>();
   private userId: string | null = null;
+  private userPatientId:string|null = null;
+  private userDoctorId:string|null = null;
 
   constructor(
     private appointmentService: AppointmentService,
@@ -214,9 +41,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userId = this.authService.getUserId();
+    this.userDoctorId = this.authService.getUserDoctorId();
+    this.userPatientId = this.authService.getUserPatientId();
     this.updateWeek();
     this.loadInitialData();
     this.subscribeToAppointments();
+
+    console.log(this.authService.getUserPatientId());
   }
 
   ngOnDestroy() {
@@ -225,7 +56,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   private async loadInitialData() {
-    if (this.viewMode === 'doctor') {
+    if (this.viewMode ==='booking'){
+      await firstValueFrom(this.appointmentService.loadDoctorAppointmentsFromUser(this.doctorId))
+
+    }else if (this.viewMode === 'doctor') {
       await firstValueFrom(this.appointmentService.loadDoctorAppointments());
     } else {
       await firstValueFrom(this.appointmentService.loadPatientAppointments());
@@ -234,9 +68,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToAppointments() {
-    const appointmentsObservable = this.viewMode === 'doctor' 
+    const appointmentsObservable = this.viewMode === 'booking'
       ? this.appointmentService.getDoctorAppointments()
-      : this.appointmentService.getPatientAppointments();
+      : this.viewMode === 'doctor'
+        ? this.appointmentService.getDoctorAppointments()
+        : this.appointmentService.getPatientAppointments();
 
     appointmentsObservable
       .pipe(takeUntil(this.destroy$))
@@ -266,10 +102,16 @@ getSlotStatus(day: Date, timeSlot: string): 'available' | 'own' | 'booked' | 'we
   const appointment = this.appointments.get(key);
   const slot = this.availableSlots.get(key);
 
+  if(this.authService.getRole()==='PATIENT'){
   if (appointment) {
-    return appointment.patientId.toString() === this.userId ? 'own' : 'booked';
+    return appointment.patientId.toString() === this.userPatientId ? 'own' : 'booked';
   }
-
+  }
+  else if(this.authService.getRole()==='DOCTOR'){
+    if(appointment){
+      return appointment.doctorId.toString() === this.userDoctorId ? 'own':'booked';
+    }
+  }
   if (slot && !slot.isAvailable) {
     return 'booked';
   }
