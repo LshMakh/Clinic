@@ -11,15 +11,27 @@
           <h5>{{user.email}}</h5>
         </div>
         <p class="experience" (click)="toggleChangePasswordModal()">პაროლის შეცვლა</p>
-        <p class="appointments">ჯავშანი: <span>{{appointmentCount}}</span></p>
+        <p class="appointments">ჯავშანი: <br><h5>( {{appointmentCount}} )</h5></p>
       </div>
     </div>
       
       <div class="calendar-section">
+        <h2>ჩემი ჯავშანი <label style="color: #0533544D;">( {{appointmentCount}} )</label></h2>
+
         <app-calendar 
         [doctorId]="doctorId"
-        viewMode="patient">
-    </app-calendar>     </div>
+        viewMode="patient"
+        [isDeleteVisible]="isDeleteVisible"
+        [isEditVisible]="isEditVisible">
+    </app-calendar>    
+  <div class="buttons">
+          <button type="submit" class="edit-btn" (click)="toggleEdit()" ><img src="assets/calendaredit.svg" alt="">რედაქტირება</button>
+          <button type="submit" class="dlt-btn" (click)="toggleDelete()"><img src="assets/calendardelete.svg" alt="">წაშლა</button>
+    </div>
+  
+  </div>
+
+    
 </div>
 
 <app-change-password-modal 

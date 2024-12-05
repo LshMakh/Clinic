@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, input } from '@angular/core';
 import { AppointmentService, TimeSlot, Appointment } from '../../services/appointment.service';
 import { AuthService } from '../../services/auth.service';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
@@ -11,6 +11,8 @@ import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 export class CalendarComponent implements OnInit, OnDestroy {
   @Input() doctorId!: number;
   @Input() viewMode: 'doctor' | 'patient'|'booking' = 'patient';
+  @Input() isDeleteVisible:boolean = false;
+  @Input() isEditVisible:boolean = false;
 
   currentYear: number = new Date().getFullYear();
   currentMonthName: string = '';
@@ -19,6 +21,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   showBookingModal = false;
   selectedDate: Date | null = null;
   selectedTimeSlot: string | null = null;
+  userRole : any;
 
   daysOfWeek: string[] = ['კვი', 'ორშ', 'სამ', 'ოთხ', 'ხუთ', 'პარ', 'შაბ'];
   timeSlots: string[] = [
@@ -46,6 +49,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.updateWeek();
     this.loadInitialData();
     this.subscribeToAppointments();
+    this.userRole = this.authService.getRole();
 
     console.log(this.authService.getUserPatientId());
   }
@@ -59,8 +63,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (this.viewMode ==='booking'){
       await firstValueFrom(this.appointmentService.loadDoctorAppointmentsFromUser(this.doctorId))
 
-    }else if (this.viewMode === 'doctor') {
+    }
+    
+    if(this.authService.getRole()==='ADMIN'){
+      await firstValueFrom(this.appointmentService.loadDoctorAppointmentsFromUser(this.doctorId))
+    }
+
+    else if (this.viewMode === 'doctor' && this.authService.getRole() !=='ADMIN') {
+      
       await firstValueFrom(this.appointmentService.loadDoctorAppointments());
+
     } else {
       await firstValueFrom(this.appointmentService.loadPatientAppointments());
     }
@@ -102,10 +114,13 @@ getSlotStatus(day: Date, timeSlot: string): 'available' | 'own' | 'booked' | 'we
   const appointment = this.appointments.get(key);
   const slot = this.availableSlots.get(key);
 
-  if(this.authService.getRole()==='PATIENT'){
-  if (appointment) {
-    return appointment.patientId.toString() === this.userPatientId ? 'own' : 'booked';
-  }
+  if(this.authService.getRole()==='PATIENT' || this.authService.getRole() ==="ADMIN"){
+    if (appointment) {
+      if(this.authService.getRole()==='ADMIN' && this.viewMode==='doctor') {
+        return 'own'; 
+      }
+      return appointment.patientId.toString() === this.userPatientId ? 'own' : 'booked';
+    }
   }
   else if(this.authService.getRole()==='DOCTOR'){
     if(appointment){

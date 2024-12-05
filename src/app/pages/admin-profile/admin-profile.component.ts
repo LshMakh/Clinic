@@ -29,6 +29,9 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   errorMessage: string = '';
   private routerSubscription: Subscription | undefined;
   appointmentCount : number = 0;
+  doctorId : number = 0;
+  isEditCalendar:boolean = false;
+  isDeleteCalendar:boolean=false;
 
   
   private subscriptions: Subscription[] = [];
@@ -81,6 +84,11 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
 
   
   ngOnInit() {
+
+    
+
+   
+
     this.subscriptions.push(
       this.visibilityService.isVisible$.subscribe(visible => {
         this.isVisible = visible;
@@ -89,6 +97,7 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
           const id = this.route.snapshot.paramMap.get('id');
           if (id) {
             this.loadDoctorDetails(Number(id));
+            this.doctorId = Number(id);
           } else {
             this.visibilityService.setVisibility(false);
           }
@@ -106,6 +115,10 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
     if (!id) {
       this.visibilityService.setVisibility(false);
     }
+  
+    
+   
+   
   }
 
   loadAppointmentCount(){
@@ -167,6 +180,8 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   }
   toggleEditVisibility(): void {
     this.isEditVisible = !this.isEditVisible;
+    this.isDeleteCalendar = !this.isDeleteCalendar;
+    this.isEditCalendar = !this.isEditCalendar;
     if (this.isEditVisible && this.doctor) {
       this.editForm.patchValue({
         firstName: this.doctor.firstName,
@@ -176,6 +191,7 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
         specialty: this.doctor.specialty
       });
     }
+    
   }
   onPhotoSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -234,6 +250,8 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
             this.successMessage = 'Doctor information updated successfully';
             this.loadDoctorDetails(this.doctor.doctorId);
             this.isEditVisible = false;
+            this.isDeleteCalendar = false;
+            this.isEditCalendar = false;
             this.isSubmitting = false;
           },
           error: (error) => {
@@ -257,6 +275,8 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   }
   cancelEdit(): void {
     this.isEditVisible = false;
+    this.isDeleteCalendar = false;
+    this.isEditCalendar = false;
     this.uploadedPhoto = null;
     this.uploadedCV = null;
     this.photoPreview = null;

@@ -8,16 +8,60 @@
 }
 
 .calendar-section {
-  width: 100%;
-  max-width: 1111px;
   margin-top: 70px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
 }
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-top: 66px;
+}
+
+.edit-btn, .dlt-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 50px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 25px;
+}
+
+.edit-btn {
+    width: 230px;
+    background-color: #ECF2F8;
+    color: #18A4E1;
+}
+
+.dlt-btn {
+    width: 170px;
+    background-color: #FF93A6;
+    color: white;
+}
+
+.edit-btn img, .dlt-btn img {
+    width: 26px;
+    height: 26px;
+}
+
 
 @media (max-width: 1200px) {
   .cont-app {
     flex-direction: column;
     align-items: center;
   }
+  .action-buttons {
+    flex-direction: row;
+    padding-top: 0;
+    justify-content: flex-end;
+}
 
   .left-column, .right-column {
     width: 100%;
@@ -35,6 +79,7 @@
 
   .calendar-section {
     margin-top: 30px;
+    flex-direction: column;
   }
 }
 

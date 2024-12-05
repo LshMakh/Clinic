@@ -226,9 +226,14 @@
                 </div>
             </div>
 
-            <!-- Calendar Section -->
             <div class="calendar-wrapper">
-                <app-calendar></app-calendar>
+              <div class="calendar-section">
+                <app-calendar 
+                [doctorId]="doctorId"
+                viewMode='doctor'
+                [isEditVisible]="isEditCalendar"
+                [isDeleteVisible]="isDeleteCalendar">
+            </app-calendar>
             </div>
         </div>
     </div>

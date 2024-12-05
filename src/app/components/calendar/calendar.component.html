@@ -1,6 +1,11 @@
 <div class="weekly-calendar-container">
     <div class="calendar-header">
-      <span>{{ currentYear }} {{ currentMonthName }}</span>
+      <h4 style="color: #053354;">{{ currentYear }}</h4>
+        <div class="month">
+          <button><img src="/assets/Vector (2).svg" alt="Previous Month"></button>
+          <h4>{{ currentMonthName }}</h4>
+          <button><img src="/assets/Vector (1).svg" alt="Next Month"></button>
+        </div>
     </div>
 
     <div class="calendar-grid">
@@ -10,23 +15,31 @@
       </div>
 
       <div *ngFor="let day of displayedWeek" class="day-header">
-        {{ daysOfWeek[day.getDay()] }} {{ day | date:'d' }}
+         <span style="color: #18A4E1; margin-right: 2px;">{{ day | date:'d' }}</span> ( {{ daysOfWeek[day.getDay()] }} )
       </div>
 
       <ng-container *ngFor="let timeSlot of timeSlots">
         <div class="time-slot">{{ timeSlot }}</div>
         <div *ngFor="let day of displayedWeek" class="calendar-cell">
           <ng-container [ngSwitch]="getSlotStatus(day, timeSlot)">
-            <div *ngSwitchCase="'available'" 
-                 class="activity empty" 
-                 (click)="makeReservation(day, timeSlot)">
-              <span>+&nbsp;</span> დაჯავშნა
-            </div>
+            <ng-container *ngSwitchCase="'available'">
+              <div *ngIf="viewMode === 'booking'; else Empty" 
+                   class="activity empty" 
+                   (click)="makeReservation(day, timeSlot)">
+                <span>+&nbsp;</span> დაჯავშნა
+              </div>
+            </ng-container>
+
+            <ng-template #Empty></ng-template>
 
             <div *ngSwitchCase="'own'" class="activity reservation">
-              <div>ჩემი ჯავშანი</div>
-              <div (click)="deleteReservation($event, day, timeSlot)" class="white-circle">
+              <div *ngIf="userRole==='PATIENT'; else Reserve">ჩემი ჯავშანი</div>
+              <ng-template #Reserve>დაჯავშნილია</ng-template>
+              <div *ngIf="isDeleteVisible" (click)="deleteReservation($event, day, timeSlot)" class="white-circle">
                 <img src="assets/Group 1.svg" alt="delete">
+              </div>
+              <div *ngIf="isEditVisible" class="edit-circle">
+                <img src="assets/calendaredit.svg" alt="delete">
               </div>
             </div>
 

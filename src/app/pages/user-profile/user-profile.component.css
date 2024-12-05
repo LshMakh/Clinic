@@ -5,6 +5,49 @@
     max-width: 100%;
     margin: 0 auto;
     overflow-x: hidden;
+    justify-content: center;
+}
+
+.buttons {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+    float: right;
+    font-size: 18px;
+}
+
+.edit-btn, .dlt-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 50px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-btn {
+    width: 230px;
+    background-color: #ECF2F8;
+    color: #18A4E1;
+}
+
+.dlt-btn {
+    width: 170px;
+    background-color: #FF93A6;
+    color: white;
+}
+
+.edit-btn img, .dlt-btn img {
+    width: 26px;
+    height: 26px;
+}
+
+h2 {
+    margin-bottom: 56px;
+    color: #18A4E1;
+    font-size: 26px;
 }
 
 .main-content {
@@ -13,6 +56,7 @@
     padding: 20px;
     background-color: #f5f5f5;
     width: 100%;
+  
 }
 
 .user-profile {
@@ -93,12 +137,8 @@ h5 {
 }
 
 .calendar-section {
-    background-color: white;
-    border-radius: 10px;
-    padding: 30px;  
-    width: 830px;
-    flex-grow: 1;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: transparent;
+  
 }
 
 @media (max-width: 1400px) {

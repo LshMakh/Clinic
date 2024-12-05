@@ -1,4 +1,3 @@
-/* Card Container */
 
 .card {
   background-color: #ffffff;
@@ -6,10 +5,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   border: 1px solid #e0e0e0;
-  width: 100%;
+  width: 1200px;
 }
 
-/* Card Content Layout */
 .card-content {
   display: flex;
   justify-content: space-between;
@@ -18,7 +16,6 @@
   gap: 40px;
 }
 
-/* Profile Column */
 .profile-info-column {
   display: flex;
   align-items: center;
@@ -26,7 +23,6 @@
   flex: 1;
 }
 
-/* Doctor Photo */
 .doctor-photo {
   width: 157px;
   height: 157px;
@@ -35,20 +31,20 @@
   flex-shrink: 0;
 }
 
-/* Information Column */
+
 .info-content {
   display: flex;
   flex-direction: column;
 }
 
-/* Vertical Divider */
+
 .vertical-divider {
   width: 1px;
   background-color: #e0e0e0;
   align-self: stretch;
 }
 
-/* History Column */
+
 .history-column {
   flex: 1;
   display: flex;
@@ -56,7 +52,7 @@
   max-width: 50%;
 }
 
-/* Doctor Name */
+
 .doctor-name {
   font-size: 20px;
   font-weight: bold;
@@ -64,37 +60,34 @@
   margin: 0 0 4px 0;
 }
 
-/* Doctor Specialization */
+
 .doctor-specialization {
   font-size: 14px;
   color: #666;
   margin: 0 0 8px 0;
 }
 
-/* Doctor Rating */
+
 .doctor-rating {
   color: #ffd700;
   font-size: 18px;
 }
 
-/* Experience Item */
+
 .experience-item {
   margin-bottom: 8px;
   font-size: 14px;
 }
 
-/* Experience Year */
 .experience-year {
   color: #2196f3;
   font-weight: bold;
 }
 
-/* Experience Description */
 .experience-description {
   color: #333;
 }
 
-/* Responsive Breakpoints */
 @media (max-width: 1750px) {
   .card {
     width: 100%;

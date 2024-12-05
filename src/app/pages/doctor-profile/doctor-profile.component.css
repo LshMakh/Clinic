@@ -1,25 +1,19 @@
 .doc-prof {
   padding: 40px 5%;
   display: flex;
-  gap: 40px;
+  gap: 30px;
   max-width: 100%;
   margin: 0 auto;
   overflow-x: hidden;
-}
-
-.main-content {
-  display: flex;
-  justify-content: space-between;
-  padding: 30px;
-  background-color: #f5f5f5;
-  width: 100%;
+  justify-content: center;
 }
 
 .doctor-profile {
   background-color: white;
   border-radius: 10px;
-  padding: 30px;
+  padding: 30px;  
   width: 366px;
+  height: 800px;
   min-width: 300px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -35,218 +29,215 @@
 
 .doctor-name {
   font-size: 24px;
-  margin-bottom: 8px;
-  color:#18A4E1;
-  word-wrap: break-word;
-  padding: 0;
-  line-height: 1.3;
+  margin-bottom: 1px;
+  color: #18A4E1;
 }
 
 .doctor-specialty {
   color: #666;
-  margin-bottom: 8px;
+  margin-bottom: 1px;
   font-size: 16px;
-  padding: 0;
-  line-height: 1.3;
+  padding: 5px 0;
 }
 
 .rating {
-  color: #FFD700;
-  font-size: 20px;
-  margin: 8px 0 40px; 
+  margin: 8px 0 40px;
   display: flex;
   gap: 5px;
   justify-content: center;
 }
 
 .contact-info {
-  margin: 40px 0; 
+  margin-bottom: 1px;
   display: flex;
   flex-direction: column;
-  
+  gap: 5px;
 }
 
 .phone, .email {
-  margin: 5px 0;
-  color: #053354;
-  padding: 8px 0;
-}
 
-h5 {
-  margin: 10px 0 25px;
-  word-break: break-word;
-  line-height: 1.5;
-  color: #B4C2CC;
+  color: #053354;
   padding: 5px 0;
 }
 
-.experience, .appointments {
-  margin: 25px 0;
-  color: #666;
-  padding: 8px 0;
-  line-height: 1.4;
+h5 {
+  
+  word-break: break-word;
+  color: #B4C2CC;
+  line-height: 1.5;
 }
 
-.appointments span {
-  font-weight: bold;
-  color: #333;
-  margin-left: 8px;
-}
-
-.password-change {
-  margin: 35px 0; 
-  color: #666;
+.experience {
   cursor: pointer;
-  transition: color 0.3s ease;
-  padding: 8px 0;
 }
 
-.password-change:hover {
+.experience, .appointments {
+  margin: 20px 0;
+  color: #666;
+  transition: color 0.3s ease;
+  padding: 5px 0;
+}
+
+.experience:hover, .appointments:hover {
   color: #333;
 }
 
 .calendar-section {
-  background-color: white;
-  border-radius: 10px;
-  padding: 30px;
-  width: 830px;
-  flex-grow: 1;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: transparent;
 }
 
+.buttons {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  float: right;
+  font-size: 18px;
+  
+}
 
+.edit-btn, .dlt-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 50px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-btn {
+  width: 230px;
+  background-color: #ECF2F8;
+  color: #18A4E1;
+}
+
+.dlt-btn {
+  width: 170px;
+  background-color: #FF93A6;
+  color: white;
+}
+
+.edit-btn img, .dlt-btn img {
+  width: 26px;
+  height: 26px;
+}
+
+h2 {
+  margin-bottom: 56px;
+  color: #18A4E1;
+  font-size: 26px;
+}
+
+/* Media Queries */
 @media (max-width: 1400px) {
   .doc-prof {
-    max-width: 1208px;
+      max-width: 1208px;
   }
   
   .calendar-section {
-    width: 700px;
+      width: 700px;
   }
 }
 
 @media (max-width: 1200px) {
   .doc-prof {
-    padding: 25px 3%;
+      padding: 20px 3%;
   }
 
   .calendar-section {
-    width: 600px;
+      width: 600px;
   }
 
   .doctor-profile {
-    width: 320px;
-    min-width: 280px;
-    padding: 25px;
+      width: 320px;
+      min-width: 280px;
+      padding: 25px;
   }
 }
 
 @media (max-width: 992px) {
   .doc-prof {
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
   }
 
   .doctor-profile {
-    width: 100%;
-    max-width: 500px;
+      width: 100%;
+      max-width: 500px;
   }
 
   .calendar-section {
-    width: 100%;
-    max-width: 800px;
-  }
-
-  app-categories {
-    width: 100%;
-    max-width: 800px;
+      width: 100%;
+      max-width: 800px;
   }
 }
 
 @media (max-width: 768px) {
   .doc-prof {
-    padding: 20px 2%;
+      padding: 15px 2%;
   }
 
   .doctor-profile {
-    padding: 20px;
+      padding: 20px;
   }
 
   .doctor-image {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 15px;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
   }
 
   .doctor-name {
-    font-size: 20px;
-    margin-bottom: 6px;
+      font-size: 20px;
   }
 
   .doctor-specialty {
-    font-size: 14px;
-    margin-bottom: 6px;
-  }
-
-  .rating {
-    font-size: 18px;
-    margin: 6px 0 30px;
-  }
-
-  .contact-info {
-    margin: 30px 0;
-    gap: 15px;
+      font-size: 14px;
+      margin-bottom: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .doc-prof {
-    padding: 15px;
-    gap: 20px;
+      padding: 10px;
+      gap: 15px;
   }
 
   .doctor-profile {
-    padding: 15px;
+      padding: 15px;
   }
 
   .doctor-image {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 12px;
-  }
-
-  .doctor-name {
-    margin-bottom: 5px;
-  }
-
-  .doctor-specialty {
-    margin-bottom: 5px;
-  }
-
-  .rating {
-    font-size: 16px;
-    margin: 5px 0 25px; 
+      width: 100px;
+      height: 100px;
+      margin-bottom: 15px;
   }
 
   .calendar-section {
-    padding: 15px;
+      padding: 15px;
   }
 
   .contact-info {
-    font-size: 14px;
-    margin: 25px 0;
-    gap: 12px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      gap: 10px;
   }
 
   h5 {
-    font-size: 14px;
-    margin: 8px 0 20px;
+      font-size: 14px;
+      margin: 8px 0 20px;
   }
 
-  .appointments, .password-change {
-    font-size: 14px;
-    margin: 20px 0;
-    padding: 5px 0;
+  .buttons {
+      flex-direction: column;
+      gap: 15px;
+  }
+
+  .edit-btn, .dlt-btn {
+      width: 100%;
+      height: 40px;
+      font-size: 16px;
   }
 }

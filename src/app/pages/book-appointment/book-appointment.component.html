@@ -7,8 +7,20 @@
         <div class="calendar-section">
             <app-calendar 
             [doctorId]="doctorId"
-            viewMode="booking">
+            viewMode="booking"
+            [isDeleteVisible]="isDeleteVisible"
+            [isEditVisible]="isEditVisible">
         </app-calendar>
+        <div class="action-buttons">
+            <button (click)="toggleEdit()" class="edit-btn">
+                <img src="assets/calendaredit.svg" alt="edit">
+                რედაქტირება
+            </button>
+            <button (click)="toggleDelete()" class="dlt-btn">
+                <img src="assets/calendardelete.svg" alt="delete">
+                წაშლა
+            </button>
+        </div>
     </div>
         </div>
 </div>

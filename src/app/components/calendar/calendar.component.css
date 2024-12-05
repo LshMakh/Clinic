@@ -1,15 +1,18 @@
 .weekly-calendar-container {
-      width: 100%;
-      max-width: 1000px;
+      width: 830px;
+      
       margin: 0 auto;
     }
 
     .calendar-header {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 30px;
+      margin-left: 50px;
     }
+
+    
 
     .calendar-grid {
       display: grid;
@@ -23,16 +26,23 @@
       background-color: #ecf2f8;
       padding: 10px;
       text-align: center;
+      display: flex;
+      justify-content: center; 
+      align-items: center; 
     }
+
 
     .time-slot {
       background-color: white;
       padding: 10px;
-      text-align: right;
+      text-align: center;
       border-bottom: 1px solid #ecf2f8;
       border-right: 1px solid #ecf2f8dd;
       border-left: 1px solid #ecf2f8dd;
       color: #053354;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .calendar-cell {
@@ -99,9 +109,27 @@
       cursor: pointer;
     }
 
+    .edit-circle {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      height: 18px;
+      width: 18px;
+      background-color: white;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
     .white-circle > img {
       width: 6px;
       height: 6px;
+    }
+    .edit-circle > img{
+      width: 10px;
+      height: 10px;
     }
 
     .arrow {
@@ -117,3 +145,39 @@
       opacity: 0.5;
       cursor: not-allowed;
     }
+
+    .month {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: 43px;
+  }
+  
+  .month button {
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      background-color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .month button:hover{
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .month h4 {
+      border-radius: 50px;
+      margin-left: 10px;
+      margin-right: 10px;
+      color: #18A4E1;
+      border: 1px solid #18A4E1;
+      height: 35px;
+      width: 140px;
+      font-size: 18px;
+      text-align: center;
+      line-height: 35px;
+  }
+  

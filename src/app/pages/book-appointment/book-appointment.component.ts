@@ -8,6 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BookAppointmentComponent implements OnInit {
   doctorId :number=0;
+  isEditVisible : boolean = false;
+  isDeleteVisible:boolean = false;
 
 constructor(private route:ActivatedRoute) {
 }
@@ -17,4 +19,13 @@ ngOnInit() {
     this.doctorId = Number(params['id']); 
   });
 }
+
+toggleEdit(){
+  this.isEditVisible = !this.isEditVisible;
+}
+
+toggleDelete(){
+  this.isDeleteVisible = !this.isDeleteVisible;
+}
+
 }

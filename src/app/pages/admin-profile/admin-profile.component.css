@@ -118,7 +118,6 @@
   cursor: not-allowed;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .detail-input, .name-input, .specialty-input {
     font-size: 13px;

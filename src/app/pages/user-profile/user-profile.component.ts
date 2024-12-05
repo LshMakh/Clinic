@@ -16,6 +16,8 @@ export class UserProfileComponent implements OnInit {
   showChangePasswordModal = false;
   doctorId :number = 0;
   appointmentCount:number = 0;
+  isEditVisible : boolean = false;
+  isDeleteVisible:boolean = false;
 
 
 
@@ -29,6 +31,14 @@ export class UserProfileComponent implements OnInit {
     this.toggleAppointmentCount();
     
   }
+  toggleDelete(){
+    this.isDeleteVisible = !this.isDeleteVisible;
+    console.log(this.isDeleteVisible);
+  }
+  toggleEdit(){
+    this.isEditVisible = !this.isEditVisible;
+  }
+
   toggleChangePasswordModal() {
     this.showChangePasswordModal = !this.showChangePasswordModal;
   }

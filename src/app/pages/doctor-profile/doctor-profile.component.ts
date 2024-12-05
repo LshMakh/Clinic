@@ -20,6 +20,8 @@ export class DoctorProfileComponent implements OnInit{
   showChangePasswordModal = false;
   userId: number= 0;
   appointmentCount:number = 0;
+  isDeleteVisible :boolean = false;
+  isEditVisible : boolean = false;
 
 
   constructor(private authService: AuthService, private doctorService:DoctorService, private appointmentService:AppointmentService) {}
@@ -46,6 +48,12 @@ export class DoctorProfileComponent implements OnInit{
     });
   }
 
+  toggleDelete(){
+    this.isDeleteVisible = !this.isDeleteVisible;
+  }
+  toggleEdit(){
+    this.isEditVisible = !this.isEditVisible;
+  }
   
   loadDoctorPhoto(doctorId: number): void {
     if (this.photoSubscriptions.has(doctorId)) {
