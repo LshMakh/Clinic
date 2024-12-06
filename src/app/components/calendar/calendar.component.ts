@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input, input } from '@angular/core';
 import { AppointmentService, TimeSlot, Appointment } from '../../services/appointment.service';
 import { AuthService } from '../../services/auth.service';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
+import { EditEvent } from '../../Models/appointment.model';
 
 @Component({
   selector: 'app-calendar',
@@ -22,6 +23,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
   selectedDate: Date | null = null;
   selectedTimeSlot: string | null = null;
   userRole : any;
+  mousePosition: { x: number; y: number } | null = null;
+  selectedAppointment: Appointment | null = null;
+  showEditModal = false;
+
 
   daysOfWeek: string[] = ['კვი', 'ორშ', 'სამ', 'ოთხ', 'ხუთ', 'პარ', 'შაბ'];
   timeSlots: string[] = [
@@ -89,6 +94,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
     appointmentsObservable
       .pipe(takeUntil(this.destroy$))
       .subscribe(appointments => {
+        console.log('Received appointments:', appointments.map(app => ({
+          date: new Date(app.appointmentDate),
+          originalDate: app.appointmentDate,
+          timeSlot: app.timeSlot
+        })));
         this.updateAppointmentsMap(appointments);
       });
   }
@@ -135,7 +145,14 @@ getSlotStatus(day: Date, timeSlot: string): 'available' | 'own' | 'booked' | 'we
 }
 
 private getSlotKey(date: Date, timeSlot: string): string {
-  return `${date.toISOString().split('T')[0]}_${timeSlot}`;
+  
+  const normalizedDate = new Date(date);
+  normalizedDate.setHours(0, 0, 0, 0);
+  
+
+  const dateString = normalizedDate.toISOString().split('T')[0];
+  console.log(dateString,normalizedDate)
+  return `${dateString}_${timeSlot}`;
 }
 
 private updateAppointmentsMap(appointments: Appointment[]) {
@@ -175,13 +192,12 @@ async makeReservation(date: Date, timeSlot: string) {
       return;
     }
 
-    // Set these before showing modal
     this.selectedDate = date;
     this.selectedTimeSlot = timeSlot;
     this.showBookingModal = true;
+    console.log(this.selectedDate,this.selectedTimeSlot);
     
-    // Force change detection if needed
-    // this.cdr.detectChanges();
+    
   } catch (error) {
     console.error('Error checking slot availability:', error);
     alert('Error checking slot availability');
@@ -220,6 +236,40 @@ nextWeek() {
   this.currentDate = new Date(this.currentDate.setDate(this.currentDate.getDate() + 7));
   this.updateWeek();
   this.loadAvailableSlots();
+}
+previousMonth() {
+ 
+  const currentDay = this.currentDate.getDate();
+  const newDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, currentDay);
+  
+
+  if (newDate.getMonth() !== (this.currentDate.getMonth() - 1 + 12) % 12) {
+    newDate.setDate(0); 
+  }
+  
+  this.currentDate = newDate;
+  this.updateWeek();
+  this.loadAvailableSlots();
+}
+
+nextMonth() {
+  const currentDay = this.currentDate.getDate();
+  const newDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, currentDay);
+  
+
+  if (newDate.getMonth() !== (this.currentDate.getMonth() + 1) % 12) {
+    newDate.setDate(0); 
+  }
+  
+  this.currentDate = newDate;
+  this.updateWeek();
+  this.loadAvailableSlots();
+}
+
+
+isLastWeekOfMonth(): boolean {
+  const lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+  return this.currentDate >= lastDay;
 }
 
 isWeekend(date: Date): boolean {
@@ -261,4 +311,39 @@ async onAppointmentBooked() {
   await this.loadInitialData();
   this.closeBookingModal();
 }
+openEditModal(event: Event, date: Date, timeSlot: string) {
+  event.stopPropagation();
+  const key = this.getSlotKey(date, timeSlot);
+  const appointment = this.appointments.get(key);
+  
+  if (appointment) {
+    this.selectedAppointment = appointment;
+    this.showEditModal = true;
+  }
+}
+
+handleEditSave(event: EditEvent) {
+  if (this.selectedAppointment) {
+    this.appointmentService.updateAppointmentDescription(
+      event.appointmentId,
+      event.description
+    ).subscribe({
+      next: () => {
+        this.loadInitialData();
+        this.showEditModal = false;
+        this.selectedAppointment = null;
+      },
+      error: (error) => {
+        console.error('Error updating appointment:', error);
+      }
+    });
+  }
+}
+
+closeEditModal() {
+  this.showEditModal = false;
+  this.selectedAppointment = null;
+}
+
+
 }

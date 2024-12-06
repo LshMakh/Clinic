@@ -2,15 +2,15 @@
     <div class="calendar-header">
       <h4 style="color: #053354;">{{ currentYear }}</h4>
         <div class="month">
-          <button><img src="/assets/Vector (2).svg" alt="Previous Month"></button>
+          <button (click)="previousMonth()"><img src="/assets/Vector (2).svg" alt="Previous Month"></button>
           <h4>{{ currentMonthName }}</h4>
-          <button><img src="/assets/Vector (1).svg" alt="Next Month"></button>
+          <button (click)="nextMonth()"><img src="/assets/Vector (1).svg" alt="Next Month"></button>
         </div>
     </div>
 
     <div class="calendar-grid">
       <div class="time-slot-header">
-        <button (click)="previousWeek()" class="arrow" [disabled]="isFirstWeekOfMonth()">&#10094;</button>
+        <button (click)="previousWeek()" class="arrow">&#10094;</button>
         <button (click)="nextWeek()" class="arrow">&#10095;</button>
       </div>
 
@@ -38,7 +38,7 @@
               <div *ngIf="isDeleteVisible" (click)="deleteReservation($event, day, timeSlot)" class="white-circle">
                 <img src="assets/Group 1.svg" alt="delete">
               </div>
-              <div *ngIf="isEditVisible" class="edit-circle">
+              <div *ngIf="isEditVisible" (click)="openEditModal($event,day,timeSlot)" class="edit-circle" >
                 <img src="assets/calendaredit.svg" alt="delete">
               </div>
             </div>
@@ -60,3 +60,11 @@
     (close)="closeBookingModal()"
     (booked)="onAppointmentBooked()">
   </app-booking-modal>
+
+  <app-calendar-edit-modal 
+  *ngIf="showEditModal && selectedAppointment"
+  [appointmentId]="selectedAppointment.appointmentId"
+  [currentDescription]="selectedAppointment.description || ''"
+  (close)="closeEditModal()"
+  (saved)="handleEditSave($event)">
+</app-calendar-edit-modal>

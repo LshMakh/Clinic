@@ -41,6 +41,8 @@ export class BookingModalComponent {
         description: this.bookingForm.get('description')?.value
       };
 
+      console.log(appointmentData);
+
       this.appointmentService.createAppointment(appointmentData).subscribe({
         next: () => {
           this.showSuccessAlert('ვიზიტი წარმატებით დაჯავშნულია');

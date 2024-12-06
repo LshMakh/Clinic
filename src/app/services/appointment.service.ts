@@ -107,6 +107,7 @@ export class AppointmentService {
       tap(() => {
         this.loadPatientAppointments();
         this.loadDoctorAppointments();
+        this.getCurrentUserAppointmentCount();
       }),
       catchError(this.handleError)
     );

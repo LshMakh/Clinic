@@ -263,17 +263,18 @@ padding: 0 20px;
 
 .sel-doc-container {
 display: flex;
-gap: 40px; /* Increased gap for better spacing */
+gap: 40px; 
+
 width: 100%;
-max-width: 1600px; /* Increased max-width to accommodate both sections */
+max-width: 1600px; 
 margin: 0 auto;
-justify-content: center; /* Centers the content */
+justify-content: center; 
 }
 
 .sel-doc-info {
 flex: 1;
 height: 426px;
-min-width: 750px; /* Minimum width for smaller screens */
+min-width: 750px; 
 }
 
 .calendar-wrapper {
@@ -286,6 +287,7 @@ min-width: 830px;
   padding: 24px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 20px;
+  margin-top: 66px;
 }
 
 .card-grid {

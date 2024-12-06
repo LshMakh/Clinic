@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 interface EditEvent {
   appointmentId: number;
   description: string;
 }
+
 @Component({
   selector: 'app-calendar-edit-modal',
   template: `
-    <div class="modal-overlay" (click)="onClose()"></div>
+   <div class="modal-overlay" (click)="onClose()"></div>
     <div class="modal-container">
       <h2>ვიზიტის აღწერის შეცვლა</h2>
       
@@ -29,7 +31,12 @@ interface EditEvent {
             <div class="error-message" 
                  *ngIf="editForm.get('description')?.invalid && 
                         editForm.get('description')?.touched">
-              აღწერის ველის შევსება აუცილებელია
+              <span *ngIf="editForm.get('description')?.errors?.['required']">
+                აღწერის ველის შევსება აუცილებელია
+              </span>
+              <span *ngIf="editForm.get('description')?.errors?.['maxlength']">
+                აღწერა არ უნდა აღემატებოდეს 500 სიმბოლოს
+              </span>
             </div>
           </div>
 
@@ -214,7 +221,6 @@ export class CalendarEditModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<EditEvent>();
 
-
   editForm: FormGroup;
   isSubmitting = false;
   showAlert = false;
@@ -235,11 +241,18 @@ export class CalendarEditModalComponent {
 
   onSubmit(): void {
     if (this.editForm.valid && !this.isSubmitting) {
-      const description = this.editForm.get('description')?.value || '';
+      this.isSubmitting = true;
+      const description = this.editForm.get('description')?.value;
+      
       this.saved.emit({
         appointmentId: this.appointmentId,
         description: description
       });
+
+      this.showSuccessAlert('ვიზიტის აღწერა წარმატებით შეიცვალა');
+      setTimeout(() => {
+        this.onClose();
+      }, 1500);
     }
   }
 
@@ -253,11 +266,6 @@ export class CalendarEditModalComponent {
     this.alertMessage = message;
     this.alertType = 'error';
     this.showAlert = true;
-  }
-
-  hideAlert(): void {
-    this.showAlert = false;
-    this.alertMessage = '';
   }
 
   onClose(): void {
