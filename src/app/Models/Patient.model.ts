@@ -8,7 +8,7 @@ export interface User {
     personalNumber: string;
     role: string;
     password?: string;
-    // Additional fields for doctors
+    //  for doctors
     doctorId?:number;
     specialization?: string;
     rating?: number;

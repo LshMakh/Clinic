@@ -14,7 +14,6 @@ export class SearchService {
   private searchResultsSubject = new BehaviorSubject<DoctorCard[]>([]);
 
   constructor(private doctorService: DoctorService) {
-    // Combine name and specialty search
     combineLatest([
       this.nameSearchSubject.pipe(
         debounceTime(300),
@@ -42,7 +41,6 @@ export class SearchService {
     });
   }
 
-  // Setters for search terms
   setNameSearch(term: string) {
     this.nameSearchSubject.next(term);
   }
@@ -51,7 +49,6 @@ export class SearchService {
     this.specialtySearchSubject.next(term);
   }
 
-  // Observable getters
   getNameSearch(): Observable<string> {
     return this.nameSearchSubject.asObservable();
   }
@@ -68,7 +65,6 @@ export class SearchService {
     return this.showDropdownSubject.asObservable();
   }
 
-  // Method to close dropdown
   closeDropdown() {
     this.showDropdownSubject.next(false);
   }

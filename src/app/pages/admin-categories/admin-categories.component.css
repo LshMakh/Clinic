@@ -24,7 +24,7 @@
   }
   
   .table-wrapper {
-    height: 480px; /* Adjust this value to match your design */
+    height: 480px; 
     overflow-y: auto;
   }
   
@@ -84,7 +84,6 @@
     background-color: #FF93A6;
   }
   
-  /* Scrollbar styles */
   .table-wrapper::-webkit-scrollbar {
     width: 8px;
   }

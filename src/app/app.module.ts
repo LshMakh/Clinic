@@ -13,7 +13,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { CalendarEditModalComponent } from './components/calendar-edit-modal/calendar-edit-modal.component';
+import { BookAppointmentComponent } from './pages/book-appointment/book-appointment.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { CalendarEditModalComponent } from './components/calendar-edit-modal/cal
     FooterComponent,
     MainComponent,
     LoginPopUpComponent,
-    
+    BookAppointmentComponent
   ],
   imports: [
     BrowserModule,

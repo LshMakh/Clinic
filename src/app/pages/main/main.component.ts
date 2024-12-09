@@ -18,6 +18,8 @@ export class MainComponent implements OnInit, OnDestroy {
   private photoSubscriptions = new Map<number, Subscription>();
   doctorPhotos = new Map<number, string>();
   loadingPhotos = new Set<number>();
+ 
+
 
   constructor(public doctorService: DoctorService, private authService:AuthService) {}
 
@@ -107,4 +109,8 @@ export class MainComponent implements OnInit, OnDestroy {
   getStarsArray(rating: number): number[] {
     return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
   }
+
+
+  
+
 }

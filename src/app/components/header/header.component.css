@@ -1,4 +1,4 @@
-/* Header Styling */
+
 header {
   padding: 20px 120px;
   align-items: center;
@@ -6,7 +6,7 @@ header {
   box-sizing: border-box;
 }
 
-/* Navigation */
+
 .navigations {
   display: flex;
   align-items: center;
@@ -39,7 +39,7 @@ header {
   object-fit: cover;
 }
 
-/* Navigation Links */
+
 nav {
   display: flex;
   width: fit-content;
@@ -69,7 +69,7 @@ nav a {
   border-bottom: 1px solid #18A4E1;
 }
 
-/* Authentication and Language Buttons */
+
 .auth, .language {
   padding: 10px 15px;
   border-radius: 25px;
@@ -87,7 +87,7 @@ nav a {
   cursor: pointer;
 }
 
-/* User Profile Container */
+
 .user-profile-container {
   display: flex;
   align-items: center;
@@ -155,7 +155,7 @@ nav a {
   text-decoration: none;
 }
 
-/* Role-Specific Styling */
+
 .user-profile-container[data-role="ADMIN"] .avatar-circle {
   border: 2px solid #ff4081; 
 }
@@ -168,7 +168,7 @@ nav a {
   border: 2px solid #4caf50; 
 }
 
-/* Contact Section */
+
 .contact {
   padding: 40px 120px;
   background-color: #ecf2f8;
@@ -202,7 +202,7 @@ nav a {
   align-items: center;
 }
 
-/* Inputs */
+
 .inputs {
   display: flex;
   align-items: center;
@@ -218,7 +218,7 @@ input {
   max-width: 100%;
 }
 
-/* Search Icon */
+
 .search {
   border-radius: 50%;
   background-color: #053354;
@@ -230,7 +230,7 @@ input {
   flex-shrink: 0;
 }
 
-/* Mobile Menu Toggle */
+
 .mobile-menu-toggle {
   display: none;
   flex-direction: column;
@@ -252,7 +252,7 @@ input {
   border-radius: 3px;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 1600px) {
   header, .contact {
     padding: 20px 60px;

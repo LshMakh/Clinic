@@ -9,7 +9,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     UserProfileComponent,
-    BookAppointmentComponent
   ],
   imports: [
     CommonModule,

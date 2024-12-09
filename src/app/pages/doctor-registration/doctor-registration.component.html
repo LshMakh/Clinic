@@ -51,11 +51,8 @@
               <div class="input">
                   <label for="personalNumber">პირადი ნომერი</label>
                   <input type="text" id="personalNumber" formControlName="personalNumber" placeholder="00000000000">
-                  <div *ngIf="registerForm.get('personalNumber')?.invalid && registerForm.get('personalNumber')?.touched" 
-                       class="error-message">
-                    <span *ngIf="registerForm.get('personalNumber')?.errors?.['required']">პირადი ნომრის ველის შევსება აუცილებელია</span>
-                    <span *ngIf="registerForm.get('personalNumber')?.errors?.['minlength']">გთხოვთ შეიყვანეთ 11 ციფრი</span>
-                    <span *ngIf="registerForm.get('personalNumber')?.errors?.['maxlength']">გთხოვთ შეიყვანეთ 11 ციფრი</span>
+                  <div *ngIf="registerForm.get('personalNumber')?.touched && getPersonalNumberError()" class="error-message">
+                    {{ getPersonalNumberError() }}
                   </div>
               </div>
           </div>

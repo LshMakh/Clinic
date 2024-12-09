@@ -44,7 +44,6 @@ export class DoctorService {
     }
   }
 
-  // Getter and setter for cardsList
   get cardsList(): DoctorCard[] {
     return this._cards;
   }

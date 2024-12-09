@@ -212,7 +212,6 @@ input.invalid {
   border-color: #dc3545;
 }
 
-/* Animation for form transition */
 form {
   animation: fadeIn 0.3s ease;
 }

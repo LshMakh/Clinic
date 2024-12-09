@@ -24,7 +24,7 @@
               <h5>{{user.email}}</h5>
           </div>
           <p class="experience" (click)="toggleChangePasswordModal()">პაროლის შეცვლა</p>
-          <p class="appointments">დაჯავშნილია: <br><h5>( {{appointmentCount}} )</h5></p>
+          <p class="appointments">დაჯავშნილია: <br><h5>( {{appointmentCount$|async}} )</h5></p>
       </div>
   </div>
     

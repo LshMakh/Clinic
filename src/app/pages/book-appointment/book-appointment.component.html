@@ -1,26 +1,27 @@
 <div class="cont-app">
-   
+
     <div class="right-column">
         <div class="doctor-card">
             <app-doctor-profile-card [doctorId]="doctorId"></app-doctor-profile-card>
         </div>
         <div class="calendar-section">
-            <app-calendar 
-            [doctorId]="doctorId"
-            viewMode="booking"
-            [isDeleteVisible]="isDeleteVisible"
-            [isEditVisible]="isEditVisible">
-        </app-calendar>
-        <div class="action-buttons">
-            <button (click)="toggleEdit()" class="edit-btn">
-                <img src="assets/calendaredit.svg" alt="edit">
-                რედაქტირება
-            </button>
-            <button (click)="toggleDelete()" class="dlt-btn">
-                <img src="assets/calendardelete.svg" alt="delete">
-                წაშლა
-            </button>
+            <app-calendar [doctorId]="doctorId" viewMode="booking" [isDeleteVisible]="isDeleteVisible"
+                [isEditVisible]="isEditVisible">
+            </app-calendar>
+            <div class="action-buttons">
+                <button (click)="toggleEdit()" class="edit-btn">
+                    <img src="assets/calendaredit.svg" alt="edit">
+                    რედაქტირება
+                </button>
+                <button (click)="toggleDelete()" class="dlt-btn">
+                    <img src="assets/calendardelete.svg" alt="delete">
+                    წაშლა
+                </button>
+            </div>
+            <div *ngIf="!(isAuthenticated$|async)" class="auth-error">
+                <p>დასაჯავშნად გთხოვთ გაიაროთ </p> 
+                ავტორიზაცია ან რეგისტრაცია
+            </div>
         </div>
     </div>
-        </div>
 </div>

@@ -28,6 +28,18 @@ export const API_CONFIG = {
         base: '/Verification',
         activationCode: '/send',
         verifyCode: '/verify'
+      },
+      appointment:{
+        base: '/Appointment',
+        count:'/count',
+        book:'/book',
+        blockTime:'/block',
+        loadDoc:'/doctor',
+        loadPat:'/patient',
+        update:'/description',
+        delete:'',
+        available:'/available-slots/',
+        slotAvailable:'/check-availability/',
       }
     }
   };

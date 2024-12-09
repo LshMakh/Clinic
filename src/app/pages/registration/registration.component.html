@@ -12,7 +12,7 @@
                     <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="error-message">
                         <span *ngIf="registerForm.get('firstName')?.errors?.['required']">სახელის ველის შევსება აუცილებელია</span>
                         <span *ngIf="registerForm.get('firstName')?.errors?.['minlength']">სახელი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს</span>
-                        <span *ngIf="registerForm.get('firstName')?.errors?.['maxlength']">სახელი უნდა იყოს მაქსიმუმ 15 სიმბოლო</span>
+                        <span *ngIf="registerForm.get('firstName')?.errors?.['maxlength']">სახელი უნდა შეიცავდეს მაქსიმუმ 15 სიმბოლოს</span>
                       </div>
                       
                 </div>
@@ -62,14 +62,9 @@
                 <div class="input">
                     <label for="personalNumber">პირადი ნომერი</label>
                     <input type="text" id="personalNumber" formControlName="personalNumber" placeholder="00000000000">
-                    <div *ngIf="registerForm.get('personalNumber')?.invalid && registerForm.get('personalNumber')?.touched" 
-                         class="error-message">
-                        <span *ngIf="registerForm.get('personalNumber')?.errors?.['required']">პირადი ნომრის ველის შევსება აუცილებელია</span>
-                        <span *ngIf="registerForm.get('personalNumber')?.errors?.['minlength']">გთხოვთ შეიყვანეთ 11 ციფრი</span>
-                        <span *ngIf="registerForm.get('personalNumber')?.errors?.['maxlength']">გთხოვთ შეიყვანეთ 11 ციფრი</span>
-
-
-                    </div>
+                    <div *ngIf="registerForm.get('personalNumber')?.touched && getPersonalNumberError()" class="error-message">
+                        {{ getPersonalNumberError() }}
+                      </div>
                 </div>
             </div>
         </div>

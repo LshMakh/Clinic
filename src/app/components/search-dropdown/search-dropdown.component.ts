@@ -36,7 +36,7 @@ export class SearchDropdownComponent implements OnInit, OnDestroy {
 
   loadDoctorPhoto(doctorId: number): void {
     if (this.photoSubscriptions.has(doctorId)) {
-      return; // Already loading or loaded
+      return; 
     }
 
     this.loadingPhotos.add(doctorId);
@@ -50,7 +50,7 @@ export class SearchDropdownComponent implements OnInit, OnDestroy {
           this.doctorPhotos.set(doctorId, photoUrl);
         },
         error: () => {
-          // Set default image on error
+         
           this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
         }
       });
@@ -84,7 +84,7 @@ export class SearchDropdownComponent implements OnInit, OnDestroy {
   }
 
   onDoctorClick(doctor: DoctorCard) {
-    this.router.navigate(['/patient/book-appointment/'+ doctor.doctorId]);
+    this.router.navigate(['/book-appointment/'+ doctor.doctorId]);
     this.searchService.closeDropdown();
   }
 

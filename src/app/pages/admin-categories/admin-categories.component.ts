@@ -34,7 +34,7 @@ export class AdminCategoriesComponent implements OnInit {
   }
   loadDoctorPhoto(doctorId: number): void {
     if (this.photoSubscriptions.has(doctorId)) {
-      return; // Already loading or loaded
+      return; 
     }
 
     this.loadingPhotos.add(doctorId);
@@ -48,7 +48,6 @@ export class AdminCategoriesComponent implements OnInit {
           this.doctorPhotos.set(doctorId, photoUrl);
         },
         error: () => {
-          // Set default image on error
           this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
         }
       });

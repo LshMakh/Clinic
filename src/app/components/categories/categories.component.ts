@@ -82,7 +82,6 @@ export class CategoriesComponent implements OnInit {
     this.isExpanded = !this.isExpanded;
     
     if (this.isExpanded && this.hiddenCategories) {
-      // Load counts for newly visible categories
       this.hiddenCategories.forEach(category => {
         if (!(category.name in this.categoryCounts)) {
           this.loadCategoryCount(category.name);
@@ -90,7 +89,6 @@ export class CategoriesComponent implements OnInit {
       });
     }
     
-    // If closing the expanded view, scroll to top
     if (!this.isExpanded && this.categoriesContent) {
       setTimeout(() => {
         this.categoriesContent!.nativeElement.scrollTop = 0;

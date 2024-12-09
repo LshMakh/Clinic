@@ -10,11 +10,7 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [PatientGuard]
   },
-  {
-    path: 'book-appointment/:id',
-    component: BookAppointmentComponent,
-    canActivate: [PatientGuard]
-  }
+
 ];
 
 @NgModule({

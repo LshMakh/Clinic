@@ -6,7 +6,7 @@ import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/route
   template: `
     <app-header></app-header>
     <main class="content">
-      <!-- Loading indicator for lazy loaded modules -->
+     
       <div *ngIf="isLoading" class="loading-indicator">
         Loading...
       </div>
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    // Track loading state of lazyloaded modules
+   
     this.router.events.subscribe(event => {
       if (event instanceof RouteConfigLoadStart) {
         this.loadingCount++;

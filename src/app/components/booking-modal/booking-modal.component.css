@@ -113,7 +113,8 @@
   }
 
   .submit-button:hover:not(:disabled) {
-    background-color: #3ACF99;
+    background-color: #34B088;
+    transition: 0.5s;
     
   }
 

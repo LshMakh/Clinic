@@ -149,10 +149,8 @@ export class AuthService {
     let errorMessage = 'An error occurred. Please try again later.';
 
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       errorMessage = error.error.message;
     } else {
-      // Server-side error
       switch (error.status) {
         case 400:
           errorMessage = error.error?.message || 'Invalid request';

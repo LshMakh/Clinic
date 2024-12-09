@@ -127,7 +127,7 @@ export class DoctorProfileCardComponent implements OnInit, OnDestroy {
   loadCvExperience() {
     this.isLoadingCv = true;
     this.cvError = null;
-    this.experiences = []; // Clear existing experiences
+    this.experiences = [];
 
     this.cvSubscription = this.doctorService.extractCvText(this.doctorId)
       .pipe(

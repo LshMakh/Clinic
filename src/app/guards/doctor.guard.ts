@@ -3,7 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 import { Observable, map, take } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
-// doctor.guard.ts
+
 @Injectable({
   providedIn: 'root'
 })

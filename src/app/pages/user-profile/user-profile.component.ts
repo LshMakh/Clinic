@@ -18,10 +18,13 @@ export class UserProfileComponent implements OnInit {
   appointmentCount:number = 0;
   isEditVisible : boolean = false;
   isDeleteVisible:boolean = false;
+  appointmentCount$! : Observable<number>;
 
+  
+  constructor(private authService: AuthService,     private appointmentService: AppointmentService) {}
+ 
 
-
-  constructor(private authService: AuthService, private appointmentService:AppointmentService) {}
+  
 
   ngOnInit() {
     this.isAuthenticated$ = this.authService.isAuthenticated();
@@ -29,8 +32,11 @@ export class UserProfileComponent implements OnInit {
     this.userId = Number(this.authService.getUserId());
     this.doctorId = Number(this.authService.getUserId());
     this.toggleAppointmentCount();
+    this.appointmentCount$ = this.appointmentService.appointmentCount$;
+    this.appointmentService.getCurrentUserAppointmentCount().subscribe();
     
   }
+
   toggleDelete(){
     this.isDeleteVisible = !this.isDeleteVisible;
     console.log(this.isDeleteVisible);

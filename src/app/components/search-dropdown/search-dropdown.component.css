@@ -1,4 +1,4 @@
-/* Search container */
+
 .search-container {
   position: relative;
   width: 100%;
@@ -6,7 +6,7 @@
   margin: 0 auto;
 }
 
-/* Search inputs container */
+
 .inputs {
   display: flex;
   align-items: center;
@@ -14,7 +14,6 @@
   width: 100%;
 }
 
-/* Base input styles */
 input {
   flex: 1;
  width: 480px;
@@ -32,7 +31,7 @@ input:focus {
   box-shadow: 0 0 0 2px rgba(24, 164, 225, 0.1);
 }
 
-/* Search icon button */
+
 .search {
   border-radius: 50%;
   background-color: #053354;
@@ -50,7 +49,7 @@ input:focus {
   background-color: #0a4c7c;
 }
 
-/* Dropdown container */
+
 .dropdown-container {
   position: absolute;
   top: calc(100% + 8px);
@@ -68,7 +67,7 @@ input:focus {
   padding: 12px;
 }
 
-/* Doctor card in dropdown */
+
 .doctor-card {
   display: flex;
   align-items: center;
@@ -118,7 +117,7 @@ input:focus {
   text-overflow: ellipsis;
 }
 
-/* Responsive Breakpoints */
+
 @media (max-width: 1600px) {
   .search-container {
     max-width: 800px;
@@ -208,7 +207,7 @@ input:focus {
   }
 }
 
-/* Custom scrollbar for dropdown */
+
 .dropdown-container::-webkit-scrollbar {
   width: 6px;
 }

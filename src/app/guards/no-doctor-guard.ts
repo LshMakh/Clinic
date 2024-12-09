@@ -6,18 +6,18 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PatientGuard implements CanActivate {
+export class NoDoctorGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): Observable<boolean> {
     return this.authService.getCurrentUser().pipe(
       take(1),
       map(user => {
-        if (user?.role === 'ADMIN' || user?.role === 'PATIENT') {
-          return true;
+        if (user?.role === 'DOCTOR') {
+          this.router.navigate(['/main']);
+          return false;
         }
-        this.router.navigate(['/main']);
-        return false;
+        return true;
       })
     );
   }

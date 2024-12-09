@@ -98,13 +98,12 @@ export class RegistrationComponent {
 
       try {
         if (this.isVerificationSent) {
-          // Verify the code first
+          
           await this.authService
             .verifyCode(this.email?.value, this.verificationCode?.value)
             .toPromise();
         }
 
-        // Proceed with registration
         const userData = {
           userId: 0,
           firstName: this.registerForm.value.firstName,
@@ -128,5 +127,20 @@ export class RegistrationComponent {
     } else {
       this.errorMessage = 'გთხოვთ შეავსოთ ყველა სავალდებულო ველი';
     }
+  }
+
+  getPersonalNumberError(): string | null {
+    const control = this.registerForm.get('personalNumber');
+    if (!control || !control.errors) return null;
+  
+    if (control.errors['required']) {
+      return 'პირადი ნომრის ველის შევსება აუცილებელია';
+    } else if (control.errors['minlength'] || control.errors['maxlength']) {
+      return 'გთხოვთ შეიყვანეთ 11 ციფრი';
+    } else if (control.errors['pattern']) {
+      return 'გთხოვთ შეიყვანეთ მხოლოდ ციფრები';
+    }
+  
+    return null;
   }
 }

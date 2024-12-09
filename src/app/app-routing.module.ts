@@ -4,6 +4,8 @@ import { MainComponent } from './pages/main/main.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NoAuthGuard } from './guards/no-auth.guard';
 import { CustomPreloadingStrategy } from './custom-preloading-strategy';
+import { BookAppointmentComponent } from './pages/book-appointment/book-appointment.component';
+import { NoDoctorGuard } from './guards/no-doctor-guard';
 
 const routes: Routes = [
   {
@@ -11,8 +13,13 @@ const routes: Routes = [
     component: MainComponent
   },
   {
-    path:'main',
-    component:MainComponent
+    path: 'main',
+    component: MainComponent
+  },
+  {
+    path: 'book-appointment/:id',  
+    component: BookAppointmentComponent,
+    canActivate:[NoDoctorGuard]
   },
   {
     path: 'register',
@@ -23,7 +30,7 @@ const routes: Routes = [
         throw err;
       }),
     canActivate: [NoAuthGuard],
-    data: { preload: true } // This module will be preloaded
+    data: { preload: true }
   },
   {
     path: 'admin',
@@ -34,7 +41,7 @@ const routes: Routes = [
         throw err;
       }),
     canActivate: [AuthGuard],
-    data: { preload: false } // This module will not be preloaded
+    data: { preload: false }
   },
   {
     path: 'doctor',
@@ -67,13 +74,10 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      
       preloadingStrategy: CustomPreloadingStrategy,
-      
-     
-      scrollPositionRestoration: 'enabled', // Restore scroll position when navigating
-      anchorScrolling: 'enabled', // Enable anchor scrolling
-      onSameUrlNavigation: 'reload' // Reload the same URL when navigating
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled', 
+      onSameUrlNavigation: 'reload'
     })
   ],
   exports: [RouterModule]

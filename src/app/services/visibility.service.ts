@@ -13,7 +13,6 @@ export class VisibilityService {
   isEditVisible$ = this.editVisibilitySource.asObservable();
 
   constructor(private router: Router) {
-    // Reset visibility when navigating to routes without doctor ID
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {

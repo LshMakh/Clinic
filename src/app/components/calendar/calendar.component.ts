@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Input, input } from '@angular/core';
 import { AppointmentService, TimeSlot, Appointment } from '../../services/appointment.service';
 import { AuthService } from '../../services/auth.service';
-import { Subject, takeUntil, firstValueFrom } from 'rxjs';
+import { Subject, takeUntil, firstValueFrom, Subscription } from 'rxjs';
 import { EditEvent } from '../../Models/appointment.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendar',
@@ -26,6 +27,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   mousePosition: { x: number; y: number } | null = null;
   selectedAppointment: Appointment | null = null;
   showEditModal = false;
+  private routeSub: Subscription | null = null;
+
 
 
   daysOfWeek: string[] = ['კვი', 'ორშ', 'სამ', 'ოთხ', 'ხუთ', 'პარ', 'შაბ'];
@@ -44,7 +47,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   constructor(
     private appointmentService: AppointmentService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route:ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -55,6 +59,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.loadInitialData();
     this.subscribeToAppointments();
     this.userRole = this.authService.getRole();
+    
+
+    this.routeSub = this.route.params.subscribe(params => {
+      const id = +params['id'];
+      if (id && id !== this.doctorId) {
+        this.doctorId = id;
+        this.loadInitialData();
+      }
+    });
 
     console.log(this.authService.getUserPatientId());
   }
@@ -74,11 +87,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
       await firstValueFrom(this.appointmentService.loadDoctorAppointmentsFromUser(this.doctorId))
     }
 
-    else if (this.viewMode === 'doctor' && this.authService.getRole() !=='ADMIN') {
+    if (this.viewMode === 'doctor' && this.authService.getRole() !=='ADMIN') {
       
       await firstValueFrom(this.appointmentService.loadDoctorAppointments());
 
-    } else {
+    } 
+    if(this.userId && this.viewMode !=='doctor') {
       await firstValueFrom(this.appointmentService.loadPatientAppointments());
     }
     await this.loadAvailableSlots();
@@ -94,11 +108,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     appointmentsObservable
       .pipe(takeUntil(this.destroy$))
       .subscribe(appointments => {
-        console.log('Received appointments:', appointments.map(app => ({
-          date: new Date(app.appointmentDate),
-          originalDate: app.appointmentDate,
-          timeSlot: app.timeSlot
-        })));
+   
         this.updateAppointmentsMap(appointments);
       });
   }
@@ -123,6 +133,12 @@ getSlotStatus(day: Date, timeSlot: string): 'available' | 'own' | 'booked' | 'we
   const key = this.getSlotKey(day, timeSlot);
   const appointment = this.appointments.get(key);
   const slot = this.availableSlots.get(key);
+
+  if(!this.userId){
+    if(appointment){
+    return 'booked';
+    }
+  }
 
   if(this.authService.getRole()==='PATIENT' || this.authService.getRole() ==="ADMIN"){
     if (appointment) {
@@ -151,7 +167,7 @@ private getSlotKey(date: Date, timeSlot: string): string {
   
 
   const dateString = normalizedDate.toISOString().split('T')[0];
-  console.log(dateString,normalizedDate)
+
   return `${dateString}_${timeSlot}`;
 }
 
@@ -173,12 +189,12 @@ private updateAvailableSlotsMap(slots: TimeSlot[]) {
 
 async makeReservation(date: Date, timeSlot: string) {
   if (!this.userId) {
-    alert('Please log in to book appointments');
+    alert('დასაჯავშნათ გთხოვთ გაიაროთ ავტორიზაცია ან რეგისტრაცია');
     return;
   }
 
   if (date.getTime() < Date.now()) {
-    alert('Cannot book appointments in the past');
+    alert('წარსულში ვერ დაჯავშნი');
     return;
   }
 
@@ -206,9 +222,7 @@ async makeReservation(date: Date, timeSlot: string) {
 async deleteReservation(event: Event, date: Date, timeSlot: string) {
   event.stopPropagation();
   
-  if (!confirm('Are you sure you want to cancel this appointment?')) {
-    return;
-  }
+
 
   const key = this.getSlotKey(date, timeSlot);
   const appointment = this.appointments.get(key);

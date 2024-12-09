@@ -1,4 +1,3 @@
-// guards/no-auth.guard.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Observable, map, take } from 'rxjs';
@@ -15,7 +14,7 @@ export class NoAuthGuard implements CanActivate {
       take(1),
       map(isAuthenticated => {
         if (isAuthenticated) {
-          // Get user role and redirect to appropriate profile
+       
           this.authService.getCurrentUser().pipe(take(1)).subscribe(user => {
             switch(user?.role) {
               case 'ADMIN':

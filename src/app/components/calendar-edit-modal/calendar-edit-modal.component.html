@@ -1,1 +1,42 @@
-<p>calendar-edit-modal works!</p>
+<div class="modal-overlay" (click)="onClose()"></div>
+    <div class="modal-container">
+      <h2>ვიზიტის აღწერის შეცვლა</h2>
+      
+      <div *ngIf="showAlert" 
+           [class]="'alert ' + (alertType === 'success' ? 'alert-success' : 'alert-error')">
+        {{ alertMessage }}
+      </div>
+
+      <div class="modal-content">
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <textarea 
+              formControlName="description" 
+              placeholder="ვიზიტის მიზეზი"
+              rows="4"
+              [class.invalid]="editForm.get('description')?.invalid && 
+                              editForm.get('description')?.touched">
+            </textarea>
+            <div class="error-message" 
+                 *ngIf="editForm.get('description')?.invalid && 
+                        editForm.get('description')?.touched">
+              <span *ngIf="editForm.get('description')?.errors?.['required']">
+                აღწერის ველის შევსება აუცილებელია
+              </span>
+              <span *ngIf="editForm.get('description')?.errors?.['maxlength']">
+                აღწერა არ უნდა აღემატებოდეს 500 სიმბოლოს
+              </span>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button type="button" class="cancel-button" (click)="onClose()">გაუქმება</button>
+            <button type="submit" 
+                    class="submit-button" 
+                    [disabled]="!editForm.valid || isSubmitting">
+              {{ isSubmitting ? 'მიმდინარეობს...' : 'შენახვა' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>

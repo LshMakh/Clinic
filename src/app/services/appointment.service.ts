@@ -37,21 +37,34 @@ export interface CreateAppointmentDto {
   providedIn: 'root'
 })
 export class AppointmentService {
-  private apiUrl = `${API_CONFIG.baseUrl}/appointment`;
+  
   private patientAppointmentsSubject = new BehaviorSubject<Appointment[]>([]);
   private doctorAppointmentsSubject = new BehaviorSubject<Appointment[]>([]);
+  private appointmentCountSubject = new BehaviorSubject<number>(0);
+  appointmentCount$ = this.appointmentCountSubject.asObservable();
 
   constructor(private http: HttpClient) {}
   
   getCurrentUserAppointmentCount(): Observable<number> {
-    return this.http.get<any>(`https://localhost:7226/api/Appointment/count`);
+    return this.http.get<any>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.count}`)
+      .pipe(
+        tap(count => {
+          this.appointmentCountSubject.next(count);
+        })
+      );
   }
+
   getSelectedDoctorAppointmentCount(doctorId:number):Observable<number>{
-    return this.http.get<any>(`https://localhost:7226/api/Appointment/count/${doctorId}`);
+    return this.http.get<any>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.count}/${doctorId}`)
+    .pipe(
+      tap(count=>{
+        this.appointmentCountSubject.next(count);
+      })
+    )
   }
   
   createAppointment(appointmentData: CreateAppointmentDto): Observable<any> {
-    return this.http.post(`${this.apiUrl}/book`, appointmentData).pipe(
+    return this.http.post(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.book}`, appointmentData).pipe(
       tap(() => {
         this.loadPatientAppointments();
       }),
@@ -60,7 +73,7 @@ export class AppointmentService {
   }
 
   blockTimeSlot(date: Date, timeSlot: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/block`, { appointmentDate: date, timeSlot }).pipe(
+    return this.http.post(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.blockTime}`, { appointmentDate: date, timeSlot }).pipe(
       tap(() => {
         this.loadDoctorAppointments();
       }),
@@ -69,7 +82,7 @@ export class AppointmentService {
   }
 
   loadDoctorAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${this.apiUrl}/doctor`).pipe(
+    return this.http.get<Appointment[]>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadDoc}`).pipe(
       tap(appointments => this.doctorAppointmentsSubject.next(appointments)),
       catchError(this.handleError)
     );
@@ -77,21 +90,21 @@ export class AppointmentService {
 
    // Get appointments for doctor (non-logged in)
    loadDoctorAppointmentsFromUser(id:number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${this.apiUrl}/doctor/${id}`).pipe(
+    return this.http.get<Appointment[]>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadDoc}/${id}`).pipe(
       tap(appointments => this.doctorAppointmentsSubject.next(appointments)),
       catchError(this.handleError)
     );
   }
 
   loadPatientAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${this.apiUrl}/patient`).pipe(
+    return this.http.get<Appointment[]>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadPat}`).pipe(
       tap(appointments => this.patientAppointmentsSubject.next(appointments)),
       catchError(this.handleError)
     );
   }
 
   updateAppointmentDescription(appointmentId: number, description: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${appointmentId}/description`, { description }).pipe(
+    return this.http.put(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}/${appointmentId}${API_CONFIG.endpoints.appointment.update}`, { description }).pipe(
       tap(() => {
        
         this.loadPatientAppointments();
@@ -103,11 +116,15 @@ export class AppointmentService {
   
 
   deleteAppointment(appointmentId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${appointmentId}`).pipe(
+    return this.http.delete(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.delete}/${appointmentId}`).pipe(
       tap(() => {
+
+        const currentCount = this.appointmentCountSubject.value;
+        this.appointmentCountSubject.next(currentCount - 1);
+
         this.loadPatientAppointments();
         this.loadDoctorAppointments();
-        this.getCurrentUserAppointmentCount();
+        
       }),
       catchError(this.handleError)
     );
@@ -116,7 +133,7 @@ export class AppointmentService {
   getAvailableSlots(doctorId: number, date: Date): Observable<TimeSlot[]> {
     const formattedDate = this.formatDate(date);
     return this.http.get<TimeSlot[]>(
-      `${this.apiUrl}/available-slots/${doctorId}?date=${formattedDate}`
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.available}${doctorId}?date=${formattedDate}`
     ).pipe(
       catchError(this.handleError)
     );
@@ -125,7 +142,7 @@ export class AppointmentService {
   checkSlotAvailability(doctorId: number, date: Date, timeSlot: string): Observable<boolean> {
     const formattedDate = this.formatDate(date);
     return this.http.get<{isAvailable: boolean}>(
-      `${this.apiUrl}/check-availability/${doctorId}?date=${formattedDate}&timeSlot=${timeSlot}`
+      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.slotAvailable}${doctorId}?date=${formattedDate}&timeSlot=${timeSlot}`
     ).pipe(
       map(response => response.isAvailable),
       catchError(this.handleError)
@@ -148,10 +165,8 @@ export class AppointmentService {
     let errorMessage = 'An error occurred';
 
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       errorMessage = error.error.message;
     } else {
-      // Server-side error
       switch (error.status) {
         case 400:
           errorMessage = error.error?.message || 'Invalid appointment data';

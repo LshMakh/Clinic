@@ -21,6 +21,7 @@ export class DoctorProfileComponent implements OnInit{
   userId: number= 0;
   appointmentCount:number = 0;
   isDeleteVisible :boolean = false;
+  appointmentCount$!:Observable<number>;
   isEditVisible : boolean = false;
 
 
@@ -30,8 +31,8 @@ export class DoctorProfileComponent implements OnInit{
     this.isAuthenticated$ = this.authService.isAuthenticated();
     this.currentUser$ = this.authService.getCurrentUser();
     this.userId = Number(this.authService.getUserId());
-    this.loadAppointmentCount();
-
+    this.appointmentCount$ = this.appointmentService.appointmentCount$;
+    this.appointmentService.getCurrentUserAppointmentCount().subscribe();
 
   }
 
@@ -40,13 +41,7 @@ export class DoctorProfileComponent implements OnInit{
   }
 
   
-  loadAppointmentCount(): void {
-    this.appointmentService.getCurrentUserAppointmentCount().subscribe({
-      next:(count)=>{
-        this.appointmentCount = count;
-      }
-    });
-  }
+
 
   toggleDelete(){
     this.isDeleteVisible = !this.isDeleteVisible;

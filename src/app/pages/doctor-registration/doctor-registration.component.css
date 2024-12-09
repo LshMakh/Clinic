@@ -95,9 +95,9 @@ form {
 .input-container {
     width: 480px; 
 }
-select {
+#specialty {
     width: 480px;
-    border-radius: 50px;
+    border-radius: 100px;
     border: 1px solid #18a4e180;
     padding: 15px 25px;
     background-color: white;
