@@ -18,16 +18,13 @@ interface EmailVerificationRequest {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   private currentUserSubject = new BehaviorSubject<any>(null);
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
+  constructor(private http: HttpClient, private router: Router) {
     this.initializeFromToken();
   }
 
@@ -39,28 +36,29 @@ export class AuthService {
       if (decodedToken?.nameid) {
         this.fetchUserDetails(decodedToken.nameid).subscribe({
           next: (user) => this.currentUserSubject.next(user),
-          error: () => this.logout()
+          error: () => this.logout(),
         });
       }
     }
   }
 
   authenticate(loginData: UserLoginDto): Observable<any> {
-    return this.http.post<any>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.authenticate}`,
-      loginData
-    ).pipe(
-      tap(response => {
-        if (response?.accessToken) {
-          localStorage.setItem('Token', response.accessToken);
-          this.isAuthenticatedSubject.next(true);
-          this.initializeFromToken();
-        }
-      }),
-    
-    );
+    return this.http
+      .post<any>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.authenticate}`,
+        loginData
+      )
+      .pipe(
+        tap((response) => {
+          if (response?.accessToken) {
+            localStorage.setItem('Token', response.accessToken);
+            this.isAuthenticatedSubject.next(true);
+            this.initializeFromToken();
+          }
+        })
+      );
   }
-  
+
   requestPasswordReset(email: string): Observable<any> {
     const body = { email: email };
     return this.http.post(
@@ -69,12 +67,15 @@ export class AuthService {
     );
   }
 
-  
-  changePassword(currentPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
+  changePassword(
+    currentPassword: string,
+    newPassword: string,
+    confirmPassword: string
+  ): Observable<any> {
     const payload: PasswordChangeDto = {
       currentPassword,
       newPassword,
-      confirmPassword
+      confirmPassword,
     };
 
     return this.http.put(
@@ -82,67 +83,78 @@ export class AuthService {
       payload
     );
   }
-  
 
   sendVerificationCode(email: string): Observable<any> {
-    return this.http.post(`${API_CONFIG.baseUrl}/Verification/send`, { email })
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http
+      .post(`${API_CONFIG.baseUrl}/Verification/send`, { email })
+      .pipe(catchError(this.handleError));
   }
 
   verifyCode(email: string, verificationCode: string): Observable<any> {
-    return this.http.post(`${API_CONFIG.baseUrl}/Verification/verify`, {
-      email,
-      verificationCode
-    }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .post(`${API_CONFIG.baseUrl}/Verification/verify`, {
+        email,
+        verificationCode,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   checkEmailExists(email: string): Observable<boolean> {
-    return this.http.get<EmailCheckResponse>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.checkEmail}/${email}`
-    ).pipe(
-      map(response => response.exists),
-      catchError(() => {
-        return throwError(() => new Error('Unable to verify email. Please try again.'));
-      })
-    );
+    return this.http
+      .get<EmailCheckResponse>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.checkEmail}/${email}`
+      )
+      .pipe(
+        map((response) => response.exists),
+        catchError(() => {
+          return throwError(
+            () => new Error('Unable to verify email. Please try again.')
+          );
+        })
+      );
   }
 
   addUser(user: User): Observable<any> {
-    return this.http.post<any>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.patient.base}${API_CONFIG.endpoints.patient.register}`,
-      user
-    ).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .post<any>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.patient.base}${API_CONFIG.endpoints.patient.register}`,
+        user
+      )
+      .pipe(catchError(this.handleError));
   }
 
   addDoctor(formData: FormData): Observable<any> {
-    return this.http.post<any>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.register}`,
-      formData
-    ).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 409) {
-          return throwError(() => new Error('This doctor is already registered'));
-        }
-        if (error.status === 413) {
-          return throwError(() => new Error('The uploaded files are too large'));
-        }
-        return throwError(() => new Error('Doctor registration failed. Please try again later.'));
-      })
-    );
+    return this.http
+      .post<any>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}${API_CONFIG.endpoints.doctor.register}`,
+        formData
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 409) {
+            return throwError(
+              () => new Error('This doctor is already registered')
+            );
+          }
+          if (error.status === 413) {
+            return throwError(
+              () => new Error('The uploaded files are too large')
+            );
+          }
+          return throwError(
+            () =>
+              new Error('Doctor registration failed. Please try again later.')
+          );
+        })
+      );
   }
 
   private fetchUserDetails(userId: string): Observable<any> {
-    return this.http.get<any>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.info}/${userId}`
-    ).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<any>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.user.base}${API_CONFIG.endpoints.user.info}/${userId}`
+      )
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -176,7 +188,6 @@ export class AuthService {
     return throwError(() => new Error(errorMessage));
   }
 
-
   logout(): void {
     localStorage.removeItem('Token');
     this.isAuthenticatedSubject.next(false);
@@ -202,12 +213,12 @@ export class AuthService {
     return decodedToken?.nameid || null;
   }
 
-  getUserPatientId():string|null{
+  getUserPatientId(): string | null {
     const decodedToken = this.getDecodedToken();
     return decodedToken?.PatientId || null;
   }
 
-  getUserDoctorId():string|null{
+  getUserDoctorId(): string | null {
     const decodedToken = this.getDecodedToken();
     return decodedToken?.DoctorId || null;
   }

@@ -9,27 +9,27 @@ const routes: Routes = [
   {
     path: 'categories',
     component: AdminCategoriesComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard],
   },
   {
     path: 'profile',
     component: AdminProfileComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard],
   },
   {
     path: 'profile/:id',
     component: AdminProfileComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard],
   },
   {
     path: 'doctor-registration',
     component: DoctorRegistrationComponent,
-    canActivate: [AdminGuard]
-  }
+    canActivate: [AdminGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

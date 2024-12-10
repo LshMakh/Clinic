@@ -1,15 +1,28 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { catchError, debounceTime, first, map, Observable, of, switchMap } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  first,
+  map,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 import { validateHorizontalPosition } from '@angular/cdk/overlay';
-
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  styleUrls: ['./registration.component.css'],
 })
 export class RegistrationComponent {
   registerForm: FormGroup;
@@ -23,38 +36,65 @@ export class RegistrationComponent {
     private router: Router
   ) {
     this.registerForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
-      lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20)] ],
-      email: ['', [Validators.required, Validators.email], [this.emailExistsValidator()]],
-      personalNumber: ['', [
-        Validators.required,
-        Validators.minLength(11),
-        Validators.maxLength(11),
-        Validators.pattern('^[0-9]*$')
-      ]],
+      firstName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(15),
+        ],
+      ],
+      lastName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(20),
+        ],
+      ],
+      email: [
+        '',
+        [Validators.required, Validators.email],
+        [this.emailExistsValidator()],
+      ],
+      personalNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11),
+          Validators.pattern('^[0-9]*$'),
+        ],
+      ],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      verificationCode: ['']
+      verificationCode: [''],
     });
 
-    this.registerForm.get('verificationCode')?.setValidators([
-      Validators.required,
-      Validators.minLength(6),
-      Validators.maxLength(6),
-      Validators.pattern('^[0-9]*$')
-    ]);
+    this.registerForm
+      .get('verificationCode')
+      ?.setValidators([
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(6),
+        Validators.pattern('^[0-9]*$'),
+      ]);
   }
 
   private emailExistsValidator() {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (!control.value || !control.value.trim() || control.hasError('email')) {
+      if (
+        !control.value ||
+        !control.value.trim() ||
+        control.hasError('email')
+      ) {
         return of(null);
       }
 
       return control.valueChanges.pipe(
         debounceTime(1000),
-        switchMap(value => 
+        switchMap((value) =>
           this.authService.checkEmailExists(value).pipe(
-            map(exists => exists ? { emailExists: true } : null),
+            map((exists) => (exists ? { emailExists: true } : null)),
             catchError(() => of(null))
           )
         ),
@@ -63,13 +103,19 @@ export class RegistrationComponent {
     };
   }
 
-  get email() { return this.registerForm.get('email'); }
-  get verificationCode() { return this.registerForm.get('verificationCode'); }
+  get email() {
+    return this.registerForm.get('email');
+  }
+  get verificationCode() {
+    return this.registerForm.get('verificationCode');
+  }
 
   isFormValid(): boolean {
-    return this.registerForm.valid && 
-           (!this.isVerificationSent || (this.verificationCode?.valid ?? false));
-}
+    return (
+      this.registerForm.valid &&
+      (!this.isVerificationSent || (this.verificationCode?.valid ?? false))
+    );
+  }
 
   sendEmailVerification() {
     if (this.email?.valid) {
@@ -86,7 +132,7 @@ export class RegistrationComponent {
           this.errorMessage = 'ვერიფიკაციის კოდის გაგზავნა ვერ მოხერხდა';
           this.isSubmitting = false;
           console.error('Error sending verification code:', error);
-        }
+        },
       });
     }
   }
@@ -98,7 +144,6 @@ export class RegistrationComponent {
 
       try {
         if (this.isVerificationSent) {
-          
           await this.authService
             .verifyCode(this.email?.value, this.verificationCode?.value)
             .toPromise();
@@ -111,11 +156,11 @@ export class RegistrationComponent {
           email: this.registerForm.value.email,
           personalNumber: this.registerForm.value.personalNumber,
           password: this.registerForm.value.password,
-          role: 'PATIENT'
+          role: 'PATIENT',
         };
 
         await this.authService.addUser(userData).toPromise();
-        
+
         alert('რეგისტრაცია წარმატებით დასრულდა!');
         this.router.navigate(['/main']);
       } catch (error: any) {
@@ -132,7 +177,7 @@ export class RegistrationComponent {
   getPersonalNumberError(): string | null {
     const control = this.registerForm.get('personalNumber');
     if (!control || !control.errors) return null;
-  
+
     if (control.errors['required']) {
       return 'პირადი ნომრის ველის შევსება აუცილებელია';
     } else if (control.errors['minlength'] || control.errors['maxlength']) {
@@ -140,7 +185,7 @@ export class RegistrationComponent {
     } else if (control.errors['pattern']) {
       return 'გთხოვთ შეიყვანეთ მხოლოდ ციფრები';
     }
-  
+
     return null;
   }
 }

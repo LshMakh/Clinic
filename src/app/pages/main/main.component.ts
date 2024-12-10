@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrl: './main.component.css'
+  styleUrl: './main.component.css',
 })
 export class MainComponent implements OnInit, OnDestroy {
   displayedDoctors: DoctorCard[] = [];
@@ -18,16 +18,17 @@ export class MainComponent implements OnInit, OnDestroy {
   private photoSubscriptions = new Map<number, Subscription>();
   doctorPhotos = new Map<number, string>();
   loadingPhotos = new Set<number>();
- 
 
-
-  constructor(public doctorService: DoctorService, private authService:AuthService) {}
+  constructor(
+    public doctorService: DoctorService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(
       combineLatest([
         this.authService.getCurrentUser(),
-        this.doctorService.getFilteredCards()
+        this.doctorService.getFilteredCards(),
       ]).subscribe(([user, doctors]) => {
         this.allDoctors = doctors;
         this.updateDisplayedDoctors();
@@ -36,34 +37,30 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.loadDoctors();
   }
-  
 
   ngOnDestroy(): void {
-    
-      this.subscription.unsubscribe();
-      this.photoSubscriptions.forEach(sub => sub.unsubscribe());
-      this.photoSubscriptions.clear();
-      this.doctorService.clearPhotoCache();
-    
+    this.subscription.unsubscribe();
+    this.photoSubscriptions.forEach((sub) => sub.unsubscribe());
+    this.photoSubscriptions.clear();
+    this.doctorService.clearPhotoCache();
   }
   loadDoctorPhoto(doctorId: number): void {
     if (this.photoSubscriptions.has(doctorId)) {
-      return; 
+      return;
     }
 
     this.loadingPhotos.add(doctorId);
-    
-    const subscription = this.doctorService.getDoctorPhoto(doctorId)
-      .pipe(
-        finalize(() => this.loadingPhotos.delete(doctorId))
-      )
+
+    const subscription = this.doctorService
+      .getDoctorPhoto(doctorId)
+      .pipe(finalize(() => this.loadingPhotos.delete(doctorId)))
       .subscribe({
         next: (photoUrl) => {
           this.doctorPhotos.set(doctorId, photoUrl);
         },
         error: () => {
           this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
-        }
+        },
       });
 
     this.photoSubscriptions.set(doctorId, subscription);
@@ -76,16 +73,14 @@ export class MainComponent implements OnInit, OnDestroy {
     }
     return this.doctorPhotos.get(doctorId) || '/assets/default-doctor.png';
   }
-  
+
   private loadDoctors(): void {
-    this.subscription.add(
-      this.doctorService.getDoctorCard().subscribe()
-    );
+    this.subscription.add(this.doctorService.getDoctorCard().subscribe());
   }
 
   private updateDisplayedDoctors(): void {
-    this.displayedDoctors = this.showAllDoctors 
-      ? this.allDoctors 
+    this.displayedDoctors = this.showAllDoctors
+      ? this.allDoctors
       : this.allDoctors.slice(0, this.CARDS_PER_PAGE);
   }
 
@@ -107,10 +102,8 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   getStarsArray(rating: number): number[] {
-    return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
+    return Array(5)
+      .fill(0)
+      .map((_, i) => (i < rating ? 1 : 0));
   }
-
-
-  
-
 }

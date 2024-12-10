@@ -8,24 +8,26 @@ import { AppointmentService } from '../../services/appointment.service';
 @Component({
   selector: 'app-doctor-profile',
   templateUrl: './doctor-profile.component.html',
-  styleUrl: './doctor-profile.component.css'
+  styleUrl: './doctor-profile.component.css',
 })
-export class DoctorProfileComponent implements OnInit{
- 
-  isAuthenticated$! : Observable<boolean>;
-  currentUser$! : Observable<any>;
+export class DoctorProfileComponent implements OnInit {
+  isAuthenticated$!: Observable<boolean>;
+  currentUser$!: Observable<any>;
   private photoSubscriptions = new Map<number, Subscription>();
   doctorPhotos = new Map<number, string>();
   loadingPhotos = new Set<number>();
   showChangePasswordModal = false;
-  userId: number= 0;
-  appointmentCount:number = 0;
-  isDeleteVisible :boolean = false;
-  appointmentCount$!:Observable<number>;
-  isEditVisible : boolean = false;
+  userId: number = 0;
+  appointmentCount: number = 0;
+  isDeleteVisible: boolean = false;
+  appointmentCount$!: Observable<number>;
+  isEditVisible: boolean = false;
 
-
-  constructor(private authService: AuthService, private doctorService:DoctorService, private appointmentService:AppointmentService) {}
+  constructor(
+    private authService: AuthService,
+    private doctorService: DoctorService,
+    private appointmentService: AppointmentService
+  ) {}
 
   ngOnInit() {
     this.isAuthenticated$ = this.authService.isAuthenticated();
@@ -33,41 +35,36 @@ export class DoctorProfileComponent implements OnInit{
     this.userId = Number(this.authService.getUserId());
     this.appointmentCount$ = this.appointmentService.appointmentCount$;
     this.appointmentService.getCurrentUserAppointmentCount().subscribe();
-
   }
 
-  toggleChangePasswordModal(){
+  toggleChangePasswordModal() {
     this.showChangePasswordModal = !this.showChangePasswordModal;
   }
 
-  
-
-
-  toggleDelete(){
+  toggleDelete() {
     this.isDeleteVisible = !this.isDeleteVisible;
   }
-  toggleEdit(){
+  toggleEdit() {
     this.isEditVisible = !this.isEditVisible;
   }
-  
+
   loadDoctorPhoto(doctorId: number): void {
     if (this.photoSubscriptions.has(doctorId)) {
-      return; 
+      return;
     }
 
     this.loadingPhotos.add(doctorId);
-    
-    const subscription = this.doctorService.getDoctorPhoto(doctorId)
-      .pipe(
-        finalize(() => this.loadingPhotos.delete(doctorId))
-      )
+
+    const subscription = this.doctorService
+      .getDoctorPhoto(doctorId)
+      .pipe(finalize(() => this.loadingPhotos.delete(doctorId)))
       .subscribe({
         next: (photoUrl) => {
           this.doctorPhotos.set(doctorId, photoUrl);
         },
         error: () => {
           this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
-        }
+        },
       });
 
     this.photoSubscriptions.set(doctorId, subscription);
@@ -82,10 +79,8 @@ export class DoctorProfileComponent implements OnInit{
   }
 
   getStarsArray(rating: number): number[] {
-    return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
+    return Array(5)
+      .fill(0)
+      .map((_, i) => (i < rating ? 1 : 0));
   }
-
-  
-
- 
 }

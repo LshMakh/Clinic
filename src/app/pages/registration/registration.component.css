@@ -186,7 +186,7 @@ form {
 }
 
 .input-wrapper input {
-  padding-right: 120px; 
+  padding-right: 120px;
 }
 
 
@@ -220,8 +220,13 @@ form {
 }
 
 @keyframes spin {
-  0% { transform: translateY(-50%) rotate(0deg); }
-  100% { transform: translateY(-50%) rotate(360deg); }
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 .is-pending {

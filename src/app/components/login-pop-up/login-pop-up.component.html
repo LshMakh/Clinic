@@ -1,19 +1,16 @@
 <div class="modal-overlay" (click)="onClose()"></div>
 <div class="modal-container">
   <h2>{{ showForgotPassword ? 'პაროლის აღდგენა' : 'ავტორიზაცია' }}</h2>
-  
-  <div *ngIf="showAlert" 
-       [class]="'alert ' + (alertType === 'success' ? 'alert-success' : 'alert-error')">
+
+  <div *ngIf="showAlert" [class]="'alert ' + (alertType === 'success' ? 'alert-success' : 'alert-error')">
     {{ alertMessage }}
   </div>
 
   <div class="modal-content">
     <form *ngIf="!showForgotPassword" (ngSubmit)="onLogin()" [formGroup]="loginForm">
       <div class="form-group">
-        <input formControlName="email" 
-               placeholder='ელ.ფოსტა' 
-               type="email" 
-               [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        <input formControlName="email" placeholder='ელ.ფოსტა' type="email"
+          [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
         <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
           <span *ngIf="loginForm.get('email')?.errors?.['required']">ელ-ფოსტის ველის შევსება აუცილებელია</span>
           <span *ngIf="loginForm.get('email')?.errors?.['email']">გთხოვთ შეიყვანეთ ვალიდური ელ-ფოსტა</span>
@@ -21,17 +18,15 @@
       </div>
 
       <div class="form-group">
-        <input formControlName="password" 
-               placeholder='პაროლი' 
-               type="password"
-               [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        <input formControlName="password" placeholder='პაროლი' type="password"
+          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
         <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
           პაროლის ველის შევსება აუცილებელია
         </div>
       </div>
 
       <p class="forgot-password" (click)="toggleForgotPassword()">პაროლის აღდგენა</p>
-      
+
       <button type="submit" [disabled]="!loginForm.valid || isSubmitting" class="submit-button">
         {{ isSubmitting ? 'მიმდინარეობს...' : 'ავტორიზაცია' }}
       </button>
@@ -39,11 +34,10 @@
 
     <form *ngIf="showForgotPassword" (ngSubmit)="onForgotPassword()" [formGroup]="forgotPasswordForm">
       <div class="form-group">
-        <input formControlName="email" 
-               placeholder='ელ.ფოსტა' 
-               type="email" 
-               [class.invalid]="forgotPasswordForm.get('email')?.invalid && forgotPasswordForm.get('email')?.touched">
-        <div class="error-message" *ngIf="forgotPasswordForm.get('email')?.invalid && forgotPasswordForm.get('email')?.touched">
+        <input formControlName="email" placeholder='ელ.ფოსტა' type="email"
+          [class.invalid]="forgotPasswordForm.get('email')?.invalid && forgotPasswordForm.get('email')?.touched">
+        <div class="error-message"
+          *ngIf="forgotPasswordForm.get('email')?.invalid && forgotPasswordForm.get('email')?.touched">
           <span *ngIf="forgotPasswordForm.get('email')?.errors?.['required']">ელ-ფოსტის ველის შევსება აუცილებელია</span>
           <span *ngIf="forgotPasswordForm.get('email')?.errors?.['email']">გთხოვთ შეიყვანეთ ვალიდური ელ-ფოსტა</span>
         </div>

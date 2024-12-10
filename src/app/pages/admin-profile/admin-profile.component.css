@@ -1,4 +1,3 @@
-/* Admin Container and Button Styles */
 .admin-container {
   width: 100%;
   max-width: 1440px;
@@ -202,10 +201,10 @@
 .column.details {
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  height: auto; 
+  justify-content: center;
+  height: auto;
   padding: 20px 0;
-  gap: 24px;  
+  gap: 24px;
 }
 
 .detail-row {
@@ -252,11 +251,11 @@
 .column.additional-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; 
-  justify-content: flex-start; 
+  align-items: flex-start;
+  justify-content: flex-start;
   height: auto;
   padding: 20px 0;
-  margin-top: 0; 
+  margin-top: 0;
 }
 
 
@@ -369,7 +368,6 @@
   cursor: not-allowed;
 }
 
-/* Responsive Design */
 @media (max-width: 1200px) {
   .buttons-container {
     flex-direction: column;
@@ -395,7 +393,7 @@
   .card-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .column.details,
   .column.additional-content {
     padding: 10px 0;

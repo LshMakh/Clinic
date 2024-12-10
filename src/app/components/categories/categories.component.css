@@ -7,8 +7,9 @@
   border-radius: 10px;
   overflow: hidden;
 }
-@media(max-width:1600px){
-  .categories{
+
+@media(max-width:1600px) {
+  .categories {
     justify-self: center;
   }
 }
@@ -65,7 +66,7 @@
 
 .category-content {
   display: flex;
- 
+
   gap: 25px;
   flex: 1;
   min-width: 0;

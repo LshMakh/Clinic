@@ -7,14 +7,12 @@ import { BookAppointmentComponent } from '../../pages/book-appointment/book-appo
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    UserProfileComponent,
-  ],
+  declarations: [UserProfileComponent],
   imports: [
     CommonModule,
     SharedModule,
     PatientRoutingModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class PatientModule { }
+export class PatientModule {}

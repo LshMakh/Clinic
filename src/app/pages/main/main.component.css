@@ -163,58 +163,59 @@ h2 {
 
 @media (max-width: 1600px) {
   .main-image {
-      height: 600px;
-      width: 100%;
-      background-image: url("../../../assets/slider.png");
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: left center;
+    height: 600px;
+    width: 100%;
+    background-image: url("../../../assets/slider.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: left center;
   }
+
   .main-section {
-      padding: 50px 60px;
-      flex-direction: column;
+    padding: 50px 60px;
+    flex-direction: column;
   }
-  
+
   .doctors {
-      justify-content: center;
+    justify-content: center;
   }
 }
 
 @media (max-width: 768px) {
   .main-image {
-      height: 300px;
+    height: 300px;
   }
 
   .main-section {
-      padding: 30px 20px;
+    padding: 30px 20px;
   }
 
   .card {
-      width: 100%;
-      max-width: 390px;
+    width: 100%;
+    max-width: 390px;
   }
 
   .doctors {
-      gap: 20px;
+    gap: 20px;
   }
 
   .see-all {
-      align-self: center;
+    align-self: center;
   }
 }
 
 @media (max-width: 480px) {
   .main-image {
-      height: 200px;
+    height: 200px;
   }
 
   .card {
-      height: auto;
-      padding: 10px;
+    height: auto;
+    padding: 10px;
   }
 
   .book {
-      width: 100%;
-      justify-content: center;
+    width: 100%;
+    justify-content: center;
   }
 }

@@ -10,65 +10,69 @@ import { NoDoctorGuard } from './guards/no-doctor-guard';
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent
+    component: MainComponent,
   },
   {
     path: 'main',
-    component: MainComponent
+    component: MainComponent,
   },
   {
-    path: 'book-appointment/:id',  
+    path: 'book-appointment/:id',
     component: BookAppointmentComponent,
-    canActivate:[NoDoctorGuard]
+    canActivate: [NoDoctorGuard],
   },
   {
     path: 'register',
-    loadChildren: () => import('./modules/registration/registration.module')
-      .then(m => m.RegistrationModule)
-      .catch(err => {
-        console.error('Error loading registration module:', err);
-        throw err;
-      }),
+    loadChildren: () =>
+      import('./modules/registration/registration.module')
+        .then((m) => m.RegistrationModule)
+        .catch((err) => {
+          console.error('Error loading registration module:', err);
+          throw err;
+        }),
     canActivate: [NoAuthGuard],
-    data: { preload: true }
+    data: { preload: true },
   },
   {
     path: 'admin',
-    loadChildren: () => import('./modules/admin/admin.module')
-      .then(m => m.AdminModule)
-      .catch(err => {
-        console.error('Error loading admin module:', err);
-        throw err;
-      }),
+    loadChildren: () =>
+      import('./modules/admin/admin.module')
+        .then((m) => m.AdminModule)
+        .catch((err) => {
+          console.error('Error loading admin module:', err);
+          throw err;
+        }),
     canActivate: [AuthGuard],
-    data: { preload: false }
+    data: { preload: false },
   },
   {
     path: 'doctor',
-    loadChildren: () => import('./modules/doctor/doctor.module')
-      .then(m => m.DoctorModule)
-      .catch(err => {
-        console.error('Error loading doctor module:', err);
-        throw err;
-      }),
+    loadChildren: () =>
+      import('./modules/doctor/doctor.module')
+        .then((m) => m.DoctorModule)
+        .catch((err) => {
+          console.error('Error loading doctor module:', err);
+          throw err;
+        }),
     canActivate: [AuthGuard],
-    data: { preload: true }
+    data: { preload: true },
   },
   {
     path: 'patient',
-    loadChildren: () => import('./modules/patient/patient.module')
-      .then(m => m.PatientModule)
-      .catch(err => {
-        console.error('Error loading patient module:', err);
-        throw err;
-      }),
+    loadChildren: () =>
+      import('./modules/patient/patient.module')
+        .then((m) => m.PatientModule)
+        .catch((err) => {
+          console.error('Error loading patient module:', err);
+          throw err;
+        }),
     canActivate: [AuthGuard],
-    data: { preload: true }
+    data: { preload: true },
   },
   {
     path: '**',
-    redirectTo: ''
-  }
+    redirectTo: '',
+  },
 ];
 
 @NgModule({
@@ -76,10 +80,10 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       preloadingStrategy: CustomPreloadingStrategy,
       scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled', 
-      onSameUrlNavigation: 'reload'
-    })
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: 'reload',
+    }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

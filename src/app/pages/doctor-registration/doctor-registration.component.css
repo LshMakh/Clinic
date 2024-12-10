@@ -57,7 +57,7 @@ form {
 
 .file-input-wrapper {
     position: relative;
-    width: 480px; 
+    width: 480px;
 }
 
 .file-input-wrapper input[type="file"] {
@@ -72,7 +72,7 @@ form {
     align-items: center;
     gap: 10px;
     width: 100%;
-    height: 52px; 
+    height: 52px;
     padding: 0 25px;
     border: 1px solid #18a4e180;
     border-radius: 50px;
@@ -93,8 +93,9 @@ form {
 
 
 .input-container {
-    width: 480px; 
+    width: 480px;
 }
+
 #specialty {
     width: 480px;
     border-radius: 100px;
@@ -110,18 +111,18 @@ form {
     background-position: right 15px center;
     background-size: 15px;
     cursor: pointer;
-  }
-  
-  select:focus {
+}
+
+select:focus {
     outline: none;
     border-color: #18A4E1;
-  }
-  
-  @media (max-width: 992px) {
+}
+
+@media (max-width: 992px) {
     select {
-      width: 100%;
+        width: 100%;
     }
-  }
+}
 
 .btn {
     align-self: flex-end;
@@ -174,8 +175,13 @@ form {
 }
 
 @keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
+    0% {
+        transform: translateY(-50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translateY(-50%) rotate(360deg);
+    }
 }
 
 .is-pending {
@@ -223,7 +229,8 @@ form {
     .custom-file-input {
         width: 100%;
     }
-    select{
+
+    select {
         width: 100%;
     }
 }

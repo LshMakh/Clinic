@@ -7,12 +7,12 @@ const routes: Routes = [
   {
     path: 'profile',
     component: DoctorProfileComponent,
-    canActivate: [DoctorGuard]
-  }
+    canActivate: [DoctorGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DoctorRoutingModule { }
+export class DoctorRoutingModule {}

@@ -1,70 +1,63 @@
 <div class="weekly-calendar-container">
-    <div class="calendar-header">
-      <h4 style="color: #053354;">{{ currentYear }}</h4>
-        <div class="month">
-          <button (click)="previousMonth()"><img src="/assets/Vector (2).svg" alt="Previous Month"></button>
-          <h4>{{ currentMonthName }}</h4>
-          <button (click)="nextMonth()"><img src="/assets/Vector (1).svg" alt="Next Month"></button>
-        </div>
-    </div>
-
-    <div class="calendar-grid">
-      <div class="time-slot-header">
-        <button (click)="previousWeek()" class="arrow">&#10094;</button>
-        <button (click)="nextWeek()" class="arrow">&#10095;</button>
-      </div>
-
-      <div *ngFor="let day of displayedWeek" class="day-header">
-         <span style="color: #18A4E1; margin-right: 2px;">{{ day | date:'d' }}</span> ( {{ daysOfWeek[day.getDay()] }} )
-      </div>
-
-      <ng-container *ngFor="let timeSlot of timeSlots">
-        <div class="time-slot">{{ timeSlot }}</div>
-        <div *ngFor="let day of displayedWeek" class="calendar-cell">
-          <ng-container [ngSwitch]="getSlotStatus(day, timeSlot)">
-            <ng-container *ngSwitchCase="'available'">
-              <div *ngIf="viewMode === 'booking'; else Empty" 
-                   class="activity empty" 
-                   (click)="makeReservation(day, timeSlot)">
-                <span>+&nbsp;</span> დაჯავშნა
-              </div>
-            </ng-container>
-
-            <ng-template #Empty></ng-template>
-
-            <div *ngSwitchCase="'own'" class="activity reservation">
-              <div *ngIf="userRole==='PATIENT'; else Reserve">ჩემი ჯავშანი</div>
-              <ng-template #Reserve>დაჯავშნილია</ng-template>
-              <div *ngIf="isDeleteVisible" (click)="deleteReservation($event, day, timeSlot)" class="white-circle">
-                <img src="assets/Group 1.svg" alt="delete">
-              </div>
-              <div *ngIf="isEditVisible" (click)="openEditModal($event,day,timeSlot)" class="edit-circle" >
-                <img src="assets/calendaredit.svg" alt="delete">
-              </div>
-            </div>
-
-            <div *ngSwitchCase="'booked'" class="activity off"></div>
-            
-            <div *ngSwitchCase="'weekend'" class="activity off yellow"></div>
-          </ng-container>
-        </div>
-      </ng-container>
+  <div class="calendar-header">
+    <h4 style="color: #053354;">{{ currentYear }}</h4>
+    <div class="month">
+      <button (click)="previousMonth()"><img src="/assets/Vector (2).svg" alt="Previous Month"></button>
+      <h4>{{ currentMonthName }}</h4>
+      <button (click)="nextMonth()"><img src="/assets/Vector (1).svg" alt="Next Month"></button>
     </div>
   </div>
 
-  <app-booking-modal 
-    *ngIf="showBookingModal"
-    [doctorId]="doctorId"
-    [appointmentDate]="selectedDate!"
-    [timeSlot]="selectedTimeSlot!"
-    (close)="closeBookingModal()"
-    (booked)="onAppointmentBooked()">
-  </app-booking-modal>
+  <div class="calendar-grid">
+    <div class="time-slot-header">
+      <button (click)="previousWeek()" class="arrow">&#10094;</button>
+      <button (click)="nextWeek()" class="arrow">&#10095;</button>
+    </div>
 
-  <app-calendar-edit-modal 
-  *ngIf="showEditModal && selectedAppointment"
-  [appointmentId]="selectedAppointment.appointmentId"
-  [currentDescription]="selectedAppointment.description || ''"
-  (close)="closeEditModal()"
-  (saved)="handleEditSave($event)">
+    <div *ngFor="let day of displayedWeek" class="day-header">
+      <span style="color: #18A4E1; margin-right: 2px;">{{ day | date:'d' }}</span> ( {{ daysOfWeek[day.getDay()] }} )
+    </div>
+
+    <ng-container *ngFor="let timeSlot of timeSlots">
+      <div class="time-slot">{{ timeSlot }}</div>
+      <div *ngFor="let day of displayedWeek" class="calendar-cell">
+        <ng-container [ngSwitch]="getSlotStatus(day, timeSlot)">
+          <ng-container *ngSwitchCase="'available'">
+            <div *ngIf="viewMode === 'booking'; else Empty" class="activity empty"
+              (click)="makeReservation(day, timeSlot)">
+              <span>+&nbsp;</span> დაჯავშნა
+            </div>
+          </ng-container>
+
+          <ng-template #Empty></ng-template>
+
+          <div *ngSwitchCase="'own'" class="activity reservation">
+            <div *ngIf="userRole==='PATIENT'; else Reserve">ჩემი ჯავშანი</div>
+            <ng-template #Reserve>დაჯავშნილია</ng-template>
+            <div *ngIf="isDeleteVisible" (click)="deleteReservation($event, day, timeSlot)" class="white-circle">
+              <img src="assets/Group 1.svg" alt="delete">
+            </div>
+            <div *ngIf="isEditVisible" (click)="openEditModal($event,day,timeSlot)" class="edit-circle">
+              <img src="assets/calendaredit.svg" alt="delete">
+            </div>
+          </div>
+
+          <div *ngSwitchCase="'booked'" class="activity off"></div>
+
+          <div *ngSwitchCase="'weekend'" class="activity off yellow"></div>
+          <div *ngSwitchCase="'blocked'" class="activity off red"></div>
+
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<app-booking-modal *ngIf="showBookingModal" [doctorId]="doctorId" [appointmentDate]="selectedDate!"
+  [timeSlot]="selectedTimeSlot!" (close)="closeBookingModal()" (booked)="onAppointmentBooked()">
+</app-booking-modal>
+
+<app-calendar-edit-modal *ngIf="showEditModal && selectedAppointment"
+  [appointmentId]="selectedAppointment.appointmentId" [currentDescription]="selectedAppointment.description || ''"
+  (close)="closeEditModal()" (saved)="handleEditSave($event)">
 </app-calendar-edit-modal>

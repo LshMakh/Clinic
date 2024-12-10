@@ -6,25 +6,23 @@ import { AppointmentService } from '../../services/appointment.service';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.css'
+  styleUrl: './user-profile.component.css',
 })
 export class UserProfileComponent implements OnInit {
-
-  isAuthenticated$! : Observable<boolean>;
-  userId :number|null = null;
-  currentUser$! : Observable<any>;
+  isAuthenticated$!: Observable<boolean>;
+  userId: number | null = null;
+  currentUser$!: Observable<any>;
   showChangePasswordModal = false;
-  doctorId :number = 0;
-  appointmentCount:number = 0;
-  isEditVisible : boolean = false;
-  isDeleteVisible:boolean = false;
-  appointmentCount$! : Observable<number>;
+  doctorId: number = 0;
+  appointmentCount: number = 0;
+  isEditVisible: boolean = false;
+  isDeleteVisible: boolean = false;
+  appointmentCount$!: Observable<number>;
 
-  
-  constructor(private authService: AuthService,     private appointmentService: AppointmentService) {}
- 
-
-  
+  constructor(
+    private authService: AuthService,
+    private appointmentService: AppointmentService
+  ) {}
 
   ngOnInit() {
     this.isAuthenticated$ = this.authService.isAuthenticated();
@@ -34,14 +32,13 @@ export class UserProfileComponent implements OnInit {
     this.toggleAppointmentCount();
     this.appointmentCount$ = this.appointmentService.appointmentCount$;
     this.appointmentService.getCurrentUserAppointmentCount().subscribe();
-    
   }
 
-  toggleDelete(){
+  toggleDelete() {
     this.isDeleteVisible = !this.isDeleteVisible;
     console.log(this.isDeleteVisible);
   }
-  toggleEdit(){
+  toggleEdit() {
     this.isEditVisible = !this.isEditVisible;
   }
 
@@ -49,11 +46,11 @@ export class UserProfileComponent implements OnInit {
     this.showChangePasswordModal = !this.showChangePasswordModal;
   }
 
-  toggleAppointmentCount(){
+  toggleAppointmentCount() {
     this.appointmentService.getCurrentUserAppointmentCount().subscribe({
-      next:(count)=>{
+      next: (count) => {
         this.appointmentCount = count;
-      }
+      },
     });
   }
 }

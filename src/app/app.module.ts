@@ -22,7 +22,7 @@ import { BookAppointmentComponent } from './pages/book-appointment/book-appointm
     FooterComponent,
     MainComponent,
     LoginPopUpComponent,
-    BookAppointmentComponent
+    BookAppointmentComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,15 +33,15 @@ import { BookAppointmentComponent } from './pages/book-appointment/book-appointm
     RouterModule,
     SharedModule,
     BrowserAnimationsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

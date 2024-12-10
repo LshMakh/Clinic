@@ -4,8 +4,8 @@ import { AppointmentService } from '../../services/appointment.service';
 
 @Component({
   selector: 'app-booking-modal',
-  templateUrl:'./booking-modal.component.html',
-  styleUrl:'./booking-modal.component.css'
+  templateUrl: './booking-modal.component.html',
+  styleUrl: './booking-modal.component.css',
 })
 export class BookingModalComponent {
   @Input() doctorId!: number;
@@ -25,7 +25,7 @@ export class BookingModalComponent {
     private appointmentService: AppointmentService
   ) {
     this.bookingForm = this.fb.group({
-      description: ['', [Validators.required, Validators.maxLength(500)]]
+      description: ['', [Validators.required, Validators.maxLength(500)]],
     });
   }
 
@@ -38,7 +38,7 @@ export class BookingModalComponent {
         doctorId: this.doctorId,
         appointmentDate: this.appointmentDate,
         timeSlot: this.timeSlot,
-        description: this.bookingForm.get('description')?.value
+        description: this.bookingForm.get('description')?.value,
       };
 
       console.log(appointmentData);
@@ -53,7 +53,7 @@ export class BookingModalComponent {
         },
         error: (error) => {
           let errorMessage = 'დაფიქსირდა შეცდომა';
-          
+
           if (error.status === 409) {
             errorMessage = 'მითითებული დრო უკვე დაკავებულია';
           } else if (error.status === 400) {
@@ -61,10 +61,10 @@ export class BookingModalComponent {
           } else if (error.status === 403) {
             errorMessage = 'თქვენ არ გაქვთ ჯავშნის უფლება';
           }
-          
+
           this.showErrorAlert(errorMessage);
           this.isSubmitting = false;
-        }
+        },
       });
     }
   }

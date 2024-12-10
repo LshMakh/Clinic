@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-pop-up',
   templateUrl: './login-pop-up.component.html',
-  styleUrls: ['./login-pop-up.component.css']
+  styleUrls: ['./login-pop-up.component.css'],
 })
 export class LoginPopUpComponent {
   @Output() close = new EventEmitter<void>();
@@ -25,11 +25,11 @@ export class LoginPopUpComponent {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
 
     this.forgotPasswordForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
@@ -40,7 +40,7 @@ export class LoginPopUpComponent {
 
       const loginData = {
         email: this.loginForm.get('email')?.value,
-        password: this.loginForm.get('password')?.value
+        password: this.loginForm.get('password')?.value,
       };
 
       this.authService.authenticate(loginData).subscribe({
@@ -52,10 +52,10 @@ export class LoginPopUpComponent {
         error: (error) => {
           this.showErrorAlert(error.message);
           this.isSubmitting = false;
-        }
+        },
       });
     } else {
-      this.showErrorAlert('Please fill in all required fields correctly');
+      this.showErrorAlert('სწორად შეავსეთ ყველა ველი');
     }
   }
 
@@ -65,19 +65,23 @@ export class LoginPopUpComponent {
       this.hideAlert();
 
       const email = this.forgotPasswordForm.get('email')?.value;
-      
+
       this.authService.requestPasswordReset(email).subscribe({
         next: (response) => {
-          this.showSuccessAlert('პაროლის აღდგენის ინსტრუქცია გამოგზავნილია თქვენს ელ-ფოსტაზე');
+          this.showSuccessAlert(
+            'პაროლის აღდგენის ინსტრუქცია გამოგზავნილია თქვენს ელ-ფოსტაზე'
+          );
           this.isSubmitting = false;
           setTimeout(() => {
-            this.toggleForgotPassword(); 
+            this.toggleForgotPassword();
           }, 3000);
         },
         error: (error) => {
-          this.showErrorAlert(error.error?.message || 'An error occurred. Please try again.');
+          this.showErrorAlert(
+            error.error?.message || 'An error occurred. Please try again.'
+          );
           this.isSubmitting = false;
-        }
+        },
       });
     }
   }
@@ -87,7 +91,7 @@ export class LoginPopUpComponent {
     this.hideAlert();
     if (this.showForgotPassword && this.loginForm.get('email')?.value) {
       this.forgotPasswordForm.patchValue({
-        email: this.loginForm.get('email')?.value
+        email: this.loginForm.get('email')?.value,
       });
     }
   }

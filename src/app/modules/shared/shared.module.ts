@@ -19,14 +19,14 @@ import { CalendarEditModalComponent } from '../../components/calendar-edit-modal
     SearchDropdownComponent,
     DoctorProfileCardComponent,
     ChangePasswordModalComponent,
-    CalendarEditModalComponent
+    CalendarEditModalComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     CalendarModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [
     CommonModule,
@@ -40,7 +40,7 @@ import { CalendarEditModalComponent } from '../../components/calendar-edit-modal
     DoctorProfileCardComponent,
     ChangePasswordModalComponent,
     BookingModalComponent,
-    CalendarEditModalComponent
-  ]
+    CalendarEditModalComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

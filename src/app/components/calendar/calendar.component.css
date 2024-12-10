@@ -1,193 +1,198 @@
 .weekly-calendar-container {
-      width: 830px;
-      
-      margin: 0 auto;
-    }
+  width: 830px;
 
-    .calendar-header {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin-bottom: 30px;
-      margin-left: 50px;
-    }
+  margin: 0 auto;
+}
 
-    
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: 150px repeat(7, 1fr);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .time-slot-header,
-    .day-header {
-      background-color: #ecf2f8;
-      padding: 10px;
-      text-align: center;
-      display: flex;
-      justify-content: center; 
-      align-items: center; 
-    }
+.calendar-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-left: 50px;
+}
 
 
-    .time-slot {
-      background-color: white;
-      padding: 10px;
-      text-align: center;
-      border-bottom: 1px solid #ecf2f8;
-      border-right: 1px solid #ecf2f8dd;
-      border-left: 1px solid #ecf2f8dd;
-      color: #053354;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
 
-    .calendar-cell {
-      background-color: white;
-      border-bottom: 1px solid #ecf2f8;
-      border-right: 1px solid #ecf2f8dd;
-      height: 60px;
-      position: relative;
-    }
+.calendar-grid {
+  display: grid;
+  grid-template-columns: 150px repeat(7, 1fr);
+  border-radius: 10px;
+  overflow: hidden;
+}
 
-    .activity {
-      padding: 13px 7px;
-      border-radius: 4px;
-      font-size: 14px;
-      text-align: center;
-      cursor: pointer;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.time-slot-header,
+.day-header {
+  background-color: #ecf2f8;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .activity.empty {
-      background-color: white;
-      color: #0533544D;
-      cursor: pointer;
-    }
 
-    .activity.empty > span {
-      color: #3ACF99;
-    }
+.time-slot {
+  background-color: white;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ecf2f8;
+  border-right: 1px solid #ecf2f8dd;
+  border-left: 1px solid #ecf2f8dd;
+  color: #053354;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .activity.empty:hover {
-      background-color: #f8f9fa;
-    }
+.calendar-cell {
+  background-color: white;
+  border-bottom: 1px solid #ecf2f8;
+  border-right: 1px solid #ecf2f8dd;
+  height: 60px;
+  position: relative;
+}
 
-    .activity.reservation {
-      background-color: #dafaee;
-      color: #3acf99;
-    }
+.activity {
+  padding: 13px 7px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .activity.off {
-      background-color: #ff93a6;
-      cursor: default;
-    }
+.activity.empty {
+  background-color: white;
+  color: #0533544D;
+  cursor: pointer;
+}
 
-    .activity.off.yellow {
-      background-color: #FFFFF5;
-    }
+.activity.empty>span {
+  color: #3ACF99;
+}
 
-    .white-circle {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      height: 18px;
-      width: 18px;
-      background-color: white;
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
+.activity.empty:hover {
+  background-color: #f8f9fa;
+}
 
-    .edit-circle {
-      position: absolute;
-      top: 5px;
-      left: 5px;
-      height: 18px;
-      width: 18px;
-      background-color: white;
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
+.activity.reservation {
+  background-color: #dafaee;
+  color: #3acf99;
+}
 
-    .white-circle > img {
-      width: 6px;
-      height: 6px;
-    }
-    .edit-circle > img{
-      width: 10px;
-      height: 10px;
-    }
-    .arrow {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #053354;
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-    }
-    
-    .arrow:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      background-color: white;
-    }
+.activity.off {
+  background-color: #ff93a6;
+  cursor: default;
+}
 
-    .arrow:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+.activity.off.yellow {
+  background-color: #FFFFF5;
+}
 
-    .month {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-left: 43px;
-  }
-  
-  .month button {
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      background-color: #FFFFFF;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .month button:hover{
-      transform: scale(1.02);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .month h4 {
-      border-radius: 50px;
-      margin-left: 10px;
-      margin-right: 10px;
-      color: #18A4E1;
-      border: 1px solid #18A4E1;
-      height: 35px;
-      width: 140px;
-      font-size: 18px;
-      text-align: center;
-      line-height: 35px;
-  }
-  
+.activity.off.red {
+  background-color: #FFF1F4;
+}
+
+.white-circle {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.edit-circle {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.white-circle>img {
+  width: 6px;
+  height: 6px;
+}
+
+.edit-circle>img {
+  width: 10px;
+  height: 10px;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #053354;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.arrow:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.arrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.month {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 43px;
+}
+
+.month button {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  background-color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.month button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.month h4 {
+  border-radius: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #18A4E1;
+  border: 1px solid #18A4E1;
+  height: 35px;
+  width: 140px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 35px;
+}

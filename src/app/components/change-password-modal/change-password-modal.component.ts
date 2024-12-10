@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-change-password-modal',
   templateUrl: './change-password-modal.component.html',
-  styleUrls: ['./change-password-modal.component.css']
+  styleUrls: ['./change-password-modal.component.css'],
 })
 export class ChangePasswordModalComponent {
   @Output() close = new EventEmitter<void>();
@@ -16,20 +16,21 @@ export class ChangePasswordModalComponent {
   alertType: 'success' | 'error' = 'error';
   showAlert = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService
-  ) {
-    this.changePasswordForm = this.fb.group({
-      currentPassword: ['', [Validators.required]],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validator: this.passwordMatchValidator });
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.changePasswordForm = this.fb.group(
+      {
+        currentPassword: ['', [Validators.required]],
+        newPassword: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required]],
+      },
+      { validator: this.passwordMatchValidator }
+    );
   }
 
   passwordMatchValidator(g: FormGroup) {
     return g.get('newPassword')?.value === g.get('confirmPassword')?.value
-      ? null : { mismatch: true };
+      ? null
+      : { mismatch: true };
   }
 
   onSubmit(): void {
@@ -37,21 +38,26 @@ export class ChangePasswordModalComponent {
       this.isSubmitting = true;
       this.hideAlert();
 
-      const { currentPassword, newPassword, confirmPassword } = this.changePasswordForm.value;
+      const { currentPassword, newPassword, confirmPassword } =
+        this.changePasswordForm.value;
 
-      this.authService.changePassword(currentPassword, newPassword, confirmPassword).subscribe({
-        next: (response) => {
-          this.showSuccessAlert('პაროლი წარმატებით შეიცვალა');
-          this.isSubmitting = false;
-          setTimeout(() => {
-            this.onClose();
-          }, 2000);
-        },
-        error: (error) => {
-          this.showErrorAlert(error.error?.message || 'დაფიქსირდა შეცდომა, სცადეთ თავიდან');
-          this.isSubmitting = false;
-        }
-      });
+      this.authService
+        .changePassword(currentPassword, newPassword, confirmPassword)
+        .subscribe({
+          next: (response) => {
+            this.showSuccessAlert('პაროლი წარმატებით შეიცვალა');
+            this.isSubmitting = false;
+            setTimeout(() => {
+              this.onClose();
+            }, 2000);
+          },
+          error: (error) => {
+            this.showErrorAlert(
+              error.error?.message || 'დაფიქსირდა შეცდომა, სცადეთ თავიდან'
+            );
+            this.isSubmitting = false;
+          },
+        });
     }
   }
 

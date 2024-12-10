@@ -34,119 +34,166 @@ export interface CreateAppointmentDto {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppointmentService {
-  
   private patientAppointmentsSubject = new BehaviorSubject<Appointment[]>([]);
   private doctorAppointmentsSubject = new BehaviorSubject<Appointment[]>([]);
   private appointmentCountSubject = new BehaviorSubject<number>(0);
   appointmentCount$ = this.appointmentCountSubject.asObservable();
 
   constructor(private http: HttpClient) {}
-  
+
   getCurrentUserAppointmentCount(): Observable<number> {
-    return this.http.get<any>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.count}`)
+    return this.http
+      .get<any>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.count}`
+      )
       .pipe(
-        tap(count => {
+        tap((count) => {
           this.appointmentCountSubject.next(count);
         })
       );
   }
 
-  getSelectedDoctorAppointmentCount(doctorId:number):Observable<number>{
-    return this.http.get<any>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.count}/${doctorId}`)
-    .pipe(
-      tap(count=>{
-        this.appointmentCountSubject.next(count);
-      })
-    )
+  getSelectedDoctorAppointmentCount(doctorId: number): Observable<number> {
+    return this.http
+      .get<any>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.count}/${doctorId}`
+      )
+      .pipe(
+        tap((count) => {
+          this.appointmentCountSubject.next(count);
+        })
+      );
   }
-  
+
   createAppointment(appointmentData: CreateAppointmentDto): Observable<any> {
-    return this.http.post(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.book}`, appointmentData).pipe(
-      tap(() => {
-        this.loadPatientAppointments();
-      }),
-      catchError(this.handleError)
-    );
+    return this.http
+      .post(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.book}`,
+        appointmentData
+      )
+      .pipe(
+        tap(() => {
+          this.loadPatientAppointments();
+        }),
+        catchError(this.handleError)
+      );
   }
 
   blockTimeSlot(date: Date, timeSlot: string): Observable<any> {
-    return this.http.post(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.blockTime}`, { appointmentDate: date, timeSlot }).pipe(
-      tap(() => {
-        this.loadDoctorAppointments();
-      }),
-      catchError(this.handleError)
-    );
+    return this.http
+      .post(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.blockTime}`,
+        { appointmentDate: date, timeSlot }
+      )
+      .pipe(
+        tap(() => {
+          this.loadDoctorAppointments();
+        }),
+        catchError(this.handleError)
+      );
   }
 
   loadDoctorAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadDoc}`).pipe(
-      tap(appointments => this.doctorAppointmentsSubject.next(appointments)),
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<Appointment[]>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadDoc}`
+      )
+      .pipe(
+        tap((appointments) =>
+          this.doctorAppointmentsSubject.next(appointments)
+        ),
+        catchError(this.handleError)
+      );
   }
 
-   // Get appointments for doctor (non-logged in)
-   loadDoctorAppointmentsFromUser(id:number): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadDoc}/${id}`).pipe(
-      tap(appointments => this.doctorAppointmentsSubject.next(appointments)),
-      catchError(this.handleError)
-    );
+  // Get appointments for doctor (non-logged in)
+  loadDoctorAppointmentsFromUser(id: number): Observable<Appointment[]> {
+    return this.http
+      .get<Appointment[]>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadDoc}/${id}`
+      )
+      .pipe(
+        tap((appointments) =>
+          this.doctorAppointmentsSubject.next(appointments)
+        ),
+        catchError(this.handleError)
+      );
   }
 
   loadPatientAppointments(): Observable<Appointment[]> {
-    return this.http.get<Appointment[]>(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadPat}`).pipe(
-      tap(appointments => this.patientAppointmentsSubject.next(appointments)),
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<Appointment[]>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.loadPat}`
+      )
+      .pipe(
+        tap((appointments) =>
+          this.patientAppointmentsSubject.next(appointments)
+        ),
+        catchError(this.handleError)
+      );
   }
 
-  updateAppointmentDescription(appointmentId: number, description: string): Observable<any> {
-    return this.http.put(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}/${appointmentId}${API_CONFIG.endpoints.appointment.update}`, { description }).pipe(
-      tap(() => {
-       
-        this.loadPatientAppointments();
-        this.loadDoctorAppointments();
-      }),
-      catchError(this.handleError)
-    );
+  updateAppointmentDescription(
+    appointmentId: number,
+    description: string
+  ): Observable<any> {
+    return this.http
+      .put(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}/${appointmentId}${API_CONFIG.endpoints.appointment.update}`,
+        { description }
+      )
+      .pipe(
+        tap(() => {
+          this.loadPatientAppointments();
+          this.loadDoctorAppointments();
+        }),
+        catchError(this.handleError)
+      );
   }
-  
 
   deleteAppointment(appointmentId: number): Observable<any> {
-    return this.http.delete(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.delete}/${appointmentId}`).pipe(
-      tap(() => {
+    return this.http
+      .delete(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.delete}/${appointmentId}`
+      )
+      .pipe(
+        tap(() => {
+          const currentCount = this.appointmentCountSubject.value;
+          this.appointmentCountSubject.next(currentCount - 1);
 
-        const currentCount = this.appointmentCountSubject.value;
-        this.appointmentCountSubject.next(currentCount - 1);
-
-        this.loadPatientAppointments();
-        this.loadDoctorAppointments();
-        
-      }),
-      catchError(this.handleError)
-    );
+          this.loadPatientAppointments();
+          this.loadDoctorAppointments();
+        }),
+        catchError(this.handleError)
+      );
   }
 
   getAvailableSlots(doctorId: number, date: Date): Observable<TimeSlot[]> {
     const formattedDate = this.formatDate(date);
-    return this.http.get<TimeSlot[]>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.available}${doctorId}?date=${formattedDate}`
-    ).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<TimeSlot[]>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.available}${doctorId}?date=${formattedDate}`
+      )
+      .pipe(catchError(this.handleError));
   }
 
-  checkSlotAvailability(doctorId: number, date: Date, timeSlot: string): Observable<boolean> {
+  checkSlotAvailability(
+    doctorId: number,
+    date: Date,
+    timeSlot: string
+  ): Observable<boolean> {
     const formattedDate = this.formatDate(date);
-    return this.http.get<{isAvailable: boolean}>(
-      `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.slotAvailable}${doctorId}?date=${formattedDate}&timeSlot=${timeSlot}`
-    ).pipe(
-      map(response => response.isAvailable),
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<{ isAvailable: boolean }>(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.appointment.base}${API_CONFIG.endpoints.appointment.slotAvailable}${doctorId}?date=${formattedDate}&timeSlot=${timeSlot}`
+      )
+      .pipe(
+        map((response) => response.isAvailable),
+        catchError(this.handleError)
+      );
   }
 
   getDoctorAppointments(): Observable<Appointment[]> {

@@ -8,14 +8,12 @@ const routes: Routes = [
   {
     path: 'profile',
     component: UserProfileComponent,
-    canActivate: [PatientGuard]
+    canActivate: [PatientGuard],
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PatientRoutingModule { }
-
+export class PatientRoutingModule {}

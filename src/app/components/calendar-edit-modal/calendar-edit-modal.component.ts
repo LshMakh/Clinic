@@ -8,11 +8,9 @@ interface EditEvent {
 
 @Component({
   selector: 'app-calendar-edit-modal',
-  templateUrl:'./calendar-edit-modal.component.html',
- styleUrl:'./calendar-edit-modal.component.css'
+  templateUrl: './calendar-edit-modal.component.html',
+  styleUrl: './calendar-edit-modal.component.css',
 })
-
-
 export class CalendarEditModalComponent {
   @Input() appointmentId!: number;
   @Input() currentDescription: string = '';
@@ -27,13 +25,13 @@ export class CalendarEditModalComponent {
 
   constructor(private fb: FormBuilder) {
     this.editForm = this.fb.group({
-      description: ['', [Validators.required, Validators.maxLength(500)]]
+      description: ['', [Validators.required, Validators.maxLength(500)]],
     });
   }
 
   ngOnInit() {
     this.editForm.patchValue({
-      description: this.currentDescription
+      description: this.currentDescription,
     });
   }
 
@@ -41,10 +39,10 @@ export class CalendarEditModalComponent {
     if (this.editForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
       const description = this.editForm.get('description')?.value;
-      
+
       this.saved.emit({
         appointmentId: this.appointmentId,
-        description: description
+        description: description,
       });
 
       this.showSuccessAlert('ვიზიტის აღწერა წარმატებით შეიცვალა');

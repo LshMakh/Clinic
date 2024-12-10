@@ -4,7 +4,7 @@ import { Observable, map, take } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NoDoctorGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
@@ -12,7 +12,7 @@ export class NoDoctorGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     return this.authService.getCurrentUser().pipe(
       take(1),
-      map(user => {
+      map((user) => {
         if (user?.role === 'DOCTOR') {
           this.router.navigate(['/main']);
           return false;

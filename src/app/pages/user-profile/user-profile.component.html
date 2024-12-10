@@ -1,40 +1,41 @@
 <div class="user-prof">
-   
-    <div class="user-profile">
-        <img src="assets\png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png" alt="anon" class="user-image">
-        <p class="user-specialty">მომხმარებელი</p>
-        <div class="contact-info">
-          <div *ngIf="currentUser$|async as user">
-          <p class="phone">პირადი ნომერი : </p>
-          <h5>{{user.personalNumber}}</h5>
-          <p class="email">Email : </p>
-          <h5>{{user.email}}</h5>
-        </div>
-        <p class="experience" (click)="toggleChangePasswordModal()">პაროლის შეცვლა</p>
-        <p class="appointments">ჯავშანი: <br><h5>( {{appointmentCount$ | async}} )</h5></p>
-      </div>
-    </div>
-      
-      <div class="calendar-section">
-        <h2>ჩემი ჯავშანი <label style="color: #0533544D;">( {{appointmentCount$ | async}} )</label></h2>
 
-        <app-calendar 
-        [doctorId]="doctorId"
-        viewMode="patient"
-        [isDeleteVisible]="isDeleteVisible"
-        [isEditVisible]="isEditVisible">
-    </app-calendar>    
-  <div class="buttons">
-          <button type="submit" class="edit-btn" (click)="toggleEdit()" ><img src="assets/calendaredit.svg" alt="">რედაქტირება</button>
-          <button type="submit" class="dlt-btn" (click)="toggleDelete()"><img src="assets/calendardelete.svg" alt="">წაშლა</button>
+  <div class="user-profile">
+    <img
+      src="assets\png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png"
+      alt="anon" class="user-image">
+    <p class="user-specialty">მომხმარებელი</p>
+    <div class="contact-info">
+      <div *ngIf="currentUser$|async as user">
+        <p class="phone">პირადი ნომერი : </p>
+        <h5>{{user.personalNumber}}</h5>
+        <p class="email">Email : </p>
+        <h5>{{user.email}}</h5>
+      </div>
+      <p class="experience" (click)="toggleChangePasswordModal()">პაროლის შეცვლა</p>
+      <p class="appointments">ჯავშანი: </p>
+      <h5>( {{appointmentCount$ | async}} )</h5>
+
     </div>
-  
   </div>
 
-    
+  <div class="calendar-section">
+    <h2>ჩემი ჯავშანი <label style="color: #0533544D;">( {{appointmentCount$ | async}} )</label></h2>
+
+    <app-calendar [doctorId]="doctorId" viewMode="patient" [isDeleteVisible]="isDeleteVisible"
+      [isEditVisible]="isEditVisible">
+    </app-calendar>
+    <div class="buttons">
+      <button type="submit" class="edit-btn" (click)="toggleEdit()"><img src="assets/calendaredit.svg"
+          alt="">რედაქტირება</button>
+      <button type="submit" class="dlt-btn" (click)="toggleDelete()"><img src="assets/calendardelete.svg"
+          alt="">წაშლა</button>
+    </div>
+
+  </div>
+
+
 </div>
 
-<app-change-password-modal 
-  *ngIf="showChangePasswordModal"
-  (close)="toggleChangePasswordModal()">
+<app-change-password-modal *ngIf="showChangePasswordModal" (close)="toggleChangePasswordModal()">
 </app-change-password-modal>

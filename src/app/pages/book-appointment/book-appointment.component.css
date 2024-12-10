@@ -14,42 +14,44 @@
   gap: 20px;
   width: 100%;
 }
+
 .action-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding-top: 66px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 66px;
 }
 
 .edit-btn, .dlt-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 50px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 0 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 50px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 25px;
 }
 
 .edit-btn {
-    width: 230px;
-    background-color: #ECF2F8;
-    color: #18A4E1;
+  width: 230px;
+  background-color: #ECF2F8;
+  color: #18A4E1;
 }
 
 .dlt-btn {
-    width: 170px;
-    background-color: #FF93A6;
-    color: white;
+  width: 170px;
+  background-color: #FF93A6;
+  color: white;
 }
 
 .edit-btn img, .dlt-btn img {
-    width: 26px;
-    height: 26px;
+  width: 26px;
+  height: 26px;
 }
+
 .auth-error {
   position: absolute;
   top: 120%;
@@ -67,7 +69,8 @@
   line-height: 1.5;
   z-index: 1000;
 }
-.auth-error > p{
+
+.auth-error>p {
   color: #FF2C52;
 }
 
@@ -77,11 +80,12 @@
     flex-direction: column;
     align-items: center;
   }
+
   .action-buttons {
     flex-direction: row;
     padding-top: 0;
     justify-content: flex-end;
-}
+  }
 
   .left-column, .right-column {
     width: 100%;

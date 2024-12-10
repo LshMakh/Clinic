@@ -5,7 +5,7 @@ import { DoctorService } from './doctor.service';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SearchService {
   private nameSearchSubject = new BehaviorSubject<string>('');
@@ -15,28 +15,36 @@ export class SearchService {
 
   constructor(private doctorService: DoctorService) {
     combineLatest([
-      this.nameSearchSubject.pipe(
-        debounceTime(300),
-        distinctUntilChanged()
-      ),
+      this.nameSearchSubject.pipe(debounceTime(300), distinctUntilChanged()),
       this.specialtySearchSubject.pipe(
         debounceTime(300),
         distinctUntilChanged()
       ),
-      this.doctorService.getFilteredCards()
+      this.doctorService.getFilteredCards(),
     ]).subscribe(([nameSearch, specialtySearch, doctors]) => {
       const results = this.filterDoctors(doctors, nameSearch, specialtySearch);
       this.searchResultsSubject.next(results);
-      this.showDropdownSubject.next(results.length > 0 && (nameSearch.length > 0 || specialtySearch.length > 0));
+      this.showDropdownSubject.next(
+        results.length > 0 &&
+          (nameSearch.length > 0 || specialtySearch.length > 0)
+      );
     });
   }
 
-  private filterDoctors(doctors: DoctorCard[], nameSearch: string, specialtySearch: string): DoctorCard[] {
-    return doctors.filter(doctor => {
+  private filterDoctors(
+    doctors: DoctorCard[],
+    nameSearch: string,
+    specialtySearch: string
+  ): DoctorCard[] {
+    return doctors.filter((doctor) => {
       const fullName = `${doctor.firstName} ${doctor.lastName}`.toLowerCase();
       const specialty = doctor.specialty.toLowerCase();
-      const nameMatch = nameSearch ? fullName.includes(nameSearch.toLowerCase()) : true;
-      const specialtyMatch = specialtySearch ? specialty.includes(specialtySearch.toLowerCase()) : true;
+      const nameMatch = nameSearch
+        ? fullName.includes(nameSearch.toLowerCase())
+        : true;
+      const specialtyMatch = specialtySearch
+        ? specialty.includes(specialtySearch.toLowerCase())
+        : true;
       return nameMatch && specialtyMatch;
     });
   }

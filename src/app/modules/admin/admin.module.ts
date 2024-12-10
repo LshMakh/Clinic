@@ -10,12 +10,8 @@ import { DoctorRegistrationComponent } from '../../pages/doctor-registration/doc
   declarations: [
     AdminCategoriesComponent,
     AdminProfileComponent,
-    DoctorRegistrationComponent
+    DoctorRegistrationComponent,
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    AdminRoutingModule
-  ]
+  imports: [CommonModule, SharedModule, AdminRoutingModule],
 })
-export class AdminModule { }
+export class AdminModule {}

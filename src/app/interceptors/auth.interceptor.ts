@@ -4,7 +4,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,14 +14,17 @@ import { Router } from '@angular/router';
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
     const token = localStorage.getItem('Token');
 
     if (token) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
     }
 
@@ -32,16 +35,23 @@ export class AuthInterceptor implements HttpInterceptor {
           this.router.navigate(['/main']);
           return throwError(() => new Error('არასოწრი ელ-ფოსტა ან პაროლი'));
         }
-        
+
         if (error.status === 403) {
-          return throwError(() => new Error('You do not have permission to access this resource'));
+          return throwError(
+            () =>
+              new Error('არასაკმარისი უფლება')
+          );
         }
 
         if (error.status === 404) {
-          return throwError(() => new Error('The requested resource was not found'));
+          return throwError(
+            () => new Error('რესურსი ვერ მოიძებნა')
+          );
         }
 
-        return throwError(() => new Error('An error occurred. Please try again later'));
+        return throwError(
+          () => new Error('დაფიქსირდა შეცდომა, სცადეთ თავიდან')
+        );
       })
     );
   }

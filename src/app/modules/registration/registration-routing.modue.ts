@@ -7,12 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: RegistrationComponent,
-    canActivate: [NoAuthGuard]
-  }
+    canActivate: [NoAuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class RegistrationRoutingModule { }
+export class RegistrationRoutingModule {}
