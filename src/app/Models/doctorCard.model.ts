@@ -1,3 +1,5 @@
+import { SafeUrl } from "@angular/platform-browser";
+
 export class DoctorCard {
   constructor(
     public userId:number=0,
@@ -7,8 +9,14 @@ export class DoctorCard {
     public email:string = '',
     public personalNumber = '',
     public specialty: string = '',
-    public photoUrl: string = '',
+    
     public rating: number = 0,
-    public isPinned:boolean = false
+    public isPinned:boolean = false,
+    public photoUrl?: SafeUrl
   ) {}
+}
+
+export interface DoctorPhoto {
+  url: string;
+  isLoading: boolean;
 }

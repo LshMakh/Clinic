@@ -11,6 +11,7 @@ import { tap, map, catchError } from 'rxjs/operators';
 import { DoctorCard } from '../Models/doctorCard.model';
 import { API_CONFIG } from '../config/api.config';
 import { AuthService } from './auth.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 interface UserPinnedDoctors {
   [userId: string]: number[];
@@ -27,7 +28,7 @@ export class DoctorService {
   private authSubscription: Subscription;
   private photoCache = new Map<number, string>();
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService,private sanitizer:DomSanitizer) {
     this.authSubscription = this.authService.getCurrentUser().subscribe(() => {
       if (this._cards.length > 0) {
         this.cardsList = [...this._cards];
@@ -155,6 +156,28 @@ export class DoctorService {
           console.error(`Error loading photo for doctor ${id}:`, error);
           return of(
             'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'
+          );
+        })
+      );
+  }
+
+  getDoctorPhotos(id: number): Observable<SafeUrl> {
+    return this.http
+      .get(
+        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}/GetDoctorPhoto/photo/${id}`,
+        { responseType: 'blob' }
+      )
+      .pipe(
+        map((blob) => {
+          const imageUrl = URL.createObjectURL(blob);
+          return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+        }),
+        catchError((error) => {
+          console.error(`Error loading photo for doctor ${id}:`, error);
+          return of(
+            this.sanitizer.bypassSecurityTrustUrl(
+              'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'
+            )
           );
         })
       );

@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { BookAppointmentComponent } from './pages/book-appointment/book-appointment.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

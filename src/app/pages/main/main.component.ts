@@ -3,6 +3,8 @@ import { DoctorService } from '../../services/doctor.service';
 import { DoctorCard } from '../../Models/doctorCard.model';
 import { combineLatest, finalize, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { PhotoManagerService } from '../../services/photo-manager.service';
 
 @Component({
   selector: 'app-main',
@@ -21,8 +23,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
   constructor(
     public doctorService: DoctorService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private sanitizer:DomSanitizer,
+    private photoManager:PhotoManagerService
+  ) {
+    
+  }
 
   ngOnInit(): void {
     this.subscription.add(
@@ -30,6 +36,17 @@ export class MainComponent implements OnInit, OnDestroy {
         this.authService.getCurrentUser(),
         this.doctorService.getFilteredCards(),
       ]).subscribe(([user, doctors]) => {
+
+
+        doctors.forEach(doctor => {
+          if (!doctor.photoUrl) {
+            this.photoManager.getPhoto(doctor.doctorId).subscribe(url => {
+              doctor.photoUrl = url;
+            });
+          }
+        });
+
+
         this.allDoctors = doctors;
         this.updateDisplayedDoctors();
       })

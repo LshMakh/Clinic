@@ -3,6 +3,7 @@ import { DoctorCard } from '../../Models/doctorCard.model';
 import { DoctorService } from '../../services/doctor.service';
 import { VisibilityService } from '../../services/visibility.service';
 import { finalize, Subscription } from 'rxjs';
+import { PhotoManagerService } from '../../services/photo-manager.service';
 
 @Component({
   selector: 'app-admin-categories',
@@ -17,7 +18,8 @@ export class AdminCategoriesComponent implements OnInit {
 
   constructor(
     public doctorService: DoctorService,
-    private visibilityService: VisibilityService
+    private visibilityService: VisibilityService,
+    private photoManager:PhotoManagerService
   ) {}
 
   toggleVisibility() {
@@ -25,40 +27,23 @@ export class AdminCategoriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.doctorService.getDoctorCard().subscribe((data) => {
-      this.doctorService.cardsList = data;
-      this.doctors = data;
+  this.loadDoctors();
+  }
+
+  private loadDoctors() {
+    this.doctorService.getDoctorCard().subscribe(doctors => {
+     
+      doctors.forEach(doctor => {
+        if (!doctor.photoUrl) {
+          this.photoManager.getPhoto(doctor.doctorId).subscribe(url => {
+            doctor.photoUrl = url;
+          });
+        }
+      });
+      this.doctors = doctors;
     });
   }
-  loadDoctorPhoto(doctorId: number): void {
-    if (this.photoSubscriptions.has(doctorId)) {
-      return;
-    }
 
-    this.loadingPhotos.add(doctorId);
-
-    const subscription = this.doctorService
-      .getDoctorPhoto(doctorId)
-      .pipe(finalize(() => this.loadingPhotos.delete(doctorId)))
-      .subscribe({
-        next: (photoUrl) => {
-          this.doctorPhotos.set(doctorId, photoUrl);
-        },
-        error: () => {
-          this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
-        },
-      });
-
-    this.photoSubscriptions.set(doctorId, subscription);
-  }
-
-  getDoctorPhoto(doctorId: number): string {
-    if (!this.doctorPhotos.has(doctorId)) {
-      this.loadDoctorPhoto(doctorId);
-      return 'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'; 
-    }
-    return this.doctorPhotos.get(doctorId) || '/assets/default-doctor.png';
-  }
 
   deleteDoctor(id: number) {
     this.doctorService.deleteDoctorById(id).subscribe((res) => {

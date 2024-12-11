@@ -26,7 +26,7 @@
                         </svg></button>
                 </div>
 
-                <img [src]="getDoctorPhoto(card.doctorId)" alt="{{card.firstName}} {{card.lastName}}">
+                <img [src]="card.photoUrl" alt="{{card.firstName}} {{card.lastName}}">
                 <h2>{{card.firstName}} {{card.lastName}}</h2>
                 <p class="position">{{card.specialty}}</p>
                 <div class="start">

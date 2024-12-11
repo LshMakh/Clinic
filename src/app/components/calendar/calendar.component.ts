@@ -7,7 +7,7 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { Subject, takeUntil, firstValueFrom, Subscription } from 'rxjs';
 import { EditEvent } from '../../Models/appointment.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';   
 
 @Component({
   selector: 'app-calendar',
@@ -340,7 +340,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   private updateWeek() {
-    const startOfWeek = this.getMonday(this.currentDate);
+    const startOfWeek = this.currentDate;
     this.displayedWeek = [];
 
     for (let i = 0; i < 7; i++) {

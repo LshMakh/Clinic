@@ -100,7 +100,7 @@ export class DoctorProfileCardComponent implements OnInit, OnDestroy {
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
 
-    // the formats are: YYYY - დღემდე, YYYY - YYYY, or YYYY–YYYY
+    // Match three formats: YYYY - დღემდე, YYYY - YYYY, or YYYY–YYYY (with em dash)
     const experiencePattern =
       /(\d{4})\s*[-–]\s*(დღემდე|\d{4}),\s*(.+?)(?=\s*\d{4}\s*[-–]|$)/g;
 

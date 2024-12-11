@@ -13,12 +13,12 @@
 
     <nav [class.mobile-menu-open]="isMobileMenuOpen">
       <a routerLink="/main" class="active">ექიმები</a>
-      <a routerLink="#">კლინიკები</a>
-      <a routerLink="#">ანოტაციები</a>
-      <a routerLink="#">აქციები</a>
-      <a routerLink="#">სერვისები</a>
-      <a routerLink="#">მედიკამენტები</a>
-      <a routerLink="#">კონტაქტი</a>
+      <a>კლინიკები</a>
+      <a>ანოტაციები</a>
+      <a>აქციები</a>
+      <a>სერვისები</a>
+      <a>მედიკამენტები</a>
+      <a>კონტაქტი</a>
 
     </nav>
     <ng-container *ngIf="!(isAuthenticated$|async); else userProfile">

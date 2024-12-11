@@ -1,21 +1,18 @@
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { SearchService } from '../../services/search.service';
 import { DoctorCard } from '../../Models/doctorCard.model';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DoctorService } from '../../services/doctor.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
+
 
 @Component({
   selector: 'app-search-dropdown',
   templateUrl: './search-dropdown.component.html',
-  styleUrls: ['./search-dropdown.component.css'],
+  styleUrls: ['./search-dropdown.component.css']
 })
 export class SearchDropdownComponent implements OnInit, OnDestroy {
   nameSearch: string = '';
@@ -26,36 +23,78 @@ export class SearchDropdownComponent implements OnInit, OnDestroy {
   private photoSubscriptions = new Map<number, Subscription>();
   doctorPhotos = new Map<number, string>();
   loadingPhotos = new Set<number>();
+  searchResultsWithPhotos$: Observable<DoctorCard[]>;
+  private defaultPhotoUrl: SafeUrl;
+
+
 
   constructor(
     private searchService: SearchService,
     private router: Router,
     private elementRef: ElementRef,
-    private doctorService: DoctorService
+    private doctorService:DoctorService,
+    private sanitizer: DomSanitizer
+    
   ) {
     this.searchResults$ = this.searchService.getSearchResults();
     this.showDropdown$ = this.searchService.getShowDropdown();
+    this.defaultPhotoUrl = this.sanitizer.bypassSecurityTrustUrl('assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png');
+
+    this.searchResultsWithPhotos$ = this.searchService.getSearchResults().pipe(
+      switchMap(doctors => {
+        const doctorsWithPhotos = doctors.map(doctor => ({
+          ...doctor,
+          photoUrl: this.defaultPhotoUrl // Set default initially
+        }));
+
+        // Load all photos
+        doctors.forEach(doctor => {
+          this.doctorService.getDoctorPhoto(doctor.doctorId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: (photoUrl) => {
+                const index = doctorsWithPhotos.findIndex(d => d.doctorId === doctor.doctorId);
+                if (index !== -1) {
+                  doctorsWithPhotos[index].photoUrl = photoUrl;
+                }
+              },
+              error: () => {
+                const index = doctorsWithPhotos.findIndex(d => d.doctorId === doctor.doctorId);
+                if (index !== -1) {
+                  doctorsWithPhotos[index].photoUrl = this.defaultPhotoUrl;
+                }
+              }
+            });
+        });
+
+        return new BehaviorSubject(doctorsWithPhotos);
+      })
+    );
+   
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   loadDoctorPhoto(doctorId: number): void {
     if (this.photoSubscriptions.has(doctorId)) {
-      return;
+      return; 
     }
 
     this.loadingPhotos.add(doctorId);
-
-    const subscription = this.doctorService
-      .getDoctorPhoto(doctorId)
-      .pipe(finalize(() => this.loadingPhotos.delete(doctorId)))
+    
+    const subscription = this.doctorService.getDoctorPhoto(doctorId)
+      .pipe(
+        finalize(() => this.loadingPhotos.delete(doctorId))
+      )
       .subscribe({
         next: (photoUrl) => {
           this.doctorPhotos.set(doctorId, photoUrl);
         },
         error: () => {
+         
           this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
-        },
+        }
       });
 
     this.photoSubscriptions.set(doctorId, subscription);
@@ -64,7 +103,7 @@ export class SearchDropdownComponent implements OnInit, OnDestroy {
   getDoctorPhoto(doctorId: number): string {
     if (!this.doctorPhotos.has(doctorId)) {
       this.loadDoctorPhoto(doctorId);
-      return 'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'; // Show placeholder while loading
+      return 'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'; 
     }
     return this.doctorPhotos.get(doctorId) || '/assets/default-doctor.png';
   }
@@ -87,14 +126,12 @@ export class SearchDropdownComponent implements OnInit, OnDestroy {
   }
 
   onDoctorClick(doctor: DoctorCard) {
-    this.router.navigate(['/book-appointment/' + doctor.doctorId]);
+    this.router.navigate(['/book-appointment/'+ doctor.doctorId]);
     this.searchService.closeDropdown();
   }
 
   getStarsArray(rating: number): number[] {
-    return Array(5)
-      .fill(0)
-      .map((_, i) => (i < rating ? 1 : 0));
+    return Array(5).fill(0).map((_, i) => i < rating ? 1 : 0);
   }
 
   ngOnDestroy() {
