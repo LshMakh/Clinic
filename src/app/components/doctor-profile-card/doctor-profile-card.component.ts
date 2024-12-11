@@ -3,6 +3,8 @@ import { DoctorService } from '../../services/doctor.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { SafeUrl } from '@angular/platform-browser';
+import { PhotoManagerService } from '../../services/photo-manager.service';
 
 interface Experience {
   year: string;
@@ -17,14 +19,11 @@ interface Experience {
 export class DoctorProfileCardComponent implements OnInit, OnDestroy {
   @Input() doctorId: number = 0;
   private routeSub: Subscription | null = null;
-  private photoSubscription: Subscription | null = null;
+
   private cvSubscription: Subscription | null = null;
 
   doctor: any = null;
-  photoUrl: string =
-    'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png';
-  isLoadingPhoto: boolean = false;
-  photoError: boolean = false;
+  photoUrl: SafeUrl | undefined;
   experiences: Experience[] = [];
   isLoadingCv: boolean = false;
   cvError: string | null = null;
@@ -37,7 +36,8 @@ export class DoctorProfileCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private doctorService: DoctorService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private photoManager: PhotoManagerService
   ) {}
 
   ngOnInit() {
@@ -68,30 +68,16 @@ export class DoctorProfileCardComponent implements OnInit, OnDestroy {
   }
 
   loadDoctorPhoto() {
-    if (this.photoSubscription) {
-      this.photoSubscription.unsubscribe();
-    }
-
-    this.isLoadingPhoto = true;
-    this.photoError = false;
-
-    this.photoSubscription = this.doctorService
-      .getDoctorPhoto(this.doctorId)
-      .pipe(
-        finalize(() => {
-          this.isLoadingPhoto = false;
-        })
-      )
-      .subscribe({
-        next: (url) => {
-          this.photoUrl = url;
-        },
-        error: (error) => {
-          console.error('Error loading doctor photo:', error);
-          this.photoError = true;
-        },
-      });
+    this.photoManager.getPhoto(this.doctorId).subscribe({
+      next: (url) => {
+        this.photoUrl = url;
+      },
+      error: (error) => {
+        console.error('Error loading doctor photo:', error);
+      },
+    });
   }
+
   private parseExperienceFromCv(cvText: string) {
     const experiences: Experience[] = [];
 
@@ -166,9 +152,7 @@ export class DoctorProfileCardComponent implements OnInit, OnDestroy {
     if (this.routeSub) {
       this.routeSub.unsubscribe();
     }
-    if (this.photoSubscription) {
-      this.photoSubscription.unsubscribe();
-    }
+
     if (this.cvSubscription) {
       this.cvSubscription.unsubscribe();
     }

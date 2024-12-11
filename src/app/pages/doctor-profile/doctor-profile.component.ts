@@ -4,6 +4,8 @@ import { AuthService } from '../../services/auth.service';
 import { DoctorService } from '../../services/doctor.service';
 import { ChangePasswordModalComponent } from '../../components/change-password-modal/change-password-modal.component';
 import { AppointmentService } from '../../services/appointment.service';
+import { SafeUrl } from '@angular/platform-browser';
+import { PhotoManagerService } from '../../services/photo-manager.service';
 
 @Component({
   selector: 'app-doctor-profile',
@@ -13,20 +15,20 @@ import { AppointmentService } from '../../services/appointment.service';
 export class DoctorProfileComponent implements OnInit {
   isAuthenticated$!: Observable<boolean>;
   currentUser$!: Observable<any>;
-  private photoSubscriptions = new Map<number, Subscription>();
-  doctorPhotos = new Map<number, string>();
-  loadingPhotos = new Set<number>();
   showChangePasswordModal = false;
   userId: number = 0;
   appointmentCount: number = 0;
   isDeleteVisible: boolean = false;
   appointmentCount$!: Observable<number>;
   isEditVisible: boolean = false;
+  photoUrl: SafeUrl | undefined;
+
 
   constructor(
     private authService: AuthService,
     private doctorService: DoctorService,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private photoManager:PhotoManagerService
   ) {}
 
   ngOnInit() {
@@ -35,6 +37,12 @@ export class DoctorProfileComponent implements OnInit {
     this.userId = Number(this.authService.getUserId());
     this.appointmentCount$ = this.appointmentService.appointmentCount$;
     this.appointmentService.getCurrentUserAppointmentCount().subscribe();
+
+    this.currentUser$.subscribe(user=>{
+      if(user?.doctorId){
+        this.loadDoctorPhoto(user.doctorId)
+      }
+    });
   }
 
   toggleChangePasswordModal() {
@@ -48,34 +56,16 @@ export class DoctorProfileComponent implements OnInit {
     this.isEditVisible = !this.isEditVisible;
   }
 
-  loadDoctorPhoto(doctorId: number): void {
-    if (this.photoSubscriptions.has(doctorId)) {
-      return;
-    }
-
-    this.loadingPhotos.add(doctorId);
-
-    const subscription = this.doctorService
-      .getDoctorPhoto(doctorId)
-      .pipe(finalize(() => this.loadingPhotos.delete(doctorId)))
-      .subscribe({
-        next: (photoUrl) => {
-          this.doctorPhotos.set(doctorId, photoUrl);
-        },
-        error: () => {
-          this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
-        },
-      });
-
-    this.photoSubscriptions.set(doctorId, subscription);
-  }
-
-  getDoctorPhoto(doctorId: number): string {
-    if (!this.doctorPhotos.has(doctorId)) {
-      this.loadDoctorPhoto(doctorId);
-      return 'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'; // Show placeholder while loading
-    }
-    return this.doctorPhotos.get(doctorId) || '/assets/default-doctor.png';
+  
+  private loadDoctorPhoto(doctorId: number) {
+    this.photoManager.getPhoto(doctorId).subscribe({
+      next: (url) => {
+        this.photoUrl = url;
+      },
+      error: (error) => {
+        console.error('Error loading doctor photo:', error);
+      }
+    });
   }
 
   getStarsArray(rating: number): number[] {

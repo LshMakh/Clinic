@@ -7,6 +7,8 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, finalize } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppointmentService } from '../../services/appointment.service';
+import { PhotoManagerService } from '../../services/photo-manager.service';
+import { SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-profile',
@@ -17,10 +19,8 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   isVisible: boolean = false;
   isEditVisible: boolean = false;
   doctor: any = null;
-  photoUrl: string =
-    'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png';
-  isLoadingPhoto: boolean = false;
-  photoError: boolean = false;
+  photoUrl:SafeUrl|undefined;
+
   editForm: FormGroup;
   isSubmitting = false;
   uploadedPhoto: File | null = null;
@@ -36,7 +36,7 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   appointmentCount$!: Observable<number>;
 
   private subscriptions: Subscription[] = [];
-  private photoSubscription: Subscription | null = null;
+  
 
   specialties: string[] = [
     'ნევროლოგი',
@@ -65,7 +65,8 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
     private appointmentService: AppointmentService,
     private doctorService: DoctorService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private photoManager:PhotoManagerService
   ) {
     this.editForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
@@ -142,38 +143,18 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadDoctorPhoto(doctorId: number) {
-    if (this.photoSubscription) {
-      this.photoSubscription.unsubscribe();
-    }
-
-    this.isLoadingPhoto = true;
-    this.photoError = false;
-
-    this.photoSubscription = this.doctorService
-      .getDoctorPhoto(doctorId)
-      .pipe(
-        finalize(() => {
-          this.isLoadingPhoto = false;
-        })
-      )
-      .subscribe({
-        next: (url) => {
-          this.photoUrl = url;
-        },
-        error: (error) => {
-          console.error('Error loading doctor photo:', error);
-          this.photoError = true;
-          this.photoUrl = '/assets/default-doctor.png';
-        },
-      });
+  private loadDoctorPhoto(doctorId: number) {
+    this.photoManager.getPhoto(doctorId).subscribe({
+      next: (url) => {
+        this.photoUrl = url;
+      },
+      error: (error) => {
+        console.error('Error loading doctor photo:', error);
+      }
+    });
   }
 
-  retryLoadPhoto() {
-    if (this.photoError && this.doctor) {
-      this.loadDoctorPhoto(this.doctor.doctorId);
-    }
-  }
+  
   toggleEditVisibility(): void {
     this.isEditVisible = !this.isEditVisible;
     this.isDeleteCalendar = !this.isDeleteCalendar;
@@ -301,9 +282,7 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
-    if (this.photoSubscription) {
-      this.photoSubscription.unsubscribe();
-    }
+   
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
     }

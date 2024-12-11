@@ -2,10 +2,11 @@ import { Component, OnInit, ElementRef, HostListener, OnDestroy } from '@angular
 import { SearchService } from '../../services/search.service';
 import { DoctorCard } from '../../Models/doctorCard.model';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { finalize, switchMap, takeUntil } from 'rxjs/operators';
+import { finalize, map, switchMap, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { DoctorService } from '../../services/doctor.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { PhotoManagerService } from '../../services/photo-manager.service';
 
 
 
@@ -21,93 +22,42 @@ export class SearchDropdownComponent implements OnInit, OnDestroy {
   showDropdown$: Observable<boolean>;
   private destroy$ = new Subject<void>();
   private photoSubscriptions = new Map<number, Subscription>();
-  doctorPhotos = new Map<number, string>();
-  loadingPhotos = new Set<number>();
-  searchResultsWithPhotos$: Observable<DoctorCard[]>;
-  private defaultPhotoUrl: SafeUrl;
-
-
 
   constructor(
     private searchService: SearchService,
     private router: Router,
     private elementRef: ElementRef,
     private doctorService:DoctorService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private photoManager:PhotoManagerService
     
   ) {
-    this.searchResults$ = this.searchService.getSearchResults();
-    this.showDropdown$ = this.searchService.getShowDropdown();
-    this.defaultPhotoUrl = this.sanitizer.bypassSecurityTrustUrl('assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png');
-
-    this.searchResultsWithPhotos$ = this.searchService.getSearchResults().pipe(
+    this.searchResults$ = this.searchService.getSearchResults().pipe(
       switchMap(doctors => {
-        const doctorsWithPhotos = doctors.map(doctor => ({
-          ...doctor,
-          photoUrl: this.defaultPhotoUrl // Set default initially
-        }));
-
-        // Load all photos
+        // Load photos for all doctors
         doctors.forEach(doctor => {
-          this.doctorService.getDoctorPhoto(doctor.doctorId)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-              next: (photoUrl) => {
-                const index = doctorsWithPhotos.findIndex(d => d.doctorId === doctor.doctorId);
-                if (index !== -1) {
-                  doctorsWithPhotos[index].photoUrl = photoUrl;
-                }
-              },
-              error: () => {
-                const index = doctorsWithPhotos.findIndex(d => d.doctorId === doctor.doctorId);
-                if (index !== -1) {
-                  doctorsWithPhotos[index].photoUrl = this.defaultPhotoUrl;
-                }
-              }
-            });
+          if (!doctor.photoUrl) {
+            this.photoManager.getPhoto(doctor.doctorId)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe(url => {
+                doctor.photoUrl = url;
+              });
+          }
         });
-
-        return new BehaviorSubject(doctorsWithPhotos);
-      })
+        return Promise.resolve(doctors);
+      }),
+      // Sort or manipulate results as needed
+      map(doctors => doctors)
     );
+
+    this.showDropdown$ = this.searchService.getShowDropdown();
    
   }
 
   ngOnInit() {
   }
 
-  loadDoctorPhoto(doctorId: number): void {
-    if (this.photoSubscriptions.has(doctorId)) {
-      return; 
-    }
-
-    this.loadingPhotos.add(doctorId);
-    
-    const subscription = this.doctorService.getDoctorPhoto(doctorId)
-      .pipe(
-        finalize(() => this.loadingPhotos.delete(doctorId))
-      )
-      .subscribe({
-        next: (photoUrl) => {
-          this.doctorPhotos.set(doctorId, photoUrl);
-        },
-        error: () => {
-         
-          this.doctorPhotos.set(doctorId, '/assets/default-doctor.png');
-        }
-      });
-
-    this.photoSubscriptions.set(doctorId, subscription);
-  }
-
-  getDoctorPhoto(doctorId: number): string {
-    if (!this.doctorPhotos.has(doctorId)) {
-      this.loadDoctorPhoto(doctorId);
-      return 'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'; 
-    }
-    return this.doctorPhotos.get(doctorId) || '/assets/default-doctor.png';
-  }
-
+  
   onNameSearch(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.searchService.setNameSearch(value);

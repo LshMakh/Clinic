@@ -371,6 +371,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     await this.loadInitialData();
     this.closeBookingModal();
   }
+
+  
   openEditModal(event: Event, date: Date, timeSlot: string) {
     event.stopPropagation();
     const key = this.getSlotKey(date, timeSlot);

@@ -2,7 +2,7 @@
 
     <div class="doctor-profile">
         <div *ngIf="currentUser$|async as user">
-            <img [src]="getDoctorPhoto(user.doctorId)" alt="doctor" class="doctor-image">
+            <img [src]="photoUrl" alt="doctor" class="doctor-image">
             <h2 class="doctor-name">{{user.firstName}} {{user.lastName}}</h2>
             <p class="doctor-specialty" style="color: #053354;">ექიმი</p>
             <p class="doctor-specialty">{{user.specialty}}</p>

@@ -33,7 +33,7 @@
       <div class="user-profile-container" *ngIf="currentUser$ | async as user" [attr.data-role]="user.role">
         <div class="user-avatar">
           <div class="avatar-circle" [routerLink]="getProfileRoute(user.role)" *ngIf="user.role!=='DOCTOR'"></div>
-          <img [src]="getDoctorPhoto(user.doctorId)" alt="" class="doc-photo" *ngIf="user.role==='DOCTOR'"
+          <img [src]="photoUrl" alt="" class="doc-photo" *ngIf="user.role==='DOCTOR'"
             [routerLink]="getProfileRoute(user.role)">
         </div>
         <div class="user-info">

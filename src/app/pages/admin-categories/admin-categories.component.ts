@@ -12,9 +12,7 @@ import { PhotoManagerService } from '../../services/photo-manager.service';
 })
 export class AdminCategoriesComponent implements OnInit {
   doctors: DoctorCard[] = [];
-  private photoSubscriptions = new Map<number, Subscription>();
-  doctorPhotos = new Map<number, string>();
-  loadingPhotos = new Set<number>();
+
 
   constructor(
     public doctorService: DoctorService,

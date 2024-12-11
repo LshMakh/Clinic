@@ -49,7 +49,7 @@ export class BookingModalComponent {
           setTimeout(() => {
             this.booked.emit();
             this.onClose();
-          }, 1500);
+          }, 500);
         },
         error: (error) => {
           let errorMessage = 'დაფიქსირდა შეცდომა';
