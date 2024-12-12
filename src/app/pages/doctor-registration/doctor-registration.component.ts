@@ -83,8 +83,8 @@ export class DoctorRegistrationComponent {
       ],
       password: ['', [Validators.required, Validators.minLength(8)]],
       specialty: ['', Validators.required],
-      photo: [null, Validators.required],
-      cv: [null, Validators.required],
+      photo: [null, [Validators.required, this.validatePhoto.bind(this)]],
+      cv: [null, [Validators.required, this.validateCV.bind(this)]]
     });
   }
 
@@ -110,42 +110,49 @@ export class DoctorRegistrationComponent {
     return this.registerForm.get('email');
   }
 
+  private validatePhoto(control: AbstractControl): ValidationErrors | null {
+    const file = control.value as File;
+    if (!file) return { required: true };
+    
+    if (!file.type.match(/image\/(jpeg|png)/)) {
+      return { invalidType: true };
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+      return { invalidSize: true };
+    }
+    
+    return null;
+  }
+  
+  private validateCV(control: AbstractControl): ValidationErrors | null {
+    const file = control.value as File;
+    if (!file) return { required: true };
+    
+    if (file.type !== 'application/pdf') {
+      return { invalidType: true };
+    }
+    
+    if (file.size > 10 * 1024 * 1024) {
+      return { invalidSize: true };
+    }
+    
+    return null;
+  }
+
   onPhotoSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      if (!file.type.match(/image\/(jpeg|png)/)) {
-        this.errorMessage = 'Please select a valid image file (JPEG or PNG)';
-        return;
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        this.errorMessage = 'Image size should not exceed 5MB';
-        return;
-      }
-
       this.registerForm.patchValue({ photo: file });
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.photoPreview = e.target?.result as string;
-      };
-      reader.readAsDataURL(file);
+      this.registerForm.get('photo')?.updateValueAndValidity();
     }
   }
-
+  
   onCVSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
-      if (file.type !== 'application/pdf') {
-        this.errorMessage = 'Please select a valid PDF file';
-        return;
-      }
-      if (file.size > 10 * 1024 * 1024) {
-        this.errorMessage = 'CV size should not exceed 10MB';
-        return;
-      }
-
       this.registerForm.patchValue({ cv: file });
-      this.cvFileName = file.name;
+      this.registerForm.get('cv')?.updateValueAndValidity();
     }
   }
 
