@@ -51,6 +51,7 @@ export class LoginPopUpComponent {
         },
         error: (error) => {
           this.showErrorAlert(error.message);
+          console.error(error.message);
           this.isSubmitting = false;
         },
       });

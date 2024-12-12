@@ -143,7 +143,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (this.isWeekend(day)) {
       return 'weekend';
     }
-    if (day.getTime() < Date.now()) {
+    if (day.getTime() < Date.now() && this.viewMode ==='booking') {
       return 'blocked';
     }
 
@@ -340,7 +340,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   private updateWeek() {
-    const startOfWeek = this.currentDate;
+    const startOfWeek = this.getMonday(this.currentDate);
     this.displayedWeek = [];
 
     for (let i = 0; i < 7; i++) {

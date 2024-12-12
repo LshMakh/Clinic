@@ -106,10 +106,8 @@
                 <div class="input">
                     <label for="photo">ფოტო</label>
                     <div class="file-upload-container">
-                        <input type="file" id="photo" (change)="onPhotoSelected($event)" accept="image/jpeg,image/png"
-                            class="file-input">
-
-
+                        <input type="file" id="photo" (change)="onPhotoSelected($event)" accept="image/jpeg,image/png" class="file-input">
+                        <img src="assets/photo.svg" alt="Photo upload icon">
                     </div>
                 </div>
             </div>
@@ -118,16 +116,13 @@
                 <div class="input">
                     <label for="cv">CV</label>
                     <div class="file-upload-container">
-                        <input type="file" id="cv" (change)="onCVSelected($event)" accept="application/pdf"
-                            class="file-input">
-
-
-
-
-                        <div class="file-info">
+                        <input type="file" id="cv" (change)="onCVSelected($event)" accept="application/pdf" class="file-input">
+                        <img class="cvicon"  src="assets/cvicon.svg" alt="CV upload icon">
+                       
+                    </div> 
+                    <div class="file-info">
                             <span>Allowed: PDF (max 10MB)</span>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

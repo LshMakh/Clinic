@@ -34,6 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
           localStorage.removeItem('Token');
           this.router.navigate(['/main']);
           return throwError(() => new Error('არასოწრი ელ-ფოსტა ან პაროლი'));
+         
         }
 
         if (error.status === 403) {

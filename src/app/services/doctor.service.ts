@@ -114,6 +114,7 @@ export class DoctorService {
           return throwError(() => new Error(errorMessage));
         })
       );
+      
   }
 
   extractCvText(doctorId: number): Observable<string> {
@@ -132,60 +133,6 @@ export class DoctorService {
           );
         })
       );
-  }
-
-  getDoctorPhoto(id: number): Observable<string> {
-    if (this.photoCache.has(id)) {
-      return of(this.photoCache.get(id)!);
-    }
-
-    return this.http
-      .get(
-        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}/GetDoctorPhoto/photo/${id}`,
-        { responseType: 'blob' }
-      )
-      .pipe(
-        tap((blob) => {
-          const imageUrl = URL.createObjectURL(blob);
-          this.photoCache.set(id, imageUrl);
-        }),
-        map((blob) => {
-          return URL.createObjectURL(blob);
-        }),
-        catchError((error) => {
-          console.error(`Error loading photo for doctor ${id}:`, error);
-          return of(
-            'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'
-          );
-        })
-      );
-  }
-
-  getDoctorPhotos(id: number): Observable<SafeUrl> {
-    return this.http
-      .get(
-        `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}/GetDoctorPhoto/photo/${id}`,
-        { responseType: 'blob' }
-      )
-      .pipe(
-        map((blob) => {
-          const imageUrl = URL.createObjectURL(blob);
-          return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-        }),
-        catchError((error) => {
-          console.error(`Error loading photo for doctor ${id}:`, error);
-          return of(
-            this.sanitizer.bypassSecurityTrustUrl(
-              'assets/png-clipart-anonymous-person-login-google-account-computer-icons-user-activity-miscellaneous-computer.png'
-            )
-          );
-        })
-      );
-  }
-
-  clearPhotoCache(): void {
-    this.photoCache.forEach((url) => URL.revokeObjectURL(url));
-    this.photoCache.clear();
   }
 
   getDoctorCard(): Observable<DoctorCard[]> {

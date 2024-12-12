@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, catchError, shareReplay } from 'rxjs/operators';
 import { API_CONFIG } from '../config/api.config';
 
@@ -9,7 +9,7 @@ import { API_CONFIG } from '../config/api.config';
   providedIn: 'root'
 })
 export class PhotoManagerService {
-  private photoCache: { [key: number]: Observable<SafeUrl> } = {};
+  private photoCache: { [key: number]: BehaviorSubject<SafeUrl> } = {};
   private readonly defaultPhotoUrl: SafeUrl;
   
   constructor(
@@ -21,14 +21,19 @@ export class PhotoManagerService {
     );
   }
 
+ 
   getPhoto(doctorId: number): Observable<SafeUrl> {
-    if (this.photoCache[doctorId]) {
-      return this.photoCache[doctorId];
+    if (!this.photoCache[doctorId]) {
+      this.photoCache[doctorId] = new BehaviorSubject<SafeUrl>(this.defaultPhotoUrl);
+      this.loadPhoto(doctorId);
     }
+    return this.photoCache[doctorId].asObservable();
+  }
 
+  private loadPhoto(doctorId: number) {
     const apiUrl = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.doctor.base}/GetDoctorPhoto/photo/${doctorId}`;
     
-    const photo$ = this.http.get(apiUrl, { responseType: 'blob' }).pipe(
+    this.http.get(apiUrl, { responseType: 'blob' }).pipe(
       map(blob => {
         const imageUrl = URL.createObjectURL(blob);
         return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
@@ -36,15 +41,20 @@ export class PhotoManagerService {
       catchError(error => {
         console.error(`Error loading photo for doctor ${doctorId}:`, error);
         return of(this.defaultPhotoUrl);
-      }),
-      shareReplay(1)
-    );
-
-    this.photoCache[doctorId] = photo$;
-    return photo$;
+      })
+    ).subscribe(url => {
+      this.photoCache[doctorId].next(url);
+    });
   }
 
-  clearCache(): void {
+  refreshPhoto(doctorId: number) {
+    if (this.photoCache[doctorId]) {
+      this.loadPhoto(doctorId);
+    }
+  }
+
+  clearCache() {
+    Object.values(this.photoCache).forEach(subject => subject.complete());
     this.photoCache = {};
   }
 }

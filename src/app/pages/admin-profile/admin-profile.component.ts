@@ -235,6 +235,7 @@ export class AdminProfileComponent implements OnInit, OnDestroy {
               this.isDeleteCalendar = false;
               this.isEditCalendar = false;
               this.isSubmitting = false;
+              this.photoManager.refreshPhoto(this.doctorId);
             },
             error: (error) => {
               if (

@@ -8,7 +8,8 @@
             <div class="input-container">
                 <div class="input">
                     <label for="firstName">სახელი</label>
-                    <input type="text" id="firstName" formControlName="firstName" placeholder="(მინიმუმ 2 სიმბოლო)">
+                    <input type="text"  id="firstName" formControlName="firstName" placeholder="(მინიმუმ 2 სიმბოლო)"
+                    [class.is-invalid]="registerForm.get('firstName')?.errors && registerForm.get('firstName')?.touched">
                     <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
                         class="error-message">
                         <span *ngIf="registerForm.get('firstName')?.errors?.['required']">სახელის ველის შევსება
@@ -56,7 +57,8 @@
             <div class="input-container">
                 <div class="input">
                     <label for="personalNumber">პირადი ნომერი</label>
-                    <input type="text" id="personalNumber" formControlName="personalNumber" placeholder="00000000000">
+                    <input type="text" [class.is-invalid]="registerForm.get('personalNumber')?.errors && 
+                    registerForm.get('personalNumber')?.touched" id="personalNumber" formControlName="personalNumber" placeholder="00000000000">
                     <div *ngIf="registerForm.get('personalNumber')?.touched && getPersonalNumberError()"
                         class="error-message">
                         {{ getPersonalNumberError() }}
@@ -68,7 +70,8 @@
             <div class="input-container">
                 <div class="input">
                     <label for="lastName">გვარი</label>
-                    <input type="text" id="lastName" formControlName="lastName">
+                    <input type="text" id="lastName" formControlName="lastName" [class.is-invalid]="
+                    registerForm.get('lastName')?.errors && registerForm.get('lastName')?.touched">
                     <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
                         class="error-message">
                         <span *ngIf="registerForm.get('lastName')?.errors?.['required']">გვარის ველის შევსება
@@ -93,7 +96,8 @@
             <div class="input-container">
                 <div class="input">
                     <label for="password">პაროლი</label>
-                    <input type="password" id="password" formControlName="password" placeholder="(მინიმუმ 8 სიმბოლო)">
+                    <input type="password" id="password" formControlName="password" placeholder="(მინიმუმ 8 სიმბოლო)" [class.is-invalid]="
+                    registerForm.get('password')?.errors && registerForm.get('password')?.touched">
                     <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
                         class="error-message">
                         <span *ngIf="registerForm.get('password')?.errors?.['required']">პაროლის ველის შევსება
