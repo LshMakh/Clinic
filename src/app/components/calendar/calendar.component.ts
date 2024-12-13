@@ -143,7 +143,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (this.isWeekend(day)) {
       return 'weekend';
     }
-    if (day.getTime() < Date.now() && this.viewMode ==='booking') {
+    if (this.isTimeSlotInPast(day,timeSlot) && this.viewMode ==='booking') {
+      return 'blocked';
+    }
+    if (day.getDay()===4) {
       return 'blocked';
     }
 
@@ -214,6 +217,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.availableSlots.set(key, slot);
     });
   }
+  private isTimeSlotInPast(date: Date, timeSlot: string): boolean {
+    const now = new Date();
+    const [startTime] = timeSlot.split(' - ');
+    const [hours, minutes] = startTime.split(':').map(Number);
+    
+    const slotDate = new Date(date);
+    slotDate.setHours(hours, minutes, 0, 0);
+    
+    return slotDate.getTime() < now.getTime();
+  }
 
   async makeReservation(date: Date, timeSlot: string) {
     if (!this.userId) {
@@ -221,7 +234,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (date.getTime() < Date.now()) {
+    if (this.isTimeSlotInPast(date,timeSlot)) {
       alert('წარსულში ვერ დაჯავშნი');
       return;
     }

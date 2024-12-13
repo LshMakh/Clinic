@@ -52,17 +52,7 @@ export class BookingModalComponent {
           }, 500);
         },
         error: (error) => {
-          let errorMessage = 'დაფიქსირდა შეცდომა';
-
-          if (error.status === 409) {
-            errorMessage = 'მითითებული დრო უკვე დაკავებულია';
-          } else if (error.status === 400) {
-            errorMessage = 'გთხოვთ შეამოწმოთ შეყვანილი მონაცემები';
-          } else if (error.status === 403) {
-            errorMessage = 'თქვენ არ გაქვთ ჯავშნის უფლება';
-          }
-
-          this.showErrorAlert(errorMessage);
+          this.showErrorAlert(error.message);
           this.isSubmitting = false;
         },
       });

@@ -78,7 +78,11 @@ export class AppointmentService {
         tap(() => {
           this.loadPatientAppointments();
         }),
-        catchError(this.handleError)
+        catchError((error) => {
+          return throwError(
+            () => new Error('ამ დროისთვის, უკვე დაჯავშნილი გაქვთ ვიზიტი')
+          );
+        })
       );
   }
 
@@ -109,7 +113,6 @@ export class AppointmentService {
       );
   }
 
-  // Get appointments for doctor (non-logged in)
   loadDoctorAppointmentsFromUser(id: number): Observable<Appointment[]> {
     return this.http
       .get<Appointment[]>(

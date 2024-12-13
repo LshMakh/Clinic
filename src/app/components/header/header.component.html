@@ -5,11 +5,7 @@
       <h2>კლინიკა</h2>
     </div>
 
-    <button class="mobile-menu-toggle" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  
 
     <nav [class.mobile-menu-open]="isMobileMenuOpen">
       <a routerLink="/main" class="active">ექიმები</a>
@@ -49,6 +45,12 @@
       <option value="ge">GEO</option>
       <option value="en">ENG</option>
     </select>
+
+    <button class="mobile-menu-toggle" [class.active]="isMobileMenuOpen" (click)="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
 </header>
 
