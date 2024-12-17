@@ -39,6 +39,19 @@ export class CategoriesComponent implements OnInit {
     { name: 'იმუნოლოგი' },
     { name: 'ფსიქიატრი' },
     { name: 'ნეიროქირურგი' },
+    { name: 'პედიატრი' },
+    { name: 'კარდიოლოგი' },
+    { name: 'თერაპევტი' },
+    { name: 'ქირურგი' },
+    { name: 'გონკოლოგი' },
+    { name: 'ბოლო-ვიზიტოლოგი' },
+    { name: 'სტომატოლოგი' },
+    { name: 'რენტგენოლოგი' },
+    { name: 'მიკრობიოლოგი' },
+    { name: 'ტრადიციული მედიცინა' },
+    { name: 'სპორტული მედიცინა' },
+    { name: 'ვეტერინარი' },
+    
   ];
 
   visibleCategories: any[] | undefined;
@@ -75,7 +88,7 @@ export class CategoriesComponent implements OnInit {
       },
       error: (error) => {
         console.error(`Error loading count for ${category}:`, error);
-        this.categoryCounts[category] = 0; // Default to 0 on error
+        this.categoryCounts[category] = 0; 
       },
     });
   }

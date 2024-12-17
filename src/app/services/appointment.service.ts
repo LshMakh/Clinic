@@ -79,6 +79,7 @@ export class AppointmentService {
           this.loadPatientAppointments();
         }),
         catchError((error) => {
+       
           return throwError(
             () => new Error('ამ დროისთვის, უკვე დაჯავშნილი გაქვთ ვიზიტი')
           );

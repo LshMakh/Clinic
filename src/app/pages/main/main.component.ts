@@ -81,6 +81,7 @@ export class MainComponent implements OnInit, OnDestroy {
     }
     this.doctorService.togglePin(doctorId);
   }
+  
   handleCategorySelected(category: string | null) {
     this.showAllDoctors = false;
     this.doctorService.filterBySpecialty(category);

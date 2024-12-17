@@ -330,7 +330,7 @@ export class DoctorService {
   getFilteredCards(): Observable<DoctorCard[]> {
     return this.filteredCardsSubject.asObservable();
   }
-
+  
   private getUserPinnedDoctors(): UserPinnedDoctors {
     const pinnedDoctors = localStorage.getItem(this.PINNED_DOCTORS_KEY);
     return pinnedDoctors ? JSON.parse(pinnedDoctors) : {};

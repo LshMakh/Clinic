@@ -19,7 +19,6 @@ interface Experience {
 export class DoctorProfileCardComponent implements OnInit, OnDestroy {
   @Input() doctorId: number = 0;
   private routeSub: Subscription | null = null;
-
   private cvSubscription: Subscription | null = null;
 
   doctor: any = null;
@@ -86,7 +85,7 @@ export class DoctorProfileCardComponent implements OnInit, OnDestroy {
       .map((line) => line.trim())
       .filter((line) => line.length > 0);
 
-    // Match three formats: YYYY - დღემდე, YYYY - YYYY, or YYYY–YYYY (with em dash)
+    // have to match these formats: YYYY - დღემდე, YYYY - YYYY, or YYYY–YYYY 
     const experiencePattern =
       /(\d{4})\s*[-–]\s*(დღემდე|\d{4}),\s*(.+?)(?=\s*\d{4}\s*[-–]|$)/g;
 

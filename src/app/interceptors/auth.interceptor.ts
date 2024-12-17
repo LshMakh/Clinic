@@ -50,11 +50,7 @@ export class AuthInterceptor implements HttpInterceptor {
           );
         }
 
-        if(error.status===400){
-          return throwError(
-            ()=>new Error('ამ დროს დაჯავშნილი გაქვთ')
-          )
-        }
+      
 
         return throwError(
           () => new Error('დაფიქსირდა შეცდომა, სცადეთ თავიდან')
