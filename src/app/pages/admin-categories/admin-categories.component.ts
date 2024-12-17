@@ -44,11 +44,19 @@ export class AdminCategoriesComponent implements OnInit {
 
 
   deleteDoctor(id: number) {
-    this.doctorService.deleteDoctorById(id).subscribe((res) => {
-      this.doctorService.getDoctorCard().subscribe((data) => {
-        this.doctorService.cardsList = data;
-        this.doctors = data;
-      });
+
+    if (!confirm('Are you sure you want to delete this doctor?')) {
+      return;
+    }
+
+    this.doctorService.deleteDoctorById(id).subscribe({
+      next: () => {
+        this.loadDoctors();
+      },
+      error: (error) => {
+        console.error('Error deleting doctor:', error);
+        alert(error.message || 'Failed to delete doctor. Please try again.');
+      }
     });
   }
 

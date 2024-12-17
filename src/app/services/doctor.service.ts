@@ -194,7 +194,7 @@ export class DoctorService {
       .pipe(
         tap(() => this.handleDoctorDeletion(id)),
         catchError((error: HttpErrorResponse) => {
-          console.error('Error deleting doctor:', error);
+         
           return throwError(
             () => new Error('Failed to delete doctor. Please try again later.')
           );
