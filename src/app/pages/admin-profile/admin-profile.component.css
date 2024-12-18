@@ -371,7 +371,6 @@
   cursor: not-allowed;
 }
 
-/* Responsive Breakpoints */
 @media(max-width: 1600px) {
   .sel-doc-container {
     flex-direction: column;
@@ -408,13 +407,9 @@
     max-width: 830px;
   }
 
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 
-  .column.additional-content {
-    grid-column: span 2;
-  }
+
+ 
 }
 
 @media (max-width: 768px) {
