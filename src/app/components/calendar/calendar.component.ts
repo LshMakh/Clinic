@@ -32,6 +32,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
   selectedAppointment: Appointment | null = null;
   showEditModal = false;
   private routeSub: Subscription | null = null;
+  
+  
+  
 
   daysOfWeek: string[] = ['კვი', 'ორშ', 'სამ', 'ოთხ', 'ხუთ', 'პარ', 'შაბ'];
   timeSlots: string[] = [
@@ -146,9 +149,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (this.isTimeSlotInPast(day,timeSlot) && this.viewMode ==='booking') {
       return 'blocked';
     }
-    if (day.getDay()===4) {
-      return 'blocked';
-    }
+    // if (day.getDay()===4) {
+    //   return 'blocked';
+    // }
 
     const key = this.getSlotKey(day, timeSlot);
     const appointment = this.appointments.get(key);

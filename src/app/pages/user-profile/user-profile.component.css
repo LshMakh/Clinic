@@ -151,18 +151,11 @@ h5 {
 
 @media (max-width: 1200px) {
     .user-prof {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 25px;
+       padding: 20px 3%;
     }
 
     .calendar-section {
-        margin-top: 70px;
-        justify-items: center;
-
-        gap: 20px;
-        width: 100%;
+     width: 600px;
     }
 
     .buttons {
@@ -181,12 +174,21 @@ h5 {
 
 @media (max-width: 992px) {
 
-
+    .user-prof{
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
     .user-profile {
+
         width: 100%;
         max-width: 500px;
     }
 
+    .calendar-section{
+        width: 100%;
+        max-width: 830px;
+    }
 
 
 
@@ -241,6 +243,11 @@ h5 {
         font-size: 14px;
         margin-bottom: 20px;
         gap: 10px;
+    }
+    .buttons {
+        flex-direction: column;
+        padding-top: 0;
+        float: left;
     }
 
     h5 {

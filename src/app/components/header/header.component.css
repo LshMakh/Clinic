@@ -437,7 +437,7 @@ input {
   }
 
   .user-name {
-    font-size: 12px;
+    display: none;
   }
 
   .user-role {

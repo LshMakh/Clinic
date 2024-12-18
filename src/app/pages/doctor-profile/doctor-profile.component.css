@@ -231,12 +231,9 @@ h2 {
 
   .buttons {
     flex-direction: column;
-    gap: 15px;
-  }
+    padding-top: 0;
+    float: left;
+}
 
-  .edit-btn, .dlt-btn {
-    width: 100%;
-    height: 40px;
-    font-size: 16px;
-  }
+ 
 }

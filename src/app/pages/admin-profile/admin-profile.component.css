@@ -1,6 +1,5 @@
 .admin-container {
-  width: 100%;
-  max-width: 1440px;
+
   margin: 0 auto;
   padding: 20px;
 }
@@ -11,11 +10,11 @@
   flex-direction: row;
   width: 100%;
   gap: 50px;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .action-buttons-container {
-  width: 450px;
+  width: 500px;
   display: flex;
   height: 45px;
   border: 1px solid #f2f2f2;
@@ -46,8 +45,7 @@
 .user-buttons {
   display: flex;
   gap: 20px;
-  flex-grow: 1;
-  max-width: 800px;
+  width: 1090px   ;
   justify-content: space-between;
 }
 
@@ -78,7 +76,6 @@
 .sel-doc-container {
   display: flex;
   gap: 40px;
-  width: 100%;
   max-width: 1600px;
   align-items: flex-start;
   margin: 0 auto;
@@ -91,12 +88,8 @@
   min-width: 750px;
 }
 
-.calendar-wrapper {
-  flex: 1;
-  min-width: 830px;
-}
 
-/* Doctor Card Styles */
+
 .doctor-card {
   background: #FFFFFF;
   border-radius: 16px;
@@ -214,7 +207,7 @@
 }
 
 .detail-label {
-  display: flex;
+
   align-items: center;
   gap: 8px;
   font-size: 14px;
@@ -223,7 +216,7 @@
 }
 
 .detail-label i {
-  display: flex;
+ 
   align-items: center;
   justify-content: center;
   width: 24px;
@@ -237,6 +230,7 @@
   transition: all 0.3s ease;
   font-weight: 500;
 }
+
 
 .password-change {
   cursor: pointer;
@@ -257,7 +251,17 @@
   padding: 20px 0;
   margin-top: 0;
 }
+.column.additional-content .detail-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
 
+.column.additional-content .detail-value {
+  margin-top: 8px;
+  display: block;
+}
 
 .edit-field {
   margin-bottom: 15px;
@@ -367,6 +371,13 @@
   background-color: #cccccc;
   cursor: not-allowed;
 }
+@media(max-width:1600px){
+
+  .sel-doc-container{
+    flex-direction: column;
+    align-items: center;
+  }
+}
 
 @media (max-width: 1200px) {
   .buttons-container {
@@ -376,28 +387,18 @@
   }
 
   .user-buttons {
+    
     width: 100%;
-    max-width: none;
   }
 }
 
 @media (max-width: 992px) {
-  .sel-doc-container {
-    flex-direction: column;
-  }
 
-  .calendar-wrapper {
-    max-width: none;
-  }
+  .calendar-section{
+    width: 100%;
+    max-width: 830px;
+}
 
-  .card-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .column.details,
-  .column.additional-content {
-    padding: 10px 0;
-  }
 }
 
 @media (max-width: 768px) {
@@ -413,14 +414,12 @@
     grid-template-columns: 1fr;
   }
 
-  .column.details {
+  .column.details,.column.additional-content {
     align-items: center;
     text-align: center;
   }
 
-  .detail-value {
-    margin-left: 0;
-  }
+ 
 
   .doctor-actions {
     flex-direction: column;

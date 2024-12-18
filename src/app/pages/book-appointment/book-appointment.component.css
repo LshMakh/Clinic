@@ -10,9 +10,7 @@
 .calendar-section {
   margin-top: 70px;
   display: flex;
-  align-items: flex-start;
   gap: 20px;
-  width: 100%;
 }
 
 .action-buttons {
@@ -81,11 +79,7 @@
     align-items: center;
   }
 
-  .action-buttons {
-    flex-direction: row;
-    padding-top: 0;
-    justify-content: flex-end;
-  }
+
 
   .left-column, .right-column {
     width: 100%;
@@ -93,6 +87,12 @@
 
   .calendar-section {
     margin-top: 40px;
+    flex-direction: column;
+  }
+
+  .action-buttons{
+    flex-direction: row;
+    padding-top: 5px;
   }
 }
 
@@ -104,12 +104,18 @@
   .calendar-section {
     margin-top: 30px;
     flex-direction: column;
+    width: 100%;
+    max-width: 830px;
   }
 }
 
 @media (max-width: 480px) {
   .cont-app {
     padding: 10px 2%;
+  }
+
+  .action-buttons{
+    flex-direction: column;
   }
 
   .calendar-section {
